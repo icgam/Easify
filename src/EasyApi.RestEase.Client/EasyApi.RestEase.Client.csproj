@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Aurimas Gecas / Mohammad Moattar</Authors>
+    <Company>ICG</Company>
+    <Description>Provides easy integration with RestEase and API framework via IRestClient interface.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RestEase" Version="1.4.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EasyApi.Http\EasyApi.Http.csproj" />
+  </ItemGroup>
+
+</Project>

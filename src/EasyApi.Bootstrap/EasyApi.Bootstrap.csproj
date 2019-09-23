@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Company>ICG</Company>
+    <Authors>Aurimas Gecas</Authors>
+    <Description>Packages provide CORE interfaces that are used in .NET Core apps bootstrapping. Interfaces allows one to extend the pipeline with custom/optional extension methods to configure extra features, such as security, messaging, etc.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+  </ItemGroup>
+
+</Project>

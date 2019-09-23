@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
+    <Authors>Aurimas Gecas</Authors>
+    <Company>ICG</Company>
+    <Description>Exposes interfaces to expose external services to framework consumers, such as ITypeMapp, IComponentResolver, etc ...</Description>
+    <RootNamespace>EasyApi.Extensions</RootNamespace>
+
+  </PropertyGroup>
+
+</Project>

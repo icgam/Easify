@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Aurimas Gecas, Mohammad Moattar</Authors>
+    <Company>ICG</Company>
+    <Copyright>ICG</Copyright>
+    <PackageProjectUrl>https://github.com/icgam/EasyApi</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/icgam/EasyApi</RepositoryUrl>
+    <RepositoryType>Private</RepositoryType>
+    <Description>EasyApi logging support for Serilog and Loggly</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0" />
+    <PackageReference Include="Serilog.Sinks.Loggly" Version="5.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EasyApi.Logging.SeriLog\EasyApi.Logging.SeriLog.csproj" />
+  </ItemGroup>
+
+</Project>
