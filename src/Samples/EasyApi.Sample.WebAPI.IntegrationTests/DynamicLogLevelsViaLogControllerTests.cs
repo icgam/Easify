@@ -53,8 +53,8 @@ namespace EasyApi.Sample.WebAPI.IntegrationTests
         ///     and consistantly execute them since parallel test executions wipes out the logger instance.
         /// </summary>
         /// <returns></returns>
-        [Trait("Category", "NO_CI")]
-        [Fact]
+        //[Trait("Category", "NO_CI")]
+        //[Fact]
         public async Task GivenLogger_WhenLogLevelsDynamicallySwitched_ThenLoggerShouldFilterLogMessages()
         {
             // Arrange         
