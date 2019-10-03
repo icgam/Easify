@@ -16,7 +16,17 @@ Boilerplate api provides the following features:
 * Health endpoint exposed
 * Diagnostics endpoint
 
+For using the full capability of the project install *EasyApi.AspNetCore.Bootstrap* nuget package.
 
+```cmd
+
+dotnet add package EasyApi.AspNetCore.Bootstrap
+
+or
+ 
+Install-Package EasyApi.AspNetCore.Bootstrap
+
+```
 
 In order to achieve all of this functionality you merely need a few lines of code. At this point your *Program.cs* should look like this:
 
