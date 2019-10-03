@@ -1,11 +1,11 @@
 # EasyApi
 
-EasyApi is a set of libraries which facilitate different aspects of a Restful/Microservice api and takes away the boilerplate configuration/bootstrap code that needs to be written each time a new API project is setup. There are up's and down's to this approach, however the benfit of this approach is to setup consistent api projects faster and easier.
+EasyApi is a set of libraries which facilitate different aspects of a Restful/Microservice api and takes away the boilerplate configuration/bootstrap code that needs to be written each time a new API project is setup. There are up's and down's to this approach, however the benefit of this approach is to setup consistent api projects faster and easier.
 
 Boilerplate api provides the following features:
 
 * Global Error Handling
-* Preconfigured Logging to a rolling file and log agregartors such as loggly and seq
+* Preconfigured Logging to a rolling file and log aggregartors such as loggly and seq
 * Application/Common services preregistration within IOC container
 * Request Correlation
 * Preconfigured MVC pipeline
@@ -16,7 +16,7 @@ Boilerplate api provides the following features:
 * Health endpoint exposed
 * Diagnostics endpoint
 
-For using the full capability of the project install *EasyApi.AspNetCore.Bootstrap* nuget package.
+For using the full benefit of the library, Create a simple asp.net core project and install *EasyApi.AspNetCore.Bootstrap* nuget package.
 
 ```cmd
 
@@ -73,20 +73,7 @@ In order to achieve all of this functionality you merely need a few lines of cod
 
  ```
 
-As you may see there are quite a few features enabled with very few lines of code. Let us take a deeper look at the template and let see what else it offers. Here is a list of topics we will be discussing in detail, so please feel free to skip to any section you maybe interested in:
+The project/solution is ready to be running in visual studio or using dotnet cli.
 
-* [Configuration API](docs/configuration.md)
-* [Logging](docs/logging.md)
-* [Exception Handling](docs/exception-handling.md)
-* [Object Mapping](docs/object-mapping.md)
-* [Validation](docs/validation.md)
-* [Request Correlation](docs/request-correlation.md)
-* [REST Client](docs/rest-client.md)
-* [Cors](docs/cors.md)
-* [IOC](docs/ioc.md)
-* [API Documentation](docs/api-documentation.md)
+More detail information can be found in [wiki](wiki)
 
-Also there are couple of useful interfaces, tools and utilities which you can use which they are already available in the framework.
-* [Core Services](docs/core-services.md)
-
-Thank you for reading and let's build some API's ...
