@@ -75,5 +75,5 @@ In order to achieve all of this functionality you merely need a few lines of cod
 
 The project/solution is ready to be running in visual studio or using dotnet cli.
 
-More detail information can be found in [wiki](./wiki)
+More detail information can be found in [wiki](https://github.com/icgam/EasyApi/wiki)
 
