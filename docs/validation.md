@@ -1,9 +1,0 @@
-## Validation ([Back to Index](https://github.com/icgam/ICG.DotNetCore.Framework))
-
-Validation is an integral part of any high quality API. However this is another example of a plumming code that we write over and over again. Wouldn't it be nice to have this done for you? And this is why we have choosen to use [FluentValidation](https://github.com/JeremySkinner/FluentValidation) for our validation needs. To use this framework we need to define validators for the objects we want to validate. Please refer to the [FluentValidation Documentation](https://github.com/JeremySkinner/FluentValidation) on how to do this, however assuming we have those validators defined, they will be executed upon API resource is requested. Incase validation errors occur, they will be appended to ModelState errors collection and returned to the user with a **StatusCode 4xx** message. If you want to know how the client errors flow through the API, please refer to [Exception Handling](exception-handling.md) section.
-
-### Validation Action Filters
-
-Validation also has apreconfigured **ActionFilter** which intercepts every call to ANY app controller and makes sure every parameter is supplied. Parameters with NULL values are treated as errors and will produce a **StatusCode 4xx** response. While this may or may not be the behaviour you may want, the thinking behind this choice is that NULL/Optional parameters creates confusion and ambiguity, which results in hard to track down API failures. Therefore this is a discouraged practice and we simply **DO NOT ALLOW** such option.
-
-[Back to Index](https://github.com/icgam/ICG.DotNetCore.Framework)
