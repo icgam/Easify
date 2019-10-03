@@ -1,15 +1,11 @@
-# ASP.NET Core Template for WebAPI
+# EasyApi
 
-## Introduction
+EasyApi is a set of libraries which facilitate different aspects of a Restful/Microservice api and takes away the boilerplate configuration/bootstrap code that needs to be written each time a new API project is setup. There are up's and down's to this approach, however the benfit of this approach is to setup consistent api projects faster and easier.
 
-Goal of this project is to take away the boiler plate configuration/bootstrap code that needs to be written each time a new API project is setup. There are up's and down's to this approach, the most obvious being FAST setup of the project, but sacrificed FLEXIBILITY of the configuration.
-
-To better understand the implementation, we are going to discuss the general idea behind what functionality an API should have out of the box.
-
-Boilerplate API should have following features:
+Boilerplate api provides the following features:
 
 * Global Error Handling
-* Preconfigured Logging to a rolling file
+* Preconfigured Logging to a rolling file and log agregartors such as loggly and seq
 * Application/Common services preregistration within IOC container
 * Request Correlation
 * Preconfigured MVC pipeline
@@ -19,6 +15,8 @@ Boilerplate API should have following features:
 * Swagger integration
 * Health endpoint exposed
 * Diagnostics endpoint
+
+
 
 In order to achieve all of this functionality you merely need a few lines of code. At this point your *Program.cs* should look like this:
 
