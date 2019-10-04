@@ -20,11 +20,11 @@ For using the full benefit of the library, Create a simple asp.net core project 
 
 ```cmd
 
-dotnet add package EasyApi.AspNetCore.Bootstrap
+dotnet add package Easify.AspNetCore.Bootstrap
 
 or
  
-Install-Package EasyApi.AspNetCore.Bootstrap
+Install-Package Easify.AspNetCore.Bootstrap
 
 ```
 
@@ -75,5 +75,5 @@ In order to achieve all of this functionality you merely need a few lines of cod
 
 The project/solution is ready to be running in visual studio or using dotnet cli.
 
-More detail information can be found in [wiki](https://github.com/icgam/EasyApi/wiki)
+More detail information can be found in [wiki](https://github.com/icgam/Easify/wiki)
 
