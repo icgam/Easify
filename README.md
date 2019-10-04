@@ -1,6 +1,6 @@
-# EasyApi
+# Easify
 
-EasyApi is a set of libraries which facilitate different aspects of a Restful/Microservice api and takes away the boilerplate configuration/bootstrap code that needs to be written each time a new API project is setup. There are up's and down's to this approach, however the benefit of this approach is to setup consistent api projects faster and easier.
+Easify is a set of libraries which facilitate different aspects of a Restful/Microservice api and takes away the boilerplate configuration/bootstrap code that needs to be written each time a new API project is setup. There are up's and down's to this approach, however the benefit of this approach is to setup consistent api projects faster and easier.
 
 Boilerplate api provides the following features:
 
