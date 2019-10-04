@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.Bootstrap
+namespace Easify.Bootstrap
 {
     public abstract class ContainerFactory<TContainer> where TContainer : class
     {

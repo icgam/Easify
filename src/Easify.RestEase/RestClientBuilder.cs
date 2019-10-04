@@ -19,7 +19,7 @@ using EasyApi.Http;
 using EasyApi.RestEase.Client;
 using RestEase;
 
-namespace EasyApi.RestEase
+namespace Easify.RestEase
 {
     // TODO: Should be revisited in shadow of the v2.1 Factory and Polly
     public class RestClientBuilder : IRestClientBuilder

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -23,7 +23,7 @@ using EasyApi.ExceptionHandling.ErrorBuilder;
 using RestEase;
 using Xunit;
 
-namespace EasyApi.ExceptionHandling.UnitTests.ErrorBuilder
+namespace Easify.ExceptionHandling.UnitTests.ErrorBuilder
 {
     public sealed class ErrorBuilderForApiExceptionTests
     {

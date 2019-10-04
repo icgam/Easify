@@ -14,15 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Net;
+using EasyApi.ExceptionHandling;
 using EasyApi.ExceptionHandling.Domain;
 using EasyApi.ExceptionHandling.Formatter;
 using EasyApi.ExceptionHandling.Providers;
 using NSubstitute;
 using Xunit;
 
-namespace EasyApi.ExceptionHandling.UnitTests
+namespace Easify.ExceptionHandling.UnitTests
 {
     public sealed class ErrorResponseProviderTests
     {

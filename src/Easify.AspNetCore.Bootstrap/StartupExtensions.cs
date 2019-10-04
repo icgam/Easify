@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  using System;
-using EasyApi.Bootstrap;
-using Microsoft.Extensions.Configuration;
+ using Easify.Bootstrap;
+ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyApi.AspNetCore.Bootstrap

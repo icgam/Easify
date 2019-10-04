@@ -16,14 +16,14 @@
 
  using System;
 using System.Collections.Generic;
-using EasyApi.AspNetCore.Cors;
+ using Easify.Bootstrap;
+ using EasyApi.AspNetCore.Cors;
 using EasyApi.AspNetCore.Documentation;
 using EasyApi.AspNetCore.ExceptionHandling;
 using EasyApi.AspNetCore.Mvc;
 using EasyApi.AspNetCore.RequestCorrelation;
 using EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
-using EasyApi.Bootstrap;
-using EasyApi.Configurations.Fluents;
+ using EasyApi.Configurations.Fluents;
 using EasyApi.ExceptionHandling;
 using EasyApi.ExceptionHandling.ConfigurationBuilder;
 using EasyApi.ExceptionHandling.ErrorBuilder.Fluent;

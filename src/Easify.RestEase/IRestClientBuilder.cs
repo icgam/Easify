@@ -16,7 +16,7 @@
 
 using EasyApi.RestEase.Client;
 
-namespace EasyApi.RestEase
+namespace Easify.RestEase
 {
     public interface IRestClientBuilder
     {

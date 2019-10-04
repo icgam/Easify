@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  using System;
-using EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
-using EasyApi.Bootstrap;
+ using Easify.Bootstrap;
+ using EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
 
 namespace EasyApi.AspNetCore.Bootstrap
 {

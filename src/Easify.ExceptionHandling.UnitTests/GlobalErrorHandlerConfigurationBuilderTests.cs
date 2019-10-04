@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
+using Easify.ExceptionHandling.UnitTests.Domain;
 using EasyApi.ExceptionHandling.ConfigurationBuilder;
 using EasyApi.ExceptionHandling.Domain;
 using EasyApi.ExceptionHandling.Formatter;
-using EasyApi.ExceptionHandling.UnitTests.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Xunit;
 
-namespace EasyApi.ExceptionHandling.UnitTests
+namespace Easify.ExceptionHandling.UnitTests
 {
     public sealed class GlobalErrorHandlerConfigurationBuilderTests
     {

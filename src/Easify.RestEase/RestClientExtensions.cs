@@ -20,7 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
-namespace EasyApi.RestEase
+namespace Easify.RestEase
 {
     public static class RestClientExtensions
     {

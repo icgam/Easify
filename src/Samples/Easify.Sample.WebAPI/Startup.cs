@@ -16,7 +16,8 @@
 
  using System;
 using AutoMapper;
-using EasyApi.AspNetCore.Bootstrap;
+ using Easify.RestEase;
+ using EasyApi.AspNetCore.Bootstrap;
 using EasyApi.AspNetCore.Bootstrap.Extensions;
 using EasyApi.AspNetCore.Logging.SeriLog;
 using EasyApi.RestEase;

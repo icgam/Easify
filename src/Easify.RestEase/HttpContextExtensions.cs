@@ -18,7 +18,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 
-namespace EasyApi.RestEase
+namespace Easify.RestEase
 {
     public static class HttpContextExtensions
     {

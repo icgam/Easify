@@ -17,7 +17,7 @@
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.DependencyInjection
+namespace Easify.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {

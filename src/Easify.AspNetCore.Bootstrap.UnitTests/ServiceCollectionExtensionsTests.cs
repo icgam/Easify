@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Linq;
-using EasyApi.DependencyInjection;
+using Easify.DependencyInjection;
 using EasyApi.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

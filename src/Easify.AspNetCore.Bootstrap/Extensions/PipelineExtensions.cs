@@ -16,9 +16,9 @@
 
  using System;
 using AutoMapper;
-using EasyApi.Bootstrap;
-using EasyApi.DependencyInjection;
-using EasyApi.Extensions;
+ using Easify.Bootstrap;
+ using Easify.DependencyInjection;
+ using EasyApi.Extensions;
 using EasyApi.Http;
 using Microsoft.Extensions.DependencyInjection;
 

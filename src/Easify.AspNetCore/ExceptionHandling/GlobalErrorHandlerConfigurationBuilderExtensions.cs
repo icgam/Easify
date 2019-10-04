@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Easify.RestEase;
 using EasyApi.AspNetCore.RequestCorrelation.Domain;
 using EasyApi.ExceptionHandling;
 using EasyApi.ExceptionHandling.ConfigurationBuilder;

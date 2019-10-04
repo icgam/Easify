@@ -16,7 +16,7 @@
 
 using System;
 
-namespace EasyApi.Bootstrap
+namespace Easify.Bootstrap
 {
     public interface IBootstrapApplication 
     {

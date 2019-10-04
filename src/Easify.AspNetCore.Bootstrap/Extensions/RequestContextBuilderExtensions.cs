@@ -15,7 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  using System;
-using EasyApi.Http;
+ using Easify.RestEase;
+ using EasyApi.Http;
 using EasyApi.RestEase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;

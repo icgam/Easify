@@ -15,7 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  using System;
-using EasyApi.AspNetCore.Bootstrap;
+ using Easify.RestEase;
+ using EasyApi.AspNetCore.Bootstrap;
 using EasyApi.RestEase;
 using EasyApi.Sample.WebAPI.Core;
 using EasyApi.Sample.WebAPI.Domain;

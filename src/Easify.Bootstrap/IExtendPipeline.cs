@@ -18,7 +18,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.Bootstrap
+namespace Easify.Bootstrap
 {
     public interface IExtendPipeline : IConfigureContainer
     {

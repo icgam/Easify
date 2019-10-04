@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using EasyApi.ExceptionHandling.Domain;
 using EasyApi.ExceptionHandling.Formatter;
 
-namespace EasyApi.ExceptionHandling.UnitTests.Domain
+namespace Easify.ExceptionHandling.UnitTests.Domain
 {
     internal sealed class CustomErrorMessageFormatter : IErrorMessageFormatter
     {

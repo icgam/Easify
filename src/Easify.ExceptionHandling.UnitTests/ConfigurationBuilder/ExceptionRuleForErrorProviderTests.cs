@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections.Generic;
+using Easify.ExceptionHandling.UnitTests.Domain;
 using EasyApi.ExceptionHandling.ConfigurationBuilder;
 using EasyApi.ExceptionHandling.Domain;
 using EasyApi.ExceptionHandling.ErrorBuilder;
-using EasyApi.ExceptionHandling.UnitTests.Domain;
 using NSubstitute;
 using Xunit;
 
-namespace EasyApi.ExceptionHandling.UnitTests.ConfigurationBuilder
+namespace Easify.ExceptionHandling.UnitTests.ConfigurationBuilder
 {
     public sealed class ExceptionRuleForErrorProviderTests
     {
