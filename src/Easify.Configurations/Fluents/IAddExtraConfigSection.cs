@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace EasyApi.Configurations.Fluents
+namespace Easify.Configurations.Fluents
 {
     public interface IAddExtraConfigSection : IBuildConfiguration
     {

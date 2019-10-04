@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System.Collections.Generic;
-using EasyApi.AspNetCore.RequestCorrelation.Domain;
-using EasyApi.Http;
+using System.Collections.Generic;
+using Easify.AspNetCore.RequestCorrelation.Domain;
+using Easify.Http;
 using Microsoft.AspNetCore.Http;
 
-namespace EasyApi.AspNetCore.RequestCorrelation
+namespace Easify.AspNetCore.RequestCorrelation
 {
     public static class HttpRequestExtensions
     {

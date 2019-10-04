@@ -17,21 +17,22 @@
 using System;
 using Serilog;
 
-namespace EasyApi.Logging.SeriLog.Seq
+namespace Easify.Logging.SeriLog.Seq
 {
     public sealed class FluentSeqSinkBuilder : ISetApiKey, IControlLogLevel, IBuildSink
     {
         private readonly ILoggerConfiguration _configurationServices;
+        private readonly string _serverUrl;
         private bool _allowLogLevelToBeControlledRemotely;
         private string _apiKey;
-        private readonly string _serverUrl;
 
         public FluentSeqSinkBuilder(ILoggerConfiguration configurationServices, string serverUrl)
         {
             if (string.IsNullOrWhiteSpace(serverUrl))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(serverUrl));
 
-            _configurationServices = configurationServices ?? throw new ArgumentNullException(nameof(configurationServices));
+            _configurationServices =
+                configurationServices ?? throw new ArgumentNullException(nameof(configurationServices));
             _serverUrl = serverUrl;
         }
 

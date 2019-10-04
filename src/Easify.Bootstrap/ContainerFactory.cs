@@ -26,7 +26,8 @@ namespace Easify.Bootstrap
 
         protected ContainerFactory(Action<TContainer, IConfiguration> serviceConfigurationProvider)
         {
-            _serviceConfigurationProvider = serviceConfigurationProvider ?? throw new ArgumentNullException(nameof(serviceConfigurationProvider));
+            _serviceConfigurationProvider = serviceConfigurationProvider ??
+                                            throw new ArgumentNullException(nameof(serviceConfigurationProvider));
         }
 
         protected abstract IServiceProvider ConfigureContainer(

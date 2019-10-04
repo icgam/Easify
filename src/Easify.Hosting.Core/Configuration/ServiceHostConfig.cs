@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- namespace EasyApi.Hosting.Core.Configuration
+namespace Easify.Hosting.Core.Configuration
 {
     public sealed class ServiceHostConfig
     {

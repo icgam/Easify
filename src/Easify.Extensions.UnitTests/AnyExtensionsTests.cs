@@ -14,46 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System.Collections.Generic;
+using System.Collections.Generic;
 using Xunit;
 
-namespace EasyApi.Extensions.UnitTests
+namespace Easify.Extensions.UnitTests
 {
     public class AnyExtensionsTests
     {
-        [Fact]
-        public void ShouldReturnTrueForInitializedObject()
-        {
-            // Arrange
-            var data = new object();
-            // Act
-            // Assert
-            Assert.True(data.AnyValue());
-        }
-
-        [Fact]
-        public void ShouldReturnTrueForCollectionWithItems()
-        {
-            // Arrange
-            var data = new List<string>()
-            {
-                "value"
-            };
-            // Act
-            // Assert
-            Assert.True(data.AnyValue());
-        }
-
-        [Fact]
-        public void ShouldReturnFalseForNullObject()
-        {
-            // Arrange
-            object data = null;
-            // Act
-            // Assert
-            Assert.False(data.AnyValue());
-        }
-
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
@@ -63,6 +30,16 @@ namespace EasyApi.Extensions.UnitTests
             // Act
             // Assert
             Assert.False(data.AnyValue());
+        }
+
+        [Fact]
+        public void ShouldReturnFalseForAnyValueIfNullableTypeHasNoValue()
+        {
+            // Arrange
+            var source = new decimal?();
+            // Act
+            // Assert
+            Assert.False(source.AnyValue());
         }
 
         [Fact]
@@ -76,23 +53,49 @@ namespace EasyApi.Extensions.UnitTests
         }
 
         [Fact]
-        public void ShouldReturnTrueForNull()
+        public void ShouldReturnFalseForEmptyEnumerable()
+        {
+            // Arrange
+            var source = new List<string>
+            {
+                "data"
+            };
+            // Act
+            // Assert
+            Assert.False(source.IsEnumerableEmpty());
+        }
+
+        [Fact]
+        public void ShouldReturnFalseForNullObject()
         {
             // Arrange
             object data = null;
             // Act
             // Assert
-            Assert.True(data.Empty());
+            Assert.False(data.AnyValue());
         }
 
         [Fact]
-        public void ShouldReturnTrueForEmptyString()
+        public void ShouldReturnTrueForAnyValueIfNullableTypeHasValue()
         {
             // Arrange
-            string data = string.Empty;
+            var source = new decimal?(0);
             // Act
             // Assert
-            Assert.True(data.Empty());
+            Assert.True(source.AnyValue());
+        }
+
+        [Fact]
+        public void ShouldReturnTrueForCollectionWithItems()
+        {
+            // Arrange
+            var data = new List<string>
+            {
+                "value"
+            };
+            // Act
+            // Assert
+            Assert.True(data.AnyValue());
         }
 
         [Fact]
@@ -100,6 +103,26 @@ namespace EasyApi.Extensions.UnitTests
         {
             // Arrange
             var data = new List<object>();
+            // Act
+            // Assert
+            Assert.True(data.Empty());
+        }
+
+        [Fact]
+        public void ShouldReturnTrueForEmptyEnumerable()
+        {
+            // Arrange
+            var source = new List<string>();
+            // Act
+            // Assert
+            Assert.True(source.IsEnumerableEmpty());
+        }
+
+        [Fact]
+        public void ShouldReturnTrueForEmptyString()
+        {
+            // Arrange
+            var data = string.Empty;
             // Act
             // Assert
             Assert.True(data.Empty());
@@ -116,46 +139,23 @@ namespace EasyApi.Extensions.UnitTests
         }
 
         [Fact]
-        public void ShouldReturnTrueForEmptyEnumerable()
+        public void ShouldReturnTrueForInitializedObject()
         {
             // Arrange
-            var source = new List<string>();
+            var data = new object();
             // Act
             // Assert
-            Assert.True(source.IsEnumerableEmpty());
+            Assert.True(data.AnyValue());
         }
 
         [Fact]
-        public void ShouldReturnFalseForEmptyEnumerable()
+        public void ShouldReturnTrueForNull()
         {
             // Arrange
-            var source = new List<string>()
-            {
-                "data"
-            };
+            object data = null;
             // Act
             // Assert
-            Assert.False(source.IsEnumerableEmpty());
-        }
-
-        [Fact]
-        public void ShouldReturnFalseForAnyValueIfNullableTypeHasNoValue()
-        {
-            // Arrange
-            var source = new decimal?();
-            // Act
-            // Assert
-            Assert.False(source.AnyValue());
-        }
-
-        [Fact]
-        public void ShouldReturnTrueForAnyValueIfNullableTypeHasValue()
-        {
-            // Arrange
-            var source = new decimal?(0);
-            // Act
-            // Assert
-            Assert.True(source.AnyValue());
+            Assert.True(data.Empty());
         }
     }
 }

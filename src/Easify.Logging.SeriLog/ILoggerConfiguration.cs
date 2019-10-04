@@ -16,7 +16,7 @@
 
 using Serilog.Configuration;
 
-namespace EasyApi.Logging.SeriLog
+namespace Easify.Logging.SeriLog
 {
     public interface ILoggerConfiguration
     {

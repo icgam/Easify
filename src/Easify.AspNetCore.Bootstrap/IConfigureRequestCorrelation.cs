@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
- using Easify.Bootstrap;
- using EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
+using System;
+using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
+using Easify.Bootstrap;
 
-namespace EasyApi.AspNetCore.Bootstrap
+namespace Easify.AspNetCore.Bootstrap
 {
     public interface IConfigureRequestCorrelation : IExtendPipeline
     {

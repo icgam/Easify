@@ -15,15 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Easify.AspNetCore.RequestCorrelation.Domain;
+using Easify.ExceptionHandling;
+using Easify.ExceptionHandling.ConfigurationBuilder;
 using Easify.RestEase;
-using EasyApi.AspNetCore.RequestCorrelation.Domain;
-using EasyApi.ExceptionHandling;
-using EasyApi.ExceptionHandling.ConfigurationBuilder;
-using EasyApi.RestEase;
 using FluentValidation;
 using RestEase;
 
-namespace EasyApi.AspNetCore.ExceptionHandling
+namespace Easify.AspNetCore.ExceptionHandling
 {
     public static class GlobalErrorHandlerConfigurationBuilderExtensions
     {

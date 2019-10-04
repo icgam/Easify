@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using Microsoft.Extensions.Configuration;
 
-namespace EasyApi.Logging.SeriLog.Loggly
+namespace Easify.Logging.SeriLog.Loggly
 {
     public static class LogglyExtensions
     {
@@ -30,7 +30,8 @@ namespace EasyApi.Logging.SeriLog.Loggly
             return new FluentLogglySinkBuilder(configurationServices, serverUri);
         }
 
-        public static IBuildSink UseLoggly(this ILoggerConfiguration configurationServices, IConfigurationSection config)
+        public static IBuildSink UseLoggly(this ILoggerConfiguration configurationServices,
+            IConfigurationSection config)
         {
             return new ConfigBasedLogglySinkBuilder(configurationServices, config);
         }

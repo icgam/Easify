@@ -10,7 +10,6 @@
     <PackageProjectUrl>https://github.com/icgam/EasyApi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/icgam/EasyApi</RepositoryUrl>
     <RepositoryType>Private</RepositoryType>
-    <RootNamespace>EasyApi.Logging.SeriLog.Seq</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

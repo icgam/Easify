@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
-using EasyApi.AspNetCore.Logging.SeriLog.Fluent;
-using EasyApi.Hosting.Core;
-using EasyApi.Hosting.Core.Configuration;
-using EasyApi.Hosting.Core.HostContainer;
+using System;
+using Easify.AspNetCore.Logging.SeriLog.Fluent;
+using Easify.Hosting.Core;
+using Easify.Hosting.Core.Configuration;
+using Easify.Hosting.Core.HostContainer;
 using Microsoft.AspNetCore.Hosting;
 
-namespace EasyApi.Hosting.WindowsService
+namespace Easify.Hosting.WindowsService
 {
     public static class WindowsServiceHost
     {

@@ -14,22 +14,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
-using EasyApi.ExceptionHandling.Domain;
-using EasyApi.ExceptionHandling.Formatter;
+using System;
+using Easify.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.Formatter;
 
-namespace EasyApi.ExceptionHandling.Providers
+namespace Easify.ExceptionHandling.Providers
 {
     public sealed class ErrorResponseProvider : IErrorResponseProvider
     {
         private readonly IErrorMessageFormatter _errorMessageFormatter;
-        private readonly IHttpStatusCodeProvider _responseCodeProvider;
         private readonly IErrorProvider _errorProvider;
         private readonly IErrorResponseProviderOptions _options;
+        private readonly IHttpStatusCodeProvider _responseCodeProvider;
 
-        public ErrorResponseProvider(IErrorProvider errorProvider, 
-            IErrorMessageFormatter errorMessageFormatter, 
-            IHttpStatusCodeProvider responseCodeProvider, 
+        public ErrorResponseProvider(IErrorProvider errorProvider,
+            IErrorMessageFormatter errorMessageFormatter,
+            IHttpStatusCodeProvider responseCodeProvider,
             IErrorResponseProviderOptions options)
         {
             if (errorProvider == null) throw new ArgumentNullException(nameof(errorProvider));

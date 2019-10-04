@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 
-namespace EasyApi.Logging
+namespace Easify.Logging
 {
     public interface IArgumentsFormatter
     {

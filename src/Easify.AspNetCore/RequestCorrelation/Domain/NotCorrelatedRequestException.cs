@@ -17,11 +17,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace EasyApi.AspNetCore.RequestCorrelation.Domain
+namespace Easify.AspNetCore.RequestCorrelation.Domain
 {
     public sealed class NotCorrelatedRequestException : Exception
     {
-        public NotCorrelatedRequestException(IEnumerable<string> supportedHeaders) : base((string) GetMessage(supportedHeaders))
+        public NotCorrelatedRequestException(IEnumerable<string> supportedHeaders) : base(GetMessage(supportedHeaders))
         {
         }
 

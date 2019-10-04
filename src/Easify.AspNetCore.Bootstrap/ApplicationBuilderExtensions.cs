@@ -14,19 +14,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
-using EasyApi.AspNetCore.Cors;
-using EasyApi.AspNetCore.Documentation;
-using EasyApi.AspNetCore.Health;
-using EasyApi.AspNetCore.Logging.SeriLog;
-using EasyApi.AspNetCore.RequestCorrelation;
-using EasyApi.ExceptionHandling;
+using System;
+using Easify.AspNetCore.Cors;
+using Easify.AspNetCore.Documentation;
+using Easify.AspNetCore.Health;
+using Easify.AspNetCore.Logging.SeriLog;
+using Easify.AspNetCore.RequestCorrelation;
+using Easify.ExceptionHandling;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace EasyApi.AspNetCore.Bootstrap
+namespace Easify.AspNetCore.Bootstrap
 {
     public static class ApplicationBuilderExtensions
     {

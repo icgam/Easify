@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using Serilog;
+using Serilog;
 using Serilog.Configuration;
 
-namespace EasyApi.Logging.SeriLog
+namespace Easify.Logging.SeriLog
 {
     public static class ApplicationEnricherExtensions
     {
@@ -28,8 +28,8 @@ namespace EasyApi.Logging.SeriLog
             string applicationName)
         {
             return config.WithProperty(ApplicationPropertyName, applicationName);
-        }        
-        
+        }
+
         public static LoggerConfiguration WithEnvironmentName(this LoggerEnrichmentConfiguration config,
             string environmentName)
         {

@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 
-namespace EasyApi.AspNetCore.Logging.SeriLog
+namespace Easify.AspNetCore.Logging.SeriLog
 {
     public static class CorrelatedLogsMiddlewareExtensions
     {

@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
- using Easify.Bootstrap;
- using Microsoft.Extensions.Configuration;
+using System;
+using Easify.Bootstrap;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.AspNetCore.Bootstrap
+namespace Easify.AspNetCore.Bootstrap
 {
     public static class StartupExtensions
     {
@@ -32,7 +32,7 @@ namespace EasyApi.AspNetCore.Bootstrap
             var bootstrapper = appBootstrapperProvider(new AppBootstrapper<TStartup>(services, configuration));
             return bootstrapper.Bootstrap();
         }
-        
+
         public static IBootstrapApplication
             AddServices(this IConfigureContainer bootstrapper,
                 Action<IServiceCollection, IConfiguration> serviceConfigurationProvider)

@@ -10,7 +10,6 @@
     <RepositoryType>Private</RepositoryType>
     <Copyright>ICG</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <RootNamespace>EasyApi.AspNetCore</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.3.4" />

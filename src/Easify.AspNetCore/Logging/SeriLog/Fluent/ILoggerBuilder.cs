@@ -14,19 +14,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
-using EasyApi.Logging.SeriLog;
-using EasyApi.Logging.SeriLog.OptionsBuilder;
+using System;
+using Easify.Logging.SeriLog;
+using Easify.Logging.SeriLog.OptionsBuilder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
-namespace EasyApi.AspNetCore.Logging.SeriLog.Fluent
+namespace Easify.AspNetCore.Logging.SeriLog.Fluent
 {
     // TODO: The whole fluent part need to be moved to another library
     public interface ILoggerBuilder
     {
         IConfiguration Configuration { get; }
-        IHostingEnvironment Environment { get; } // TODO: Need to be move out of the interface and be replaced by a provider
+
+        IHostingEnvironment
+            Environment { get; } // TODO: Need to be move out of the interface and be replaced by a provider
 
         IBuildLogger ConfigureLogger<TStartup>()
             where TStartup : class;

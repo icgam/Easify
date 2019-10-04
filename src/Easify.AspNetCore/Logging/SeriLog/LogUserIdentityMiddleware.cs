@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Serilog.Context;
 
-namespace EasyApi.AspNetCore.Logging.SeriLog
+namespace Easify.AspNetCore.Logging.SeriLog
 {
     public sealed class LogUserIdentityMiddleware
     {

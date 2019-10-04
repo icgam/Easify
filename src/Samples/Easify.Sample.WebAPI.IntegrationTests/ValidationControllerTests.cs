@@ -14,17 +14,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using EasyApi.Sample.WebAPI.Domain;
-using EasyApi.Sample.WebAPI.IntegrationTests.Helpers;
+using Easify.Sample.WebAPI.Domain;
+using Easify.Sample.WebAPI.IntegrationTests.Helpers;
 using Xunit;
 
-namespace EasyApi.Sample.WebAPI.IntegrationTests
+namespace Easify.Sample.WebAPI.IntegrationTests
 {
     public sealed class ValidationControllerTests : IDisposable
     {

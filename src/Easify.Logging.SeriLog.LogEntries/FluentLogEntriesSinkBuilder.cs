@@ -18,7 +18,7 @@ using System;
 using Serilog;
 using Serilog.Sinks.Logentries;
 
-namespace EasyApi.Logging.SeriLog.LogEntries
+namespace Easify.Logging.SeriLog.LogEntries
 {
     public sealed class FluentLogEntriesSinkBuilder : IBuildSink, IProvideTemplate
     {

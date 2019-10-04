@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using AutoMapper;
- using Easify.Bootstrap;
- using Easify.DependencyInjection;
- using EasyApi.Extensions;
-using EasyApi.Http;
+using Easify.Bootstrap;
+using Easify.DependencyInjection;
+using Easify.Extensions;
+using Easify.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.AspNetCore.Bootstrap.Extensions
+namespace Easify.AspNetCore.Bootstrap.Extensions
 {
     public static class PipelineExtensions
     {

@@ -16,9 +16,9 @@
 
 using System;
 using System.Collections.Generic;
-using EasyApi.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.Domain;
 
-namespace EasyApi.ExceptionHandling.ConfigurationBuilder
+namespace Easify.ExceptionHandling.ConfigurationBuilder
 {
     public interface IExceptionRule
     {

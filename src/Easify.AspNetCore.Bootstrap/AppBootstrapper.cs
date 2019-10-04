@@ -14,28 +14,28 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections.Generic;
- using Easify.Bootstrap;
- using EasyApi.AspNetCore.Cors;
-using EasyApi.AspNetCore.Documentation;
-using EasyApi.AspNetCore.ExceptionHandling;
-using EasyApi.AspNetCore.Mvc;
-using EasyApi.AspNetCore.RequestCorrelation;
-using EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
- using EasyApi.Configurations.Fluents;
-using EasyApi.ExceptionHandling;
-using EasyApi.ExceptionHandling.ConfigurationBuilder;
-using EasyApi.ExceptionHandling.ErrorBuilder.Fluent;
-using EasyApi.Extensions;
-using EasyApi.Logging;
+using Easify.AspNetCore.Cors;
+using Easify.AspNetCore.Documentation;
+using Easify.AspNetCore.ExceptionHandling;
+using Easify.AspNetCore.Mvc;
+using Easify.AspNetCore.RequestCorrelation;
+using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
+using Easify.Bootstrap;
+using Easify.Configurations.Fluents;
+using Easify.ExceptionHandling;
+using Easify.ExceptionHandling.ConfigurationBuilder;
+using Easify.ExceptionHandling.ErrorBuilder.Fluent;
+using Easify.Extensions;
+using Easify.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace EasyApi.AspNetCore.Bootstrap
+namespace Easify.AspNetCore.Bootstrap
 {
     // TODO: Bootstrapping shouldn't be dependent to this but a bunch of options to middleware
     public sealed class AppBootstrapper<TStartup> :
@@ -106,7 +106,7 @@ namespace EasyApi.AspNetCore.Bootstrap
 
             _services.AddHttpRequestContext();
             _services.AddGlobalExceptionHandler(ae => _errorHandlerBuilder.UseDefault());
-            _services.AddRequestCorrelation(b => _requestCorrelationExtender(CorrelationOptionsBuilderExtensions.ExcludeDefaultUrls(b)));
+            _services.AddRequestCorrelation(b => _requestCorrelationExtender(b.ExcludeDefaultUrls()));
             _services.AddDefaultMvc<TStartup>();
             _services.AddDefaultCorsPolicy();
             _services.AddDefaultApiDocumentation(_configuration);

@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using EasyApi.Sample.WebAPI.IntegrationTests.Helpers;
-using EasyApi.Testing.Core;
+using Easify.Sample.WebAPI.IntegrationTests.Helpers;
+using Easify.Testing.Core;
 using Serilog;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EasyApi.Sample.WebAPI.IntegrationTests
+namespace Easify.Sample.WebAPI.IntegrationTests
 {
     public sealed class DynamicLogLevelsViaLogControllerTests
     {

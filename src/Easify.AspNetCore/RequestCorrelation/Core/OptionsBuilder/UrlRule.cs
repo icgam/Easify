@@ -16,7 +16,7 @@
 
 using System;
 
-namespace EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder
+namespace Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder
 {
     public sealed class UrlRule : ICheckUrl, ISetUrlFilter
     {
@@ -24,10 +24,7 @@ namespace EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder
 
         public bool UrlMatches(string url)
         {
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                return false;
-            }
+            if (string.IsNullOrWhiteSpace(url)) return false;
 
             var uri = new Uri(url);
             return _filter(uri.AbsolutePath);
@@ -37,7 +34,7 @@ namespace EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder
         {
             if (string.IsNullOrWhiteSpace(urlFragment))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(urlFragment));
-            
+
             _filter = url => url.StartsWith(urlFragment, StringComparison.CurrentCultureIgnoreCase);
             return this;
         }

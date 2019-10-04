@@ -17,10 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using Easify.ExceptionHandling.ConfigurationBuilder;
+using Easify.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.Providers;
 using Easify.ExceptionHandling.UnitTests.Domain;
-using EasyApi.ExceptionHandling.ConfigurationBuilder;
-using EasyApi.ExceptionHandling.Domain;
-using EasyApi.ExceptionHandling.Providers;
 using NSubstitute;
 using Xunit;
 
@@ -47,7 +47,7 @@ namespace Easify.ExceptionHandling.UnitTests
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, result);
         }
-        
+
         [Fact]
         public void GivenExceptionWhenItsDerivativeOfThirdPartyExceptionThenHttpCodeShouldBe_400()
         {

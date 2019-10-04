@@ -16,11 +16,11 @@
 
 using System.Linq;
 using Easify.DependencyInjection;
-using EasyApi.Http;
+using Easify.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace EasyApi.AspNetCore.Bootstrap.UnitTests
+namespace Easify.AspNetCore.Bootstrap.UnitTests
 {
     public class ServiceCollectionExtensionsTests
     {

@@ -14,20 +14,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections.Generic;
 
-namespace EasyApi.ExceptionHandling.Domain
+namespace Easify.ExceptionHandling.Domain
 {
     public sealed class Error
     {
-        public Error() {}
+        public Error()
+        {
+        }
 
         public Error(string message, string errorType) : this(message, errorType, new List<Error>())
         {
         }
 
-        public Error(string message, string errorType, Error childError) : this(message, errorType, new List<Error> { childError })
+        public Error(string message, string errorType, Error childError) : this(message, errorType,
+            new List<Error> {childError})
         {
             if (childError == null) throw new ArgumentNullException(nameof(childError));
         }
@@ -44,8 +47,8 @@ namespace EasyApi.ExceptionHandling.Domain
             ChildErrors = childErrors;
         }
 
-        public string Message { get; set;  }
-        public string ErrorType { get; set;  }
+        public string Message { get; set; }
+        public string ErrorType { get; set; }
         public IEnumerable<Error> ChildErrors { get; set; }
     }
 }

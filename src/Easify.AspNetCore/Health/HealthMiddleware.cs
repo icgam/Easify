@@ -14,20 +14,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using EasyApi.Logging;
+using Easify.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Newtonsoft.Json;
 
-namespace EasyApi.AspNetCore.Health
+namespace Easify.AspNetCore.Health
 {
     public sealed class HealthMiddleware
     {
@@ -49,7 +49,7 @@ namespace EasyApi.AspNetCore.Health
                 var health = GenerateHealthInfo();
                 context.Response.ContentType = JsonContentType;
                 await context.Response.WriteAsync(health);
-          
+
                 return;
             }
 
@@ -89,7 +89,8 @@ namespace EasyApi.AspNetCore.Health
                 Service = new object(),
                 Runtime = runtimeInfo,
                 Host = hostInfo,
-                Logs = new {
+                Logs = new
+                {
                     LatestErrors = LogsStore.Instance.Errors.OrderByDescending(e => e.LoggedAt).ToList(),
                     Messages = LogsStore.Instance.Logs.OrderByDescending(e => e.LoggedAt).ToList()
                 }

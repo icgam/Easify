@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-namespace EasyApi.AspNetCore.Serializations
+namespace Easify.AspNetCore.Serializations
 {
     // TODO: Should be moved outside (Higher level component)
     public static class JsonSerializerSettingsExtensions

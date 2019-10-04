@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System.Threading.Tasks;
+using System.Threading.Tasks;
 
-namespace EasyApi.AspNetCore.UnitTests.Helpers
+namespace Easify.AspNetCore.UnitTests.Helpers
 {
     public sealed class FakeService : IFakeService
     {
@@ -48,10 +48,7 @@ namespace EasyApi.AspNetCore.UnitTests.Helpers
 
         public async Task CallAsync()
         {
-            await Task.Delay(TaskDelayInMs).ContinueWith(t =>
-            {
-                State = "Changed";
-            });
+            await Task.Delay(TaskDelayInMs).ContinueWith(t => { State = "Changed"; });
         }
 
         public async Task CallAndThrowAsync()

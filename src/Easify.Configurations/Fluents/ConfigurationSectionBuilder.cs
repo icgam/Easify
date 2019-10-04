@@ -18,7 +18,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.Configurations.Fluents
+namespace Easify.Configurations.Fluents
 {
     public sealed class ConfigurationSectionBuilder : IAddFirstSection, IAddExtraConfigSection
     {

@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 
-namespace EasyApi.Sample.WebAPI.Domain
+namespace Easify.Sample.WebAPI.Domain
 {
     public sealed class OurApplicationException : TemplateApiApplicationException
     {
@@ -27,6 +27,7 @@ namespace EasyApi.Sample.WebAPI.Domain
         public OurApplicationException(string message) : base(message)
         {
         }
+
         public OurApplicationException(string message, Exception exception) : base(message, exception)
         {
         }

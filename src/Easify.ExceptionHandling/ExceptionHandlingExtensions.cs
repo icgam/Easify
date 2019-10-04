@@ -14,19 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
-using EasyApi.ExceptionHandling.ConfigurationBuilder;
-using EasyApi.ExceptionHandling.ConfigurationBuilder.Fluent;
-using EasyApi.ExceptionHandling.Domain;
-using EasyApi.ExceptionHandling.ErrorBuilder;
-using EasyApi.ExceptionHandling.ErrorBuilder.Fluent;
-using EasyApi.ExceptionHandling.Formatter;
-using EasyApi.ExceptionHandling.Providers;
+using System;
+using Easify.ExceptionHandling.ConfigurationBuilder;
+using Easify.ExceptionHandling.ConfigurationBuilder.Fluent;
+using Easify.ExceptionHandling.ErrorBuilder;
+using Easify.ExceptionHandling.ErrorBuilder.Fluent;
+using Easify.ExceptionHandling.Formatter;
+using Easify.ExceptionHandling.Providers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using RestEase;
 
-namespace EasyApi.ExceptionHandling
+namespace Easify.ExceptionHandling
 {
     public static class ExceptionHandlingExtensions
     {
@@ -39,7 +38,7 @@ namespace EasyApi.ExceptionHandling
             var builder = new GlobalErrorHandlerConfigurationBuilder(services);
             var options = configurationBuilder(builder).Build();
 
-            services.AddSingleton<IErrorResponseProviderOptions>(options);
+            services.AddSingleton(options);
             services.AddSingleton<IErrorMessageFormatterOptions>(options);
             services.AddSingleton<IHttpStatusCodeProvider, DefaultHttpStatusCodeProvider>();
             services.AddTransient<IErrorProvider, ErrorProvider>();

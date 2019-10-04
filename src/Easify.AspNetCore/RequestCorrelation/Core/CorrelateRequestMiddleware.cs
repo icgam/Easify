@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyApi.AspNetCore.RequestCorrelation.Domain;
-using EasyApi.Http;
+using Easify.AspNetCore.RequestCorrelation.Domain;
+using Easify.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 
-namespace EasyApi.AspNetCore.RequestCorrelation.Core
+namespace Easify.AspNetCore.RequestCorrelation.Core
 {
     public class CorrelateRequestMiddleware
     {

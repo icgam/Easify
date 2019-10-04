@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System.Collections.Generic;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyApi.Sample.WebAPI.Controllers
+namespace Easify.Sample.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
@@ -26,7 +26,7 @@ namespace EasyApi.Sample.WebAPI.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new[] {"value1", "value2"};
         }
 
         // GET api/values/5
@@ -38,13 +38,13 @@ namespace EasyApi.Sample.WebAPI.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody] string value)
         {
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody] string value)
         {
         }
 

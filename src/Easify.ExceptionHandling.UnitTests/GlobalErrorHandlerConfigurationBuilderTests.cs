@@ -15,10 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Easify.ExceptionHandling.ConfigurationBuilder;
+using Easify.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.Formatter;
 using Easify.ExceptionHandling.UnitTests.Domain;
-using EasyApi.ExceptionHandling.ConfigurationBuilder;
-using EasyApi.ExceptionHandling.Domain;
-using EasyApi.ExceptionHandling.Formatter;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Xunit;

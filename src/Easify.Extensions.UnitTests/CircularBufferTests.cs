@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace EasyApi.Extensions.UnitTests
+namespace Easify.Extensions.UnitTests
 {
     public sealed class CircularBufferTests
     {
@@ -58,15 +58,10 @@ namespace EasyApi.Extensions.UnitTests
             var tasks = new List<Task>();
 
             for (var taskId = 0; taskId < 5000; taskId++)
-            {
                 tasks.Add(Task.Factory.StartNew(() =>
                 {
-                    for (var messageIndex = 0; messageIndex < 1000; messageIndex++)
-                    {
-                        sut.Add($"message.{messageIndex}");
-                    }
+                    for (var messageIndex = 0; messageIndex < 1000; messageIndex++) sut.Add($"message.{messageIndex}");
                 }));
-            }
 
             await Task.WhenAll(tasks);
 

@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using Serilog;
+using Serilog;
 using Serilog.Events;
 
-namespace EasyApi.Sample.WebAPI.IntegrationTests.Helpers
+namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
     public static class LoggerExtensions
     {

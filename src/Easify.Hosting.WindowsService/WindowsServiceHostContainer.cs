@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.ServiceProcess;
-using EasyApi.Hosting.Core.HostContainer;
+using Easify.Hosting.Core.HostContainer;
 using Microsoft.AspNetCore.Hosting;
 
-namespace EasyApi.Hosting.WindowsService
+namespace Easify.Hosting.WindowsService
 {
     public sealed class WindowsServiceHostContainer : IServiceHost
     {

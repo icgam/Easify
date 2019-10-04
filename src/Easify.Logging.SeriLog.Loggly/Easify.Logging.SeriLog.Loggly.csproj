@@ -10,7 +10,6 @@
     <RepositoryUrl>https://github.com/icgam/EasyApi</RepositoryUrl>
     <RepositoryType>Private</RepositoryType>
     <Description>EasyApi logging support for Serilog and Loggly</Description>
-    <RootNamespace>EasyApi.Logging.SeriLog.Loggly</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

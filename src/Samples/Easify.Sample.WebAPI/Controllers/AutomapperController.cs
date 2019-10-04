@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
-using EasyApi.Extensions;
-using EasyApi.Sample.WebAPI.Domain;
+using System;
+using Easify.Extensions;
+using Easify.Sample.WebAPI.Domain;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyApi.Sample.WebAPI.Controllers
+namespace Easify.Sample.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class AutomapperController : Controller

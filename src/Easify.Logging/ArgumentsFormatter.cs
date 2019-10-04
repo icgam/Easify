@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EasyApi.Extensions;
+using Easify.Extensions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace EasyApi.Logging
+namespace Easify.Logging
 {
     public sealed class ArgumentsFormatter : IArgumentsFormatter
     {
@@ -51,20 +51,13 @@ namespace EasyApi.Logging
         {
             var sb = new StringBuilder();
             foreach (var argument in arguments)
-            {
                 if (argument == null)
                     sb.Append(" argument is NULL,");
                 else if (LastArgument(arguments, argument))
                     sb.Append($"{FormatArgument(argument)}.");
                 else
                     sb.Append($"{FormatArgument(argument)}, ");
-            }
             return sb.ToString();
-        }
-
-        private bool LastArgument(List<object> arguments, object argument)
-        {
-            return arguments.IndexOf(argument) == arguments.Count - 1;
         }
 
         public string FormatArgument(object argument)
@@ -75,9 +68,7 @@ namespace EasyApi.Logging
                     return "[NULL]";
 
                 if (argument.IsReferenceType() && argument.IsString() == false)
-                {
                     return JsonConvert.SerializeObject(argument, _serializerSettings);
-                }
                 return argument.ToString();
             }
             catch (Exception ex)
@@ -87,6 +78,11 @@ namespace EasyApi.Logging
                 _log.LogTrace(ex, $"Failed to format ARGUMENT/RETURN (type: '{argumentType}') value!");
                 return "FAILED TO FORMAT ARGUMENT/RETURN VALUE";
             }
+        }
+
+        private bool LastArgument(List<object> arguments, object argument)
+        {
+            return arguments.IndexOf(argument) == arguments.Count - 1;
         }
     }
 }

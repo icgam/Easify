@@ -14,20 +14,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
-using EasyApi.AspNetCore.Logging.SeriLog.Fluent;
-using EasyApi.Configurations;
-using EasyApi.Http;
+using Easify.AspNetCore.Logging.SeriLog.Fluent;
+using Easify.Configurations;
+using Easify.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace EasyApi.Sample.WebAPI.IntegrationTests.Helpers
+namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
     public sealed class TestServerFixture<TStartup> : IDisposable where TStartup : class
     {

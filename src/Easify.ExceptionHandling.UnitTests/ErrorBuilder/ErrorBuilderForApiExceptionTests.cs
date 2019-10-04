@@ -18,8 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using EasyApi.ExceptionHandling.Domain;
-using EasyApi.ExceptionHandling.ErrorBuilder;
+using Easify.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.ErrorBuilder;
 using RestEase;
 using Xunit;
 

@@ -16,10 +16,9 @@
 
 using System;
 using System.Net;
-using EasyApi.ExceptionHandling;
-using EasyApi.ExceptionHandling.Domain;
-using EasyApi.ExceptionHandling.Formatter;
-using EasyApi.ExceptionHandling.Providers;
+using Easify.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.Formatter;
+using Easify.ExceptionHandling.Providers;
 using NSubstitute;
 using Xunit;
 

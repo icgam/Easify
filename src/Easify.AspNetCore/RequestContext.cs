@@ -16,11 +16,11 @@
 
 using System;
 using System.Security.Principal;
-using EasyApi.AspNetCore.RequestCorrelation;
-using EasyApi.Http;
+using Easify.AspNetCore.RequestCorrelation;
+using Easify.Http;
 using Microsoft.AspNetCore.Http;
 
-namespace EasyApi.AspNetCore
+namespace Easify.AspNetCore
 {
     public sealed class RequestContext : IRequestContext
     {

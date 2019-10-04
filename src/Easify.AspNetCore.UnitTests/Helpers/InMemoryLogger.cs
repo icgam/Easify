@@ -14,22 +14,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 
-namespace EasyApi.AspNetCore.UnitTests.Helpers
+namespace Easify.AspNetCore.UnitTests.Helpers
 {
     public sealed class InMemoryLogger<T> : ILogger<T>, ILogger where T : class
     {
         private static readonly string LoglevelPadding = ": ";
         private static readonly string MessagePadding;
         private static readonly string NewLineWithMessagePadding;
-        private readonly Object _lock = new Object();
-        private Func<string, LogLevel, bool> _filter;
+        private readonly object _lock = new object();
         private readonly List<string> _logs = new List<string>();
+        private Func<string, LogLevel, bool> _filter;
         private StringBuilder _logBuilder;
 
         static InMemoryLogger()
@@ -44,7 +44,7 @@ namespace EasyApi.AspNetCore.UnitTests.Helpers
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Filter = filter ?? ((category, logLevel) => true);
         }
-        
+
         public Func<string, LogLevel, bool> Filter
         {
             get => _filter;
@@ -64,24 +64,31 @@ namespace EasyApi.AspNetCore.UnitTests.Helpers
             }
         }
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
+            Func<TState, Exception, string> formatter)
         {
-            if (!IsEnabled(logLevel))
-            {
-                return;
-            }
+            if (!IsEnabled(logLevel)) return;
 
-            if (formatter == null)
-            {
-                throw new ArgumentNullException(nameof(formatter));
-            }
+            if (formatter == null) throw new ArgumentNullException(nameof(formatter));
 
             var message = formatter(state, exception);
 
             if (!string.IsNullOrEmpty(message) || exception != null)
-            {
                 WriteMessage(logLevel, Name, eventId.Id, message, exception);
-            }
+        }
+
+        public bool IsEnabled(LogLevel logLevel)
+        {
+            if (logLevel == LogLevel.None) return false;
+
+            return Filter(Name, logLevel);
+        }
+
+        public IDisposable BeginScope<TState>(TState state)
+        {
+            if (state == null) throw new ArgumentNullException(nameof(state));
+
+            return ConsoleLogScope.Push(Name, state);
         }
 
         private void WriteMessage(LogLevel logLevel, string logName, int eventId, string message, Exception exception)
@@ -89,10 +96,7 @@ namespace EasyApi.AspNetCore.UnitTests.Helpers
             var logBuilder = _logBuilder;
             _logBuilder = null;
 
-            if (logBuilder == null)
-            {
-                logBuilder = new StringBuilder();
-            }
+            if (logBuilder == null) logBuilder = new StringBuilder();
 
             logBuilder.Append(LoglevelPadding);
             logBuilder.Append(logName);
@@ -109,10 +113,7 @@ namespace EasyApi.AspNetCore.UnitTests.Helpers
                 logBuilder.Replace(Environment.NewLine, NewLineWithMessagePadding, len, message.Length);
             }
 
-            if (exception != null)
-            {
-                logBuilder.AppendLine(exception.ToString());
-            }
+            if (exception != null) logBuilder.AppendLine(exception.ToString());
 
             if (logBuilder.Length > 0)
             {
@@ -125,31 +126,8 @@ namespace EasyApi.AspNetCore.UnitTests.Helpers
             }
 
             logBuilder.Clear();
-            if (logBuilder.Capacity > 1024)
-            {
-                logBuilder.Capacity = 1024;
-            }
+            if (logBuilder.Capacity > 1024) logBuilder.Capacity = 1024;
             _logBuilder = logBuilder;
-        }
-
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            if (logLevel == LogLevel.None)
-            {
-                return false;
-            }
-
-            return Filter(Name, logLevel);
-        }
-
-        public IDisposable BeginScope<TState>(TState state)
-        {
-            if (state == null)
-            {
-                throw new ArgumentNullException(nameof(state));
-            }
-
-            return ConsoleLogScope.Push(Name, state);
         }
 
         private static string GetLogLevelString(LogLevel logLevel)

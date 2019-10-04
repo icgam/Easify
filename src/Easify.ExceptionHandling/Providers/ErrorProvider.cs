@@ -17,9 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EasyApi.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.Domain;
 
-namespace EasyApi.ExceptionHandling.Providers
+namespace Easify.ExceptionHandling.Providers
 {
     public sealed class ErrorProvider : IErrorProvider
     {

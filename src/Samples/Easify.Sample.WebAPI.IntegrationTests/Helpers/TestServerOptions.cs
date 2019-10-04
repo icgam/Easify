@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.Sample.WebAPI.IntegrationTests.Helpers
+namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
     public sealed class TestServerOptions
     {
         public bool EnableLoggingToFile { get; set; } = false;
         public string Environment { get; set; } = "Development";
-        public Action<IServiceCollection> ConfigureServices { get; set; } = sc => {};
+        public Action<IServiceCollection> ConfigureServices { get; set; } = sc => { };
     }
 }

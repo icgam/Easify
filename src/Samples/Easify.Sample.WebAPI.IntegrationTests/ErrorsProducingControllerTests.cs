@@ -14,21 +14,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Net;
 using System.Threading.Tasks;
-using EasyApi.Sample.WebAPI.IntegrationTests.Helpers;
-using EasyApi.Sample.WebAPI.IntegrationTests.Helpers.Domain;
+using Easify.Sample.WebAPI.IntegrationTests.Helpers;
+using Easify.Sample.WebAPI.IntegrationTests.Helpers.Domain;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace EasyApi.Sample.WebAPI.IntegrationTests
+namespace Easify.Sample.WebAPI.IntegrationTests
 {
     public sealed class ErrorsProducingControllerTests : IDisposable
     {
         public ErrorsProducingControllerTests()
         {
-            Fixture = TestServerFixture<StartupForIntegration>.Create("Integration");
+            Fixture = TestServerFixture<StartupForIntegration>.Create();
         }
 
         public void Dispose()

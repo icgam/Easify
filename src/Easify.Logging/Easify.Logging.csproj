@@ -10,7 +10,6 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>ICG</Company>
     <Authors>Aurimas Gecas, Mohammad Moattar</Authors>
-    <RootNamespace>EasyApi.Logging</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

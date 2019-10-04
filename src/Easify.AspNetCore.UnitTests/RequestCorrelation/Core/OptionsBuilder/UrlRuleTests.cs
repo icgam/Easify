@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
+using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
 using Xunit;
 
-namespace EasyApi.AspNetCore.UnitTests.RequestCorrelation.Core.OptionsBuilder
+namespace Easify.AspNetCore.UnitTests.RequestCorrelation.Core.OptionsBuilder
 {
     public sealed class UrlRuleTests
     {

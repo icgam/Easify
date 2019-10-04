@@ -14,19 +14,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using AutoMapper;
-using EasyApi.AspNetCore.Bootstrap;
-using EasyApi.AspNetCore.Bootstrap.Extensions;
-using EasyApi.Sample.WebAPI.Core.Mappings;
-using EasyApi.Sample.WebAPI.Domain;
+using Easify.AspNetCore.Bootstrap;
+using Easify.AspNetCore.Bootstrap.Extensions;
+using Easify.Sample.WebAPI.Core.Mappings;
+using Easify.Sample.WebAPI.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace EasyApi.Sample.WebAPI.IntegrationTests.Helpers
+namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
     public class StartupForAutomapper
     {
@@ -40,18 +40,18 @@ namespace EasyApi.Sample.WebAPI.IntegrationTests.Helpers
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             return services.BootstrapApp<StartupForAutomapper>(Configuration,
-                app => PipelineExtensions.ConfigureMappings(app
-                        .HandleApplicationException<TemplateApiApplicationException>()
-                        .UseDetailedErrors(), c =>
+                app => app
+                    .HandleApplicationException<TemplateApiApplicationException>()
+                    .UseDetailedErrors().ConfigureMappings(c =>
                     {
                         c.CreateMap<PersonEntity, PersonDO>();
                         c.CreateMap<AssetEntity, AssetDO>().ConvertUsing<AssetConverter>();
                     })
                     .AddServices((container, config) =>
                     {
-                        ServiceCollectionServiceExtensions.AddTransient<IRateProvider, DummyRateProvider>(container);
-                        ServiceCollectionServiceExtensions.AddTransient<AssetConverter, AssetConverter>(container);
-                        ServiceCollectionServiceExtensions.AddTransient<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>(container);
+                        container.AddTransient<IRateProvider, DummyRateProvider>();
+                        container.AddTransient<AssetConverter, AssetConverter>();
+                        container.AddTransient<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>();
                     })
             );
         }

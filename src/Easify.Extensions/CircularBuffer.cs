@@ -14,42 +14,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace EasyApi.Extensions
+namespace Easify.Extensions
 {
     public class CircularBuffer<T> : ICircularBuffer<T>
     {
-        private readonly ReaderWriterLockSlim _cacheLock = new ReaderWriterLockSlim();
-        private readonly int _bufferSize;
         private readonly ConcurrentQueue<T> _buffer = new ConcurrentQueue<T>();
+        private readonly int _bufferSize;
+        private readonly ReaderWriterLockSlim _cacheLock = new ReaderWriterLockSlim();
 
         public CircularBuffer(int bufferSize)
         {
             if (bufferSize <= 0) throw new ArgumentOutOfRangeException(nameof(bufferSize));
-            this._bufferSize = bufferSize;
-        }
-        
-        public void Add(T value)
-        {
-            _cacheLock.EnterWriteLock();
-            try
-            {
-                if (_buffer.Count == _bufferSize)
-                {
-                    T valueToDiscard;
-                    _buffer.TryDequeue(out valueToDiscard);
-                }
-                _buffer.Enqueue(value);
-            }
-            finally
-            {
-                _cacheLock.ExitWriteLock();
-            }
+            _bufferSize = bufferSize;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -68,6 +50,25 @@ namespace EasyApi.Extensions
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public void Add(T value)
+        {
+            _cacheLock.EnterWriteLock();
+            try
+            {
+                if (_buffer.Count == _bufferSize)
+                {
+                    T valueToDiscard;
+                    _buffer.TryDequeue(out valueToDiscard);
+                }
+
+                _buffer.Enqueue(value);
+            }
+            finally
+            {
+                _cacheLock.ExitWriteLock();
+            }
         }
     }
 }

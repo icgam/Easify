@@ -14,12 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
- using Easify.RestEase;
- using EasyApi.AspNetCore.Bootstrap;
-using EasyApi.RestEase;
-using EasyApi.Sample.WebAPI.Core;
-using EasyApi.Sample.WebAPI.Domain;
+using System;
+using Easify.AspNetCore.Bootstrap;
+using Easify.RestEase;
+using Easify.Sample.WebAPI.Core;
+using Easify.Sample.WebAPI.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +26,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
-namespace EasyApi.Sample.WebAPI.IntegrationTests.Helpers
+namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
     public class StartupForIntegration
     {
@@ -50,8 +49,8 @@ namespace EasyApi.Sample.WebAPI.IntegrationTests.Helpers
                     .UseUserErrors()
                     .AddServices((container, config) =>
                     {
-                        RestClientExtensions.AddRestClient<IValuesClient, Clients>(container, c => c.ProducerClientUrl);
-                        ServiceCollectionDescriptorExtensions.TryAddTransient<IMyService, MyService>(container);
+                        container.AddRestClient<IValuesClient, Clients>(c => c.ProducerClientUrl);
+                        container.TryAddTransient<IMyService, MyService>();
                     })
             );
         }

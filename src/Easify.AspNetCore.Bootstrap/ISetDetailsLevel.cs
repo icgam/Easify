@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace EasyApi.AspNetCore.Bootstrap
+namespace Easify.AspNetCore.Bootstrap
 {
-    public interface ISetDetailsLevel :IConfigureRequestCorrelation
+    public interface ISetDetailsLevel : IConfigureRequestCorrelation
     {
         IConfigureRequestCorrelation UseStandardMessage();
         IConfigureRequestCorrelation UseUserErrors();

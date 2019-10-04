@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
-using EasyApi.ExceptionHandling.Domain;
+using System;
+using Easify.ExceptionHandling.Domain;
 
-namespace EasyApi.ExceptionHandling
+namespace Easify.ExceptionHandling
 {
     public interface IErrorProvider
     {

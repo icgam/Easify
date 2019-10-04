@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- // Copyright 2014 Serilog Contributors
+// Copyright 2014 Serilog Contributors
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,17 +30,17 @@
 
 
 // Copyright (c) 2014 Logentries
-   
+
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-   
+
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-   
+
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -57,22 +57,28 @@ using Serilog.Debugging;
 
 namespace Serilog.Sinks.Logentries.Sinks.Logentries
 {
-    class LeClient
+    internal class LeClient
     {
         // Logentries API server address. 
-        const String LeApiUrl = "api.logentries.com";
+        private const string LeApiUrl = "api.logentries.com";
 
         // Port number for token logging on Logentries API server. 
-        const int LeApiTokenPort = 10000;
+        private const int LeApiTokenPort = 10000;
 
         // Port number for TLS encrypted token logging on Logentries API server 
-        const int LeApiTokenTlsPort = 20000;
+        private const int LeApiTokenTlsPort = 20000;
 
         // Port number for HTTP PUT logging on Logentries API server. 
-        const int LeApiHttpPort = 80;
+        private const int LeApiHttpPort = 80;
 
         // Port number for SSL HTTP PUT logging on Logentries API server. 
-        const int LeApiHttpsPort = 443;
+        private const int LeApiHttpsPort = 443;
+        private TcpClient m_Client;
+        private SslStream m_SslStream;
+        private Stream m_Stream;
+        private readonly int m_TcpPort;
+
+        private readonly bool m_UseSsl;
 
         public LeClient(bool useHttpPut, bool useSsl)
         {
@@ -83,26 +89,14 @@ namespace Serilog.Sinks.Logentries.Sinks.Logentries
                 m_TcpPort = useHttpPut ? LeApiHttpsPort : LeApiTokenTlsPort;
         }
 
-        bool m_UseSsl;
-        int m_TcpPort;
-        TcpClient m_Client;
-        Stream m_Stream;
-        SslStream m_SslStream;
-
-        Stream ActiveStream
-        {
-            get
-            {
-                return m_UseSsl ? m_SslStream : m_Stream;
-            }
-        }
+        private Stream ActiveStream => m_UseSsl ? m_SslStream : m_Stream;
 
         public void Connect()
         {
-            m_Client = new TcpClient()
-                       {
-                           NoDelay = true
-                       };
+            m_Client = new TcpClient
+            {
+                NoDelay = true
+            };
             m_Client.ConnectAsync(LeApiUrl, m_TcpPort).Wait();
 
             m_Stream = m_Client.GetStream();
@@ -127,7 +121,6 @@ namespace Serilog.Sinks.Logentries.Sinks.Logentries
         public void Close()
         {
             if (m_Client != null)
-            {
                 try
                 {
                     m_Client.Dispose();
@@ -136,7 +129,6 @@ namespace Serilog.Sinks.Logentries.Sinks.Logentries
                 {
                     SelfLog.WriteLine("Exception while closing client: {0}", ex);
                 }
-            }
         }
     }
 }

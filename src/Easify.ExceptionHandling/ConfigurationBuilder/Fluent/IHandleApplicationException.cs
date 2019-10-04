@@ -16,7 +16,7 @@
 
 using System;
 
-namespace EasyApi.ExceptionHandling.ConfigurationBuilder.Fluent
+namespace Easify.ExceptionHandling.ConfigurationBuilder.Fluent
 {
     public interface IHandleApplicationException
     {

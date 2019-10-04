@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using EasyApi.RestEase.Client;
+using Easify.RestEase.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -53,7 +53,7 @@ namespace Easify.RestEase
             services.AddTransient(m =>
             {
                 var builder = m.GetService<IRestClientBuilder>();
-                
+
                 return builder.Build<TClient>(urlProvider());
             });
 
@@ -75,7 +75,7 @@ namespace Easify.RestEase
 
                 return builder.Build<TClient>(urlProvider(config.Value));
             });
- 
+
             return services;
         }
 

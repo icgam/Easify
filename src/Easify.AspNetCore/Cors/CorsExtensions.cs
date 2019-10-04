@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.AspNetCore.Cors
+namespace Easify.AspNetCore.Cors
 {
     // TODO: Extend this to address a policy-based setup for the solution.
     public static class AspNetCorsExtensions

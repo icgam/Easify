@@ -17,7 +17,7 @@
 using System;
 using System.Net;
 
-namespace EasyApi.ExceptionHandling
+namespace Easify.ExceptionHandling
 {
     public interface IHttpStatusCodeProvider
     {

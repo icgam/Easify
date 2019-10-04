@@ -16,7 +16,7 @@
 
 using System;
 
-namespace EasyApi.AspNetCore.RequestCorrelation.Core
+namespace Easify.AspNetCore.RequestCorrelation.Core
 {
     public sealed class GuidBasedCorrelationIdProvider : ICorrelationIdProvider
     {

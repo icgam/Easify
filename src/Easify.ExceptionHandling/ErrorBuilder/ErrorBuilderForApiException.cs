@@ -17,11 +17,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EasyApi.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.Domain;
 using Newtonsoft.Json;
 using RestEase;
 
-namespace EasyApi.ExceptionHandling.ErrorBuilder
+namespace Easify.ExceptionHandling.ErrorBuilder
 {
     // TODO: Should be renamed
     public sealed class ErrorBuilderForApiException : IErrorBuilder<ApiException>

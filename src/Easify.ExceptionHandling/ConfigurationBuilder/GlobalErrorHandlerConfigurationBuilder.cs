@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using EasyApi.ExceptionHandling.ConfigurationBuilder.Fluent;
-using EasyApi.ExceptionHandling.Domain;
-using EasyApi.ExceptionHandling.ErrorBuilder.Fluent;
-using EasyApi.ExceptionHandling.Formatter;
+using Easify.ExceptionHandling.ConfigurationBuilder.Fluent;
+using Easify.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.ErrorBuilder.Fluent;
+using Easify.ExceptionHandling.Formatter;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.ExceptionHandling.ConfigurationBuilder
+namespace Easify.ExceptionHandling.ConfigurationBuilder
 {
     public sealed class GlobalErrorHandlerConfigurationBuilder : IHandleApplicationException,
         IHandleAdditionalExceptions, IProvideGenericError

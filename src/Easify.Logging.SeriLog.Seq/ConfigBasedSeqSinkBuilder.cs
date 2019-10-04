@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
-namespace EasyApi.Logging.SeriLog.Seq
+namespace Easify.Logging.SeriLog.Seq
 {
     public sealed class ConfigBasedSeqSinkBuilder : IBuildSink
     {
-        private readonly ILoggerConfiguration _configurationServices;
         private readonly IConfigurationSection _config;
+        private readonly ILoggerConfiguration _configurationServices;
 
         public ConfigBasedSeqSinkBuilder(ILoggerConfiguration configurationServices, IConfigurationSection config)
         {

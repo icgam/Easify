@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <RootNamespace>EasyApi.Sample.WebAPI</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Foil" Version="1.0.30" />
@@ -20,7 +19,4 @@
       <DependentUpon>appsettings.PROD.json</DependentUpon>
     </Content>
   </ItemGroup>
-    <ItemGroup>
-        <Folder Include="logs" />
-    </ItemGroup>
 </Project>

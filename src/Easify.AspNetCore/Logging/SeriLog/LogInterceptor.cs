@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
-using EasyApi.Logging;
+using Easify.Logging;
 using Foil;
 using Microsoft.Extensions.Logging;
 
-namespace EasyApi.AspNetCore.Logging.SeriLog
+namespace Easify.AspNetCore.Logging.SeriLog
 {
     public sealed class LogInterceptor : AsyncInterceptor
     {

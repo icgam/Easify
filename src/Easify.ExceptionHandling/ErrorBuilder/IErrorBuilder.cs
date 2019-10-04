@@ -16,9 +16,9 @@
 
 using System;
 using System.Collections.Generic;
-using EasyApi.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.Domain;
 
-namespace EasyApi.ExceptionHandling.ErrorBuilder
+namespace Easify.ExceptionHandling.ErrorBuilder
 {
     public interface IErrorBuilder<TException> where TException : Exception
     {

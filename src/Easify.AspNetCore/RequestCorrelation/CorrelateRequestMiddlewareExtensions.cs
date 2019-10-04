@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
-using EasyApi.AspNetCore.RequestCorrelation.Core;
-using EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
+using System;
+using Easify.AspNetCore.RequestCorrelation.Core;
+using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace EasyApi.AspNetCore.RequestCorrelation
+namespace Easify.AspNetCore.RequestCorrelation
 {
     public static class CorrelateRequestMiddlewareExtensions
     {

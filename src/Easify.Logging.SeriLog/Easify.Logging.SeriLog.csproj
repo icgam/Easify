@@ -10,7 +10,6 @@
     <RepositoryType>Private</RepositoryType>
     <Description>EasyApi Logging support for Serilog</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <RootNamespace>EasyApi.Logging.SeriLog</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

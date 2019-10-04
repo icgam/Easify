@@ -16,9 +16,9 @@
 
 using System;
 using System.Collections.Generic;
-using EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
+using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
 
-namespace EasyApi.AspNetCore.RequestCorrelation.Domain
+namespace Easify.AspNetCore.RequestCorrelation.Domain
 {
     public sealed class RequestCorrelationOptions
     {

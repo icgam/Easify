@@ -14,14 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
- using Easify.RestEase;
- using EasyApi.Http;
-using EasyApi.RestEase;
+using System;
+using Easify.Http;
+using Easify.RestEase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.AspNetCore.Bootstrap.Extensions
+namespace Easify.AspNetCore.Bootstrap.Extensions
 {
     public static class RequestContextBuilderExtensions
     {

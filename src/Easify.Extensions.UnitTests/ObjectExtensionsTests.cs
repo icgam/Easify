@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using Xunit;
+using Xunit;
 
-namespace EasyApi.Extensions.UnitTests
+namespace Easify.Extensions.UnitTests
 {
     public class ObjectExtensionsTests
     {
@@ -54,23 +54,23 @@ namespace EasyApi.Extensions.UnitTests
         }
 
         [Fact]
-        public void ObjectShouldReturnFalseForIsValueType()
-        {
-            // Assemble
-            var value = new object();
-            // Act
-            var result = value.IsValueType();
-            // Assert
-            Assert.False(result);
-        }
-
-        [Fact]
         public void ObjectShouldReturnFalseForIsString()
         {
             // Assemble
             var value = new object();
             // Act
             var result = value.IsString();
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void ObjectShouldReturnFalseForIsValueType()
+        {
+            // Assemble
+            var value = new object();
+            // Act
+            var result = value.IsValueType();
             // Assert
             Assert.False(result);
         }

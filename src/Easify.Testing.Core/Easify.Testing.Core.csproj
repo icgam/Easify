@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>EasyApi.Testing.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

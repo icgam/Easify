@@ -15,17 +15,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using EasyApi.ExceptionHandling.ConfigurationBuilder;
-using EasyApi.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.ConfigurationBuilder;
+using Easify.ExceptionHandling.Domain;
 
-namespace EasyApi.ExceptionHandling.Providers
+namespace Easify.ExceptionHandling.Providers
 {
     public sealed class ErrorProviderOptionsFactory : IErrorProviderOptions
     {
-        public Error GenericError { get; }
-        public IReadOnlyList<IExceptionRule> ExceptionsToHandle { get; }
-        public bool IncludeSystemLevelExceptions { get; }
-
         private ErrorProviderOptionsFactory(IErrorResponseProviderOptions options, bool includeSystemLevelExceptions)
         {
             GenericError = options.GenericError;
@@ -33,10 +29,15 @@ namespace EasyApi.ExceptionHandling.Providers
             IncludeSystemLevelExceptions = includeSystemLevelExceptions;
         }
 
+        public Error GenericError { get; }
+        public IReadOnlyList<IExceptionRule> ExceptionsToHandle { get; }
+        public bool IncludeSystemLevelExceptions { get; }
+
         public static IErrorProviderOptions IncludeDetailedErrors(IErrorResponseProviderOptions options)
         {
             return new ErrorProviderOptionsFactory(options, true);
         }
+
         public static IErrorProviderOptions ExcludeDetailedErrors(IErrorResponseProviderOptions options)
         {
             return new ErrorProviderOptionsFactory(options, false);

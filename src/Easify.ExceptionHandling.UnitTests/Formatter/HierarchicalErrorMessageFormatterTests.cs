@@ -16,8 +16,8 @@
 
 using System;
 using System.Collections.Generic;
-using EasyApi.ExceptionHandling.Domain;
-using EasyApi.ExceptionHandling.Formatter;
+using Easify.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.Formatter;
 using NSubstitute;
 using Xunit;
 
@@ -129,6 +129,31 @@ namespace Easify.ExceptionHandling.UnitTests.Formatter
         }
 
         [Fact]
+        public void ShouldExtractAndFormatErrorMessagesUsingConfiguredIndentationSymbol()
+        {
+            // Arrange
+            var internalError1 = new Error("Internal app error 1", "Exception");
+            var exception = new Error("Our App Error", "Exception", new List<Error>
+            {
+                internalError1
+            });
+
+            var expectedMessage = string.Join(
+                Environment.NewLine,
+                "Our App Error",
+                "///Internal app error 1");
+
+            var options = GetOptions("///");
+            var sut = new HierarchicalErrorMessageFormatter(options);
+
+            // Act
+            var result = sut.FormatErrorMessages(exception);
+
+            // Assert
+            Assert.Equal(expectedMessage, result);
+        }
+
+        [Fact]
         public void ShouldReturnOriginalAndNestedErrorMessageWithCorrectIndentation()
         {
             // Arrange
@@ -162,31 +187,6 @@ namespace Easify.ExceptionHandling.UnitTests.Formatter
 
             // Assert
             Assert.Equal("Our App Error", result);
-        }
-
-        [Fact]
-        public void ShouldExtractAndFormatErrorMessagesUsingConfiguredIndentationSymbol()
-        {
-            // Arrange
-            var internalError1 = new Error("Internal app error 1", "Exception");
-            var exception = new Error("Our App Error", "Exception", new List<Error>
-            {
-                internalError1
-            });
-
-            var expectedMessage = string.Join(
-                Environment.NewLine,
-                "Our App Error",
-                "///Internal app error 1");
-
-            var options = GetOptions("///");
-            var sut = new HierarchicalErrorMessageFormatter(options);
-
-            // Act
-            var result = sut.FormatErrorMessages(exception);
-
-            // Assert
-            Assert.Equal(expectedMessage, result);
         }
     }
 }

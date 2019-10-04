@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- // Copyright 2014 Serilog Contributors
+// Copyright 2014 Serilog Contributors
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,34 +41,35 @@ using Serilog.Sinks.PeriodicBatching;
 namespace Serilog.Sinks.Logentries.Sinks.Logentries
 {
     /// <summary>
-    /// Writes log events to the Logentries.com service.
+    ///     Writes log events to the Logentries.com service.
     /// </summary>
     public class LogentriesSink : PeriodicBatchingSink
     {
-        readonly string _token;
-        readonly bool _useSsl;
-        LeClient _client;
-        readonly ITextFormatter _textFormatter;
-
         /// <summary>
-        /// UTF-8 output character set.
-        /// </summary>
-        protected static readonly UTF8Encoding Utf8 = new UTF8Encoding();
-
-        /// <summary>
-        /// A reasonable default for the number of events posted in
-        /// each batch.
+        ///     A reasonable default for the number of events posted in
+        ///     each batch.
         /// </summary>
         public const int DefaultBatchPostingLimit = 50;
 
         /// <summary>
-        /// A reasonable default time to wait between checking for event batches.
+        ///     UTF-8 output character set.
+        /// </summary>
+        protected static readonly UTF8Encoding Utf8 = new UTF8Encoding();
+
+        /// <summary>
+        ///     A reasonable default time to wait between checking for event batches.
         /// </summary>
         public static readonly TimeSpan DefaultPeriod = TimeSpan.FromSeconds(2);
 
+        private readonly ITextFormatter _textFormatter;
+        private readonly string _token;
+        private readonly bool _useSsl;
+        private LeClient _client;
+
         /// <summary>
-        /// Construct a sink that sends logs to the specified Logentries log using a <see cref="MessageTemplateTextFormatter"/> to format
-        /// the logs as simple display messages.
+        ///     Construct a sink that sends logs to the specified Logentries log using a
+        ///     <see cref="MessageTemplateTextFormatter" /> to format
+        ///     the logs as simple display messages.
         /// </summary>
         /// <param name="batchPostingLimit">The maximum number of events to post in a single batch.</param>
         /// <param name="period">The time to wait between checking for event batches.</param>
@@ -76,34 +77,43 @@ namespace Serilog.Sinks.Logentries.Sinks.Logentries
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         /// <param name="token">The input key as found on the Logentries website.</param>
         /// <param name="useSsl">Indicates if you want to use SSL or not.</param>
-        public LogentriesSink(string outputTemplate, IFormatProvider formatProvider, string token, bool useSsl, int batchPostingLimit, TimeSpan period)
-            : this(new MessageTemplateTextFormatter(outputTemplate, formatProvider), token, useSsl, batchPostingLimit, period)
+        public LogentriesSink(string outputTemplate, IFormatProvider formatProvider, string token, bool useSsl,
+            int batchPostingLimit, TimeSpan period)
+            : this(new MessageTemplateTextFormatter(outputTemplate, formatProvider), token, useSsl, batchPostingLimit,
+                period)
         {
         }
 
         /// <summary>
-        /// Construct a sink that sends logs to the specified Logentries log using a provided <see cref="ITextFormatter"/>.
+        ///     Construct a sink that sends logs to the specified Logentries log using a provided <see cref="ITextFormatter" />.
         /// </summary>
         /// <param name="textFormatter">Used to format the logs sent to Logentries.</param>
         /// <param name="token">The input key as found on the Logentries website.</param>
         /// <param name="useSsl">Indicates if you want to use SSL or not.</param>
         /// <param name="batchPostingLimit">The maximum number of events to post in a single batch.</param>
         /// <param name="period">The time to wait between checking for event batches.</param>
-        public LogentriesSink(ITextFormatter textFormatter, string token, bool useSsl, int batchPostingLimit, TimeSpan period)
-             : base(batchPostingLimit, period)
-         {
-             _textFormatter = textFormatter ?? throw new ArgumentNullException(nameof(textFormatter));
+        public LogentriesSink(ITextFormatter textFormatter, string token, bool useSsl, int batchPostingLimit,
+            TimeSpan period)
+            : base(batchPostingLimit, period)
+        {
+            _textFormatter = textFormatter ?? throw new ArgumentNullException(nameof(textFormatter));
             _token = token;
             _useSsl = useSsl;
         }
 
         /// <summary>
-        /// Emit a batch of log events, running to completion synchronously.
+        ///     Emit a batch of log events, running to completion synchronously.
         /// </summary>
         /// <param name="events">The events to emit.</param>
         /// <remarks>
-        /// Override either <see cref="M:Serilog.Sinks.PeriodicBatching.PeriodicBatchingSink.EmitBatch(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})" /> or <see cref="M:Serilog.Sinks.PeriodicBatching.PeriodicBatchingSink.EmitBatchAsync(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})" />,
-        /// not both.
+        ///     Override either
+        ///     <see
+        ///         cref="M:Serilog.Sinks.PeriodicBatching.PeriodicBatchingSink.EmitBatch(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})" />
+        ///     or
+        ///     <see
+        ///         cref="M:Serilog.Sinks.PeriodicBatching.PeriodicBatchingSink.EmitBatchAsync(System.Collections.Generic.IEnumerable{Serilog.Events.LogEvent})" />
+        ///     ,
+        ///     not both.
         /// </remarks>
         protected override void EmitBatch(IEnumerable<LogEvent> events)
         {
@@ -139,7 +149,7 @@ namespace Serilog.Sinks.Logentries.Sinks.Logentries
         }
 
         /// <summary>
-        /// Dispose the connection.
+        ///     Dispose the connection.
         /// </summary>
         /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
@@ -149,8 +159,8 @@ namespace Serilog.Sinks.Logentries.Sinks.Logentries
                 _client.Flush();
                 _client.Close();
             }
+
             base.Dispose(disposing);
         }
-
     }
 }

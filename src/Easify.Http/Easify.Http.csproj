@@ -6,7 +6,6 @@
       <Authors>Aurimas Gecas, Mohammad Moattar</Authors>
     <Company>ICG</Company>
     <Description>HTTP abstractions</Description>
-    <RootNamespace>EasyApi.Http</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,16 +14,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using AutoMapper;
- using Easify.RestEase;
- using EasyApi.AspNetCore.Bootstrap;
-using EasyApi.AspNetCore.Bootstrap.Extensions;
-using EasyApi.AspNetCore.Logging.SeriLog;
-using EasyApi.RestEase;
-using EasyApi.Sample.WebAPI.Core;
-using EasyApi.Sample.WebAPI.Core.Mappings;
-using EasyApi.Sample.WebAPI.Domain;
+using Easify.AspNetCore.Bootstrap;
+using Easify.AspNetCore.Bootstrap.Extensions;
+using Easify.AspNetCore.Logging.SeriLog;
+using Easify.RestEase;
+using Easify.Sample.WebAPI.Core;
+using Easify.Sample.WebAPI.Core.Mappings;
+using Easify.Sample.WebAPI.Domain;
 using Foil;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,7 +30,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace EasyApi.Sample.WebAPI
+namespace Easify.Sample.WebAPI
 {
     public class Startup
     {
@@ -50,23 +49,23 @@ namespace EasyApi.Sample.WebAPI
         private IServiceProvider ConfigureUsingServiceCollection(IServiceCollection services)
         {
             return services.BootstrapApp<Startup>(Configuration,
-                app => PipelineExtensions.ConfigureMappings(app
-                        .AddConfigSection<Clients>()
-                        .AndSection<Section1>()
-                        .AndSection<Section2>()
-                        .HandleApplicationException<TemplateApiApplicationException>(), c =>
+                app => app
+                    .AddConfigSection<Clients>()
+                    .AndSection<Section1>()
+                    .AndSection<Section2>()
+                    .HandleApplicationException<TemplateApiApplicationException>().ConfigureMappings(c =>
                     {
                         c.CreateMap<PersonEntity, PersonDO>();
                         c.CreateMap<AssetEntity, AssetDO>().ConvertUsing<AssetConverter>();
                     })
                     .AddServices((container, config) =>
                     {
-                        RestClientExtensions.AddRestClient<IValuesClient, Clients>(container, c => c.ProducerClientUrl);
-                        ServiceCollectionExtensions.AddTransientWithInterception<IMyService, MyService>(container, by =>
+                        container.AddRestClient<IValuesClient, Clients>(c => c.ProducerClientUrl);
+                        container.AddTransientWithInterception<IMyService, MyService>(by =>
                             by.InterceptBy<LogInterceptor>());
-                        ServiceCollectionExtensions.AddTransientWithInterception<IRateProvider, DummyRateProvider>(container, by =>
+                        container.AddTransientWithInterception<IRateProvider, DummyRateProvider>(by =>
                             by.InterceptBy<LogInterceptor>());
-                        ServiceCollectionServiceExtensions.AddSingleton<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>(container);
+                        container.AddSingleton<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>();
                     })
             );
         }

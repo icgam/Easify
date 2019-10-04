@@ -14,21 +14,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace EasyApi.Sample.WebAPI.Controllers
+namespace Easify.Sample.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class LogsController : Controller
     {
-        private ILogger<LogsController> Log { get; }
-
         public LogsController(ILogger<LogsController> logger)
         {
             Log = logger ?? throw new ArgumentNullException(nameof(logger));
         }
+
+        private ILogger<LogsController> Log { get; }
 
         [HttpGet]
         public IActionResult Get()

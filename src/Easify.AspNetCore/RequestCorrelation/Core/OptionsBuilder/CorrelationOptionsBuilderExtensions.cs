@@ -16,7 +16,7 @@
 
 using System;
 
-namespace EasyApi.AspNetCore.RequestCorrelation.Core.OptionsBuilder
+namespace Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder
 {
     public static class CorrelationOptionsBuilderExtensions
     {

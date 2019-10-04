@@ -15,9 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using EasyApi.ExceptionHandling.ErrorBuilder.Fluent;
+using Easify.ExceptionHandling.ErrorBuilder.Fluent;
 
-namespace EasyApi.AspNetCore.Bootstrap
+namespace Easify.AspNetCore.Bootstrap
 {
     public interface IHandleAdditionalException : ISetDetailsLevel
     {

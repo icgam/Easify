@@ -7,7 +7,6 @@
     <Authors>Aurimas Gecas</Authors>
     <Company>ICG</Company>
     <Description>Exposes interfaces to expose external services to framework consumers, such as ITypeMapp, IComponentResolver, etc ...</Description>
-    <RootNamespace>EasyApi.Extensions</RootNamespace>
 
   </PropertyGroup>
 

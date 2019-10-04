@@ -14,19 +14,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EasyApi.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.Domain;
 
-namespace EasyApi.ExceptionHandling.Formatter
+namespace Easify.ExceptionHandling.Formatter
 {
     public sealed class HierarchicalErrorMessageFormatter : IErrorMessageFormatter
     {
         private const int IndentFirstLevelBy = 0;
         private readonly IErrorMessageFormatterOptions _options;
-        
+
         public HierarchicalErrorMessageFormatter(IErrorMessageFormatterOptions options)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
@@ -38,16 +38,10 @@ namespace EasyApi.ExceptionHandling.Formatter
             if (error == null) throw new ArgumentNullException(nameof(error));
 
             var errorMessages = ProcessError(error, IndentFirstLevelBy).ToList();
-            if (errorMessages.Count == 1)
-            {
-                return errorMessages.Single();
-            }
+            if (errorMessages.Count == 1) return errorMessages.Single();
 
             var sb = new StringBuilder();
-            foreach (var errorMessage in errorMessages)
-            {
-                sb.AppendLine(errorMessage);
-            }
+            foreach (var errorMessage in errorMessages) sb.AppendLine(errorMessage);
 
             return sb.ToString().TrimEnd();
         }
@@ -68,13 +62,9 @@ namespace EasyApi.ExceptionHandling.Formatter
             };
 
             if (ContainsChildErrors(error))
-            {
                 foreach (var childError in error.ChildErrors)
-                {
                     formattedErrorMessages.AddRange(ProcessError(childError, nestedIndentationLevel));
-                }
-            }
-           
+
             return formattedErrorMessages;
         }
 

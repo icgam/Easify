@@ -14,13 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 
-namespace EasyApi.Logging.SeriLog.OptionsBuilder
+namespace Easify.Logging.SeriLog.OptionsBuilder
 {
     public sealed class LoggingOptions
     {
-        public LoggingOptions(int logFileSizeLimitInBytes, int logFilesToRetain, TimeSpan? flushToDiskInterval, string logsPath)
+        public LoggingOptions(int logFileSizeLimitInBytes, int logFilesToRetain, TimeSpan? flushToDiskInterval,
+            string logsPath)
         {
             LogFileSizeLimitInBytes = logFileSizeLimitInBytes;
             LogFilesToRetain = logFilesToRetain;

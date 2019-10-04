@@ -14,19 +14,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections.Generic;
-using EasyApi.Extensions;
+using Easify.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi
+namespace Easify
 {
     // TODO: Should be renamed
     public sealed class ServiceCollectionBasedComponentResolver : IComponentResolver
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public ServiceCollectionBasedComponentResolver(IServiceProvider  serviceProvider)
+        public ServiceCollectionBasedComponentResolver(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }

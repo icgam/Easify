@@ -14,22 +14,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.WindowsServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace EasyApi.Hosting.WindowsService
+namespace Easify.Hosting.WindowsService
 {
     public sealed class InstrumentedWebHostService : WebHostService
     {
-        private ILogger<InstrumentedWebHostService> Log { get; }
-        
         public InstrumentedWebHostService(IWebHost host) : base(host)
         {
             Log = host.Services.GetRequiredService<ILogger<InstrumentedWebHostService>>();
         }
-        
+
+        private ILogger<InstrumentedWebHostService> Log { get; }
+
         protected override void OnStarting(string[] args)
         {
             Log.LogDebug("Services is starting ...");

@@ -14,45 +14,46 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
-using EasyApi.AspNetCore.Logging.SeriLog.Fluent;
-using EasyApi.Hosting.Core.Configuration;
-using EasyApi.Hosting.Core.HostContainer;
+using System;
+using Easify.AspNetCore.Logging.SeriLog.Fluent;
+using Easify.Hosting.Core.Configuration;
+using Easify.Hosting.Core.HostContainer;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 
-namespace EasyApi.Hosting.Core
+namespace Easify.Hosting.Core
 {
     //TODO: This should be revised regarding to the new capabilities in v2.0
     public sealed class ServiceHostBuilder<TStartup> where TStartup : class
     {
-        private readonly Func<IWebHost, IServiceHost> _serviceContainerBuilder;
         private readonly HostingOptions _hostingOptions;
+        private readonly Func<IWebHost, IServiceHost> _serviceContainerBuilder;
 
         public ServiceHostBuilder(HostingOptions hostingOptions, Func<IWebHost, IServiceHost> serviceContainerBuilder)
         {
-            _serviceContainerBuilder = serviceContainerBuilder ?? throw new ArgumentNullException(nameof(serviceContainerBuilder));
+            _serviceContainerBuilder = serviceContainerBuilder ??
+                                       throw new ArgumentNullException(nameof(serviceContainerBuilder));
             _hostingOptions = hostingOptions ?? throw new ArgumentNullException(nameof(hostingOptions));
         }
 
         public IServiceHost Build(Func<ILoggerBuilder, IBuildLogger> loggerBuilderFactory, string[] args)
         {
             var webHost = new WebHostBuilder()
-               .UseKestrel()
-               .UseContentRoot(_hostingOptions.PathToContentRoot)
-               .UseUrls(_hostingOptions.BaseUrl)
-               .UseConfiguration(_hostingOptions.Configuration)
-               .UseStartup<TStartup>()
-               .UseSerilog((context, configuration) =>
+                .UseKestrel()
+                .UseContentRoot(_hostingOptions.PathToContentRoot)
+                .UseUrls(_hostingOptions.BaseUrl)
+                .UseConfiguration(_hostingOptions.Configuration)
+                .UseStartup<TStartup>()
+                .UseSerilog((context, configuration) =>
                 {
                     var loggerBuilder = loggerBuilderFactory(new LoggerBuilder(context, configuration));
                     loggerBuilder.Build<TStartup>();
                 })
-               .Build();
-            
+                .Build();
+
             if (_hostingOptions.LaunchedAsService)
                 return _serviceContainerBuilder(webHost);
-                 
+
             return new WebHostContainer(webHost);
         }
     }

@@ -14,16 +14,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using EasyApi.Http;
+using Easify.Http;
 using RestEase;
 
-namespace EasyApi.RestEase.Client
+namespace Easify.RestEase.Client
 {
     // TODO: Is this worth to have a separate simple class
     // TODO: Extend this with the with extra properties for security & ...
     public interface IRestClient
     {
-        [Header(HttpHeaders.HttpRequestId)]
-        string CorrelationId { get; set; }
+        [Header(HttpHeaders.HttpRequestId)] string CorrelationId { get; set; }
     }
 }

@@ -16,11 +16,11 @@
 
 using System;
 using System.Collections.Generic;
-using EasyApi.ExceptionHandling.Domain;
-using EasyApi.ExceptionHandling.ErrorBuilder;
-using EasyApi.ExceptionHandling.ErrorBuilder.Fluent;
+using Easify.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.ErrorBuilder;
+using Easify.ExceptionHandling.ErrorBuilder.Fluent;
 
-namespace EasyApi.ExceptionHandling.ConfigurationBuilder
+namespace Easify.ExceptionHandling.ConfigurationBuilder
 {
     public sealed class ExceptionRuleForErrorProvider<TException> : IExceptionRule where TException : Exception
     {
@@ -32,7 +32,7 @@ namespace EasyApi.ExceptionHandling.ConfigurationBuilder
         {
         }
 
-        public ExceptionRuleForErrorProvider(Func<TException, bool> predicate) : 
+        public ExceptionRuleForErrorProvider(Func<TException, bool> predicate) :
             this(p => p.UseDefault(), predicate)
         {
         }

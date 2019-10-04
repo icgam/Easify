@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using EasyApi.RestEase.Client;
+using Easify.RestEase.Client;
 using RestEase;
 
-namespace EasyApi.Sample.WebAPI.Core
+namespace Easify.Sample.WebAPI.Core
 {
     public interface IValuesClient : IRestClient
     {

@@ -15,14 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Threading.Tasks;
-using EasyApi.Sample.WebAPI.Core;
-using EasyApi.Sample.WebAPI.IntegrationTests.Helpers;
+using Easify.Sample.WebAPI.Core;
+using Easify.Sample.WebAPI.IntegrationTests.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NSubstitute;
 using Xunit;
 
-namespace EasyApi.Sample.WebAPI.IntegrationTests
+namespace Easify.Sample.WebAPI.IntegrationTests
 {
     public sealed class StartupServiceCollectionSetupTests
     {

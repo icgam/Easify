@@ -22,7 +22,7 @@ namespace Easify.RestEase
     public static class ApiExceptionExtensions
     {
         private const int UnprocessableEntity = 422;
-        
+
         public static bool ClientError(this ApiException f)
         {
             return f.StatusCode == HttpStatusCode.BadRequest ||
@@ -37,7 +37,7 @@ namespace Easify.RestEase
                    f.StatusCode == HttpStatusCode.UnsupportedMediaType ||
                    f.StatusCode == HttpStatusCode.ExpectationFailed ||
                    f.StatusCode == HttpStatusCode.ProxyAuthenticationRequired ||
-                   (int)f.StatusCode == UnprocessableEntity;
+                   (int) f.StatusCode == UnprocessableEntity;
         }
     }
 }

@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using EasyApi.Http;
-using EasyApi.RestEase.Client;
+using Easify.Http;
+using Easify.RestEase.Client;
 using RestEase;
 
 namespace Easify.RestEase

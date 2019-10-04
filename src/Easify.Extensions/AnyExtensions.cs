@@ -14,13 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace EasyApi.Extensions
+namespace Easify.Extensions
 {
     public static class AnyExtensions
     {
@@ -31,24 +31,15 @@ namespace EasyApi.Extensions
 
         public static bool AnyValue<T>(this T data)
         {
-            if (data == null)
-            {
-                return false;
-            }
+            if (data == null) return false;
 
             var stringData = data as string;
-            if (stringData != null && string.IsNullOrWhiteSpace(stringData))
-            {
-                return false;
-            }
+            if (stringData != null && string.IsNullOrWhiteSpace(stringData)) return false;
 
             if (IsEnumerable(data))
             {
                 var enumerable = data as IEnumerable;
-                if (enumerable == null || enumerable.IsEnumerableEmpty())
-                {
-                    return false;
-                }
+                if (enumerable == null || enumerable.IsEnumerableEmpty()) return false;
             }
 
             return true;
@@ -62,7 +53,7 @@ namespace EasyApi.Extensions
 
         public static bool IsEnumerable(this Type type)
         {
-            return (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)) ||
+            return type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>) ||
                    type.GetTypeInfo().ImplementedInterfaces
                        .Any(ti => ti.GetTypeInfo().IsGenericType
                                   && ti.GetGenericTypeDefinition() == typeof(IEnumerable<>));

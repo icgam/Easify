@@ -17,13 +17,13 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using EasyApi.AspNetCore.ActionFilters;
-using EasyApi.AspNetCore.Serializations;
-using EasyApi.Extensions;
+using Easify.AspNetCore.ActionFilters;
+using Easify.AspNetCore.Serializations;
+using Easify.Extensions;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.AspNetCore.Mvc
+namespace Easify.AspNetCore.Mvc
 {
     public static class MvcBuilderExtensions
     {

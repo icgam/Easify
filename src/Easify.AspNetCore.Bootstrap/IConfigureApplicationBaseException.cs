@@ -16,7 +16,7 @@
 
 using System;
 
-namespace EasyApi.AspNetCore.Bootstrap
+namespace Easify.AspNetCore.Bootstrap
 {
     public interface IConfigureApplicationBaseException
     {

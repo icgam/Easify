@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
-using EasyApi.AspNetCore.Logging.SeriLog;
-using EasyApi.Logging;
+using System;
+using Easify.AspNetCore.Logging.SeriLog;
+using Easify.Logging;
 using Foil;
 using Foil.Conventions;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +24,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NSubstitute;
 
-namespace EasyApi.AspNetCore.UnitTests.Helpers
+namespace Easify.AspNetCore.UnitTests.Helpers
 {
     public class ServiceCollectionFixture
     {

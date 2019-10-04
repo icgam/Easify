@@ -16,7 +16,7 @@
 
 using System;
 
-namespace EasyApi.ExceptionHandling.ErrorBuilder.Fluent
+namespace Easify.ExceptionHandling.ErrorBuilder.Fluent
 {
     public sealed class ErrorBuilderConfiguration<TException> : ISetErrorBuilder<TException>,
         IProvideErrorBuilder<TException> where TException : Exception

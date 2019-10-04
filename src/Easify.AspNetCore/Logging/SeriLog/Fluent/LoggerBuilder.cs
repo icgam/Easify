@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.IO;
 using System.Reflection;
-using EasyApi.Configurations;
-using EasyApi.Logging.SeriLog;
-using EasyApi.Logging.SeriLog.OptionsBuilder;
+using Easify.Configurations;
+using Easify.Logging.SeriLog;
+using Easify.Logging.SeriLog.OptionsBuilder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 
-namespace EasyApi.AspNetCore.Logging.SeriLog.Fluent
+namespace Easify.AspNetCore.Logging.SeriLog.Fluent
 {
     // TODO: The logging should be revamped. It's highly dependent to Asp.NEt Core which it shouldn't be
     // TODO: AppProfile need to be seen as part of this process

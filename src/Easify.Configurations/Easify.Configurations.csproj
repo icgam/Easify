@@ -6,7 +6,6 @@
     <Authors>Mohammad Moattar</Authors>
     <Company>ICG</Company>
     <Description>Configuration components for AspNetCore</Description>
-    <RootNamespace>EasyApi.Configurations</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,13 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
- using Easify.Bootstrap;
- using EasyApi.Extensions;
+using System;
+using Easify.Bootstrap;
+using Easify.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyApi.AspNetCore.Bootstrap
+namespace Easify.AspNetCore.Bootstrap
 {
     // TODO: Should be reverse dependency to the system. Using container in host registration rather than startup
     public sealed class

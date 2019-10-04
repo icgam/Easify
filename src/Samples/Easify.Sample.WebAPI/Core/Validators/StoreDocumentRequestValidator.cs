@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System.Collections.Generic;
-using EasyApi.Extensions;
-using EasyApi.Sample.WebAPI.Domain;
+using System.Collections.Generic;
+using Easify.Extensions;
+using Easify.Sample.WebAPI.Domain;
 using FluentValidation;
 
-namespace EasyApi.Sample.WebAPI.Core.Validators
+namespace Easify.Sample.WebAPI.Core.Validators
 {
     public sealed class StoreDocumentRequestValidator : AbstractValidator<StoreDocumentsRequest>
     {
@@ -41,10 +41,8 @@ namespace EasyApi.Sample.WebAPI.Core.Validators
         private string GetValidOperationsMessage(StoreDocumentsRequest request)
         {
             if (request.Operation.AnyValue())
-            {
                 return
                     $"'{request.Operation}' is not supported. Supported operations are: {string.Join(", ", _supportedOperations)}.";
-            }
 
             return $"Operation must be supplied! Supported operations are: {string.Join(", ", _supportedOperations)}.";
         }

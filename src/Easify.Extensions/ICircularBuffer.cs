@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace EasyApi.Extensions
+namespace Easify.Extensions
 {
     public interface ICircularBuffer<T> : IEnumerable<T>
     {

@@ -14,16 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using Microsoft.Extensions.Logging;
 
-namespace EasyApi.Logging.Extensions
+namespace Easify.Logging.Extensions
 {
     public static class LogExtensions
     {
-        public static void LogTrace(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback, Exception exception)
+        public static void LogTrace(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback,
+            Exception exception)
         {
-            logger.Log(LogLevel.Trace, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(), exception);
+            logger.Log(LogLevel.Trace, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(),
+                exception);
         }
 
         public static void LogTrace(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback)
@@ -41,9 +43,11 @@ namespace EasyApi.Logging.Extensions
             logger.Log(LogLevel.Trace, messageFactory);
         }
 
-        public static void LogDebug(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback, Exception exception)
+        public static void LogDebug(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback,
+            Exception exception)
         {
-            logger.Log(LogLevel.Debug, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(), exception);
+            logger.Log(LogLevel.Debug, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(),
+                exception);
         }
 
         public static void LogDebug(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback)
@@ -61,16 +65,18 @@ namespace EasyApi.Logging.Extensions
             logger.Log(LogLevel.Debug, messageFactory);
         }
 
-        public static void LogInformation(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback, Exception exception)
+        public static void LogInformation(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback,
+            Exception exception)
         {
-            logger.Log(LogLevel.Information, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(), exception);
+            logger.Log(LogLevel.Information, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(),
+                exception);
         }
 
         public static void LogInformation(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback)
         {
             logger.Log(LogLevel.Information, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString());
         }
-        
+
         public static void LogInformation(this ILogger logger, Func<string> messageFactory, Exception exception)
         {
             logger.Log(LogLevel.Information, messageFactory, exception);
@@ -81,9 +87,11 @@ namespace EasyApi.Logging.Extensions
             logger.Log(LogLevel.Information, messageFactory);
         }
 
-        public static void LogWarning(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback, Exception exception)
+        public static void LogWarning(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback,
+            Exception exception)
         {
-            logger.Log(LogLevel.Warning, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(), exception);
+            logger.Log(LogLevel.Warning, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(),
+                exception);
         }
 
         public static void LogWarning(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback)
@@ -101,9 +109,11 @@ namespace EasyApi.Logging.Extensions
             logger.Log(LogLevel.Warning, messageFactory);
         }
 
-        public static void LogError(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback, Exception exception)
+        public static void LogError(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback,
+            Exception exception)
         {
-            logger.Log(LogLevel.Error, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(), exception);
+            logger.Log(LogLevel.Error, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(),
+                exception);
         }
 
         public static void LogError(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback)
@@ -120,10 +130,12 @@ namespace EasyApi.Logging.Extensions
         {
             logger.Log(LogLevel.Error, messageFactory);
         }
-        
-        public static void LogCritical(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback, Exception exception)
+
+        public static void LogCritical(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback,
+            Exception exception)
         {
-            logger.Log(LogLevel.Critical, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(), exception);
+            logger.Log(LogLevel.Critical, () => new FormatMessageHandlerFormatter(formatMessageCallback).ToString(),
+                exception);
         }
 
         public static void LogCritical(this ILogger logger, Action<FormatMessageHandler> formatMessageCallback)
@@ -176,8 +188,8 @@ namespace EasyApi.Logging.Extensions
 
         private sealed class FormatMessageHandlerFormatter
         {
-            private volatile string _result = string.Empty;
             private readonly Action<FormatMessageHandler> _handler;
+            private volatile string _result = string.Empty;
 
             public FormatMessageHandlerFormatter(Action<FormatMessageHandler> handler)
             {
@@ -189,6 +201,7 @@ namespace EasyApi.Logging.Extensions
                 _handler(FormatMessage);
                 return _result;
             }
+
             private string FormatMessage(string format, params object[] args)
             {
                 if (format == null) throw new ArgumentNullException(nameof(format));

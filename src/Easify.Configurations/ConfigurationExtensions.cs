@@ -16,7 +16,7 @@
 
 using Microsoft.Extensions.Configuration;
 
-namespace EasyApi.Configurations
+namespace Easify.Configurations
 {
     public static class ConfigurationExtensions
     {

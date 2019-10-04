@@ -6,7 +6,6 @@
     <Company>ICG</Company>
     <Authors>Aurimas Gecas</Authors>
     <Description>Library provides abstractions for hosting .NET Core services</Description>
-    <RootNamespace>EasyApi.Hosting.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

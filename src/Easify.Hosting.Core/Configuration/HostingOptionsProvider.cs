@@ -14,13 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 
-namespace EasyApi.Hosting.Core.Configuration
+namespace Easify.Hosting.Core.Configuration
 {
     public sealed class HostingOptionsProvider
     {
@@ -63,6 +63,7 @@ namespace EasyApi.Hosting.Core.Configuration
                 var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
                 pathToContentRoot = Path.GetDirectoryName(pathToExe);
             }
+
             return pathToContentRoot;
         }
     }

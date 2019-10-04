@@ -14,13 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.IO;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting;
 
-namespace EasyApi.Logging.SeriLog
+namespace Easify.Logging.SeriLog
 {
     public sealed class InMemorySink : ILogEventSink
     {

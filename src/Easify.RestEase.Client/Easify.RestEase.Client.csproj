@@ -6,7 +6,6 @@
     <Authors>Aurimas Gecas / Mohammad Moattar</Authors>
     <Company>ICG</Company>
     <Description>Provides easy integration with RestEase and API framework via IRestClient interface.</Description>
-    <RootNamespace>EasyApi.RestEase.Client</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

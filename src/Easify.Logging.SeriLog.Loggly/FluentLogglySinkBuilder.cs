@@ -18,35 +18,22 @@ using System;
 using Loggly.Config;
 using Serilog;
 
-namespace EasyApi.Logging.SeriLog.Loggly
+namespace Easify.Logging.SeriLog.Loggly
 {
-    public sealed class FluentLogglySinkBuilder: IControlLogLevel, IBuildSink, ISetCustomerToken, IConfigureLogBuffer
+    public sealed class FluentLogglySinkBuilder : IControlLogLevel, IBuildSink, ISetCustomerToken, IConfigureLogBuffer
     {
-        private readonly ILoggerConfiguration _configurationServices;
-        private bool _allowLogLevelToBeControlledRemotely;
-        private string _customerToken;
-        private readonly Uri _serverUri;
-        private string _bufferBaseFilename;
         private const int SslPort = 443;
+        private readonly ILoggerConfiguration _configurationServices;
+        private readonly Uri _serverUri;
+        private bool _allowLogLevelToBeControlledRemotely;
+        private string _bufferBaseFilename;
+        private string _customerToken;
 
         public FluentLogglySinkBuilder(ILoggerConfiguration configurationServices, Uri serverUri)
         {
-            _configurationServices = configurationServices ?? throw new ArgumentNullException(nameof(configurationServices));
+            _configurationServices =
+                configurationServices ?? throw new ArgumentNullException(nameof(configurationServices));
             _serverUri = serverUri ?? throw new ArgumentNullException(nameof(serverUri));
-        }
-
-        public IBuildSink EnableLogLevelControl()
-        {
-            _allowLogLevelToBeControlledRemotely = true;
-            return this;
-        }
-
-        public IConfigureLogBuffer WithCustomerToken(string customerToken)
-        {
-            if (string.IsNullOrWhiteSpace(customerToken))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(customerToken));
-            _customerToken = customerToken;
-            return this;
         }
 
         public IControlLogLevel BufferLogsAt(string bufferBaseFilename)
@@ -54,6 +41,12 @@ namespace EasyApi.Logging.SeriLog.Loggly
             if (string.IsNullOrWhiteSpace(bufferBaseFilename))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(bufferBaseFilename));
             _bufferBaseFilename = bufferBaseFilename;
+            return this;
+        }
+
+        public IBuildSink EnableLogLevelControl()
+        {
+            _allowLogLevelToBeControlledRemotely = true;
             return this;
         }
 
@@ -72,6 +65,14 @@ namespace EasyApi.Logging.SeriLog.Loggly
                     controlLevelSwitch: LoggingLevelSwitchProvider.Instance);
 
             return _configurationServices.SinkConfiguration.Loggly(bufferBaseFilename: _bufferBaseFilename);
+        }
+
+        public IConfigureLogBuffer WithCustomerToken(string customerToken)
+        {
+            if (string.IsNullOrWhiteSpace(customerToken))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(customerToken));
+            _customerToken = customerToken;
+            return this;
         }
     }
 }

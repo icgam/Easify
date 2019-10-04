@@ -15,9 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using EasyApi.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.Domain;
 
-namespace EasyApi.ExceptionHandling
+namespace Easify.ExceptionHandling
 {
     public interface IErrorResponseProvider
     {

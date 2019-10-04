@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using EasyApi.AspNetCore.RequestCorrelation;
+using Easify.AspNetCore.RequestCorrelation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace EasyApi.Sample.WebAPI.IntegrationTests.Helpers
+namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
     public class CorrelatedRequestsStartup
     {
@@ -37,10 +37,7 @@ namespace EasyApi.Sample.WebAPI.IntegrationTests.Helpers
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseRequestCorrelation();
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            app.Run(async context => { await context.Response.WriteAsync("Hello World!"); });
         }
     }
 }

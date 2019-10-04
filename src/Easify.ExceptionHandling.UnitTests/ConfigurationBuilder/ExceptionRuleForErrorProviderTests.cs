@@ -16,10 +16,10 @@
 
 using System;
 using System.Collections.Generic;
+using Easify.ExceptionHandling.ConfigurationBuilder;
+using Easify.ExceptionHandling.Domain;
+using Easify.ExceptionHandling.ErrorBuilder;
 using Easify.ExceptionHandling.UnitTests.Domain;
-using EasyApi.ExceptionHandling.ConfigurationBuilder;
-using EasyApi.ExceptionHandling.Domain;
-using EasyApi.ExceptionHandling.ErrorBuilder;
 using NSubstitute;
 using Xunit;
 

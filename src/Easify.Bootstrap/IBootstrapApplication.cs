@@ -18,7 +18,7 @@ using System;
 
 namespace Easify.Bootstrap
 {
-    public interface IBootstrapApplication 
+    public interface IBootstrapApplication
     {
         IServiceProvider Bootstrap();
     }

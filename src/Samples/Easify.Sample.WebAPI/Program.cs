@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using EasyApi.AspNetCore;
-using EasyApi.Logging.SeriLog.Loggly;
+using Easify.AspNetCore;
+using Easify.Logging.SeriLog.Loggly;
 using Microsoft.AspNetCore.Hosting;
 
-namespace EasyApi.Sample.WebAPI
+namespace Easify.Sample.WebAPI
 {
     public class Program
     {

@@ -16,11 +16,11 @@
 
 using System;
 using System.Collections.Generic;
-using EasyApi.Http;
+using Easify.Http;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace EasyApi.AspNetCore.Documentation
+namespace Easify.AspNetCore.Documentation
 {
     public sealed class RequestCorrelationHeaderFilter : IOperationFilter
     {

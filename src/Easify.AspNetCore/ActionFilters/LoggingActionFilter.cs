@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System;
+using System;
 using System.Net;
 using System.Threading.Tasks;
-using EasyApi.Logging.Extensions;
+using Easify.Logging.Extensions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
-namespace EasyApi.AspNetCore.ActionFilters
+namespace Easify.AspNetCore.ActionFilters
 {
     // TODO: Does it need to even be an action
     public class LoggingActionFilter : IActionFilter, IAsyncActionFilter
@@ -69,15 +69,13 @@ namespace EasyApi.AspNetCore.ActionFilters
                 }
 
                 if (_log.IsEnabled(LogLevel.Trace))
-                {
                     _log.LogTrace("Method argument {ArgumentKey}: {@Value}", argument.Key, argument.Value);
-                }
             }
         }
 
         private void AfterExecution(ActionExecutedContext context)
         {
-            var responseCode = context.HttpContext.Response?.StatusCode ?? (int)HttpStatusCode.OK;
+            var responseCode = context.HttpContext.Response?.StatusCode ?? (int) HttpStatusCode.OK;
             _log.LogDebug(
                 () => $"Exiting {context.ActionDescriptor.DisplayName} method. Returned status code {responseCode}.");
         }

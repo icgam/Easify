@@ -15,11 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Threading.Tasks;
-using EasyApi.AspNetCore.RequestCorrelation;
+using Easify.AspNetCore.RequestCorrelation;
 using Microsoft.AspNetCore.Http;
 using Serilog.Context;
 
-namespace EasyApi.AspNetCore.Logging.SeriLog
+namespace Easify.AspNetCore.Logging.SeriLog
 {
     public class CorrelatedLogsMiddleware
     {
@@ -34,10 +34,7 @@ namespace EasyApi.AspNetCore.Logging.SeriLog
         public Task Invoke(HttpContext context)
         {
             var requestId = "Not-Correlated";
-            if (context.Request.HasRequestId())
-            {
-                requestId = context.Request.GetRequestId();
-            }
+            if (context.Request.HasRequestId()) requestId = context.Request.GetRequestId();
 
             using (LogContext.PushProperty(CorrelationIdKey, requestId))
             {

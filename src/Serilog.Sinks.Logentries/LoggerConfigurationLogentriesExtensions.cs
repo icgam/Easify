@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- // Copyright 2014 Serilog Contributors
+// Copyright 2014 Serilog Contributors
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,21 +37,23 @@ using Serilog.Sinks.Logentries.Sinks.Logentries;
 namespace Serilog.Sinks.Logentries
 {
     /// <summary>
-    /// Adds the WriteTo.Logentries() extension method to <see cref="LoggerConfiguration"/>.
+    ///     Adds the WriteTo.Logentries() extension method to <see cref="LoggerConfiguration" />.
     /// </summary>
     public static class LoggerConfigurationLogentriesExtensions
     {
-        const string DefaultLogentriesOutputTemplate = "{Timestamp:G} [{Level}] {Message}{NewLine}{Exception}";
+        private const string DefaultLogentriesOutputTemplate = "{Timestamp:G} [{Level}] {Message}{NewLine}{Exception}";
 
         /// <summary>
-        /// Adds a sink that writes log events to the Logentries.com webservice. 
-        /// Create a token TCP input for this on the logentries website. 
+        ///     Adds a sink that writes log events to the Logentries.com webservice.
+        ///     Create a token TCP input for this on the logentries website.
         /// </summary>
         /// <param name="loggerConfiguration">The logger configuration.</param>
         /// <param name="token">The token as found on the Logentries.com website.</param>
         /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
-        /// <param name="outputTemplate">A message template describing the format used to write to the sink.
-        /// the default is "{Timestamp:G} [{Level}] {Message}{NewLine}{Exception}".</param>
+        /// <param name="outputTemplate">
+        ///     A message template describing the format used to write to the sink.
+        ///     the default is "{Timestamp:G} [{Level}] {Message}{NewLine}{Exception}".
+        /// </param>
         /// <param name="formatProvider">Supplies culture-specific formatting information, or null.</param>
         /// <param name="useSsl">Specify if the connection needs to be secured.</param>
         /// <param name="batchPostingLimit">The maximum number of events to post in a single batch.</param>
@@ -60,7 +62,7 @@ namespace Serilog.Sinks.Logentries
         /// <exception cref="ArgumentNullException">A required parameter is null.</exception>
         public static LoggerConfiguration Logentries(
             this LoggerSinkConfiguration loggerConfiguration,
-             string token, bool useSsl = true,
+            string token, bool useSsl = true,
             int batchPostingLimit = LogentriesSink.DefaultBatchPostingLimit,
             TimeSpan? period = null,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
@@ -78,10 +80,10 @@ namespace Serilog.Sinks.Logentries
                 new LogentriesSink(outputTemplate, formatProvider, token, useSsl, batchPostingLimit, defaultedPeriod),
                 restrictedToMinimumLevel);
         }
-         
+
         /// <summary>
-        /// Adds a sink that writes log events to the Logentries.com webservice. 
-        /// Create a token TCP input for this on the logentries website. 
+        ///     Adds a sink that writes log events to the Logentries.com webservice.
+        ///     Create a token TCP input for this on the logentries website.
         /// </summary>
         /// <param name="loggerConfiguration">The logger configuration.</param>
         /// <param name="token">The token as found on the Logentries.com website.</param>
@@ -94,7 +96,7 @@ namespace Serilog.Sinks.Logentries
         /// <exception cref="ArgumentNullException">A required parameter is null.</exception>
         public static LoggerConfiguration Logentries(
             this LoggerSinkConfiguration loggerConfiguration,
-             string token, 
+            string token,
             ITextFormatter textFormatter,
             bool useSsl = true,
             int batchPostingLimit = LogentriesSink.DefaultBatchPostingLimit,

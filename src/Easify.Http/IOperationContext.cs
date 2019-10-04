@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- using System.Security.Principal;
+using System.Security.Principal;
 
-namespace EasyApi.Http
+namespace Easify.Http
 {
     // TODO: Need to be move to the core project.
     public interface IOperationContext

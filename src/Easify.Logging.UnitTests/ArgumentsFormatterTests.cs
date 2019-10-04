@@ -17,14 +17,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using EasyApi.Logging.UnitTests.Helpers;
+using Easify.Logging.UnitTests.Helpers;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NSubstitute;
 using Xunit;
 
-namespace EasyApi.Logging.UnitTests
+namespace Easify.Logging.UnitTests
 {
     public class ArgumentsFormatterTests
     {
@@ -53,26 +53,13 @@ namespace EasyApi.Logging.UnitTests
         }
 
         [Fact]
-        public void ShouldReturnFormattedJsonForGivenPerson()
+        public void ShouldReturnEmptyStringIfArgumentIsNull()
         {
             // Arrange
-            var person = new Person
-            {
-                Name = "Algimantas",
-                Age = 60,
-                Sex = Sex.Male,
-                Birthday = new DateTime(1965, 01, 01),
-                Address = new Address
-                {
-                    City = "London",
-                    Street = "Chatham st."
-                }
-            };
-            var expectedValue = JsonConvert.SerializeObject(person, Formatting.Indented, new StringEnumConverter());
-
             // Act
+            var result = Sut.FormatArgument(null);
             // Assert
-            Assert.Equal(expectedValue, Sut.FormatArgument(person));
+            Assert.Equal("[NULL]", result);
         }
 
         [Fact]
@@ -121,13 +108,26 @@ namespace EasyApi.Logging.UnitTests
         }
 
         [Fact]
-        public void ShouldReturnEmptyStringIfArgumentIsNull()
+        public void ShouldReturnFormattedJsonForGivenPerson()
         {
             // Arrange
+            var person = new Person
+            {
+                Name = "Algimantas",
+                Age = 60,
+                Sex = Sex.Male,
+                Birthday = new DateTime(1965, 01, 01),
+                Address = new Address
+                {
+                    City = "London",
+                    Street = "Chatham st."
+                }
+            };
+            var expectedValue = JsonConvert.SerializeObject(person, Formatting.Indented, new StringEnumConverter());
+
             // Act
-            var result = Sut.FormatArgument(null);
             // Assert
-            Assert.Equal("[NULL]", result);
+            Assert.Equal(expectedValue, Sut.FormatArgument(person));
         }
 
         [Fact]

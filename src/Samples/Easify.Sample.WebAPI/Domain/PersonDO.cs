@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- namespace EasyApi.Sample.WebAPI.Domain
+namespace Easify.Sample.WebAPI.Domain
 {
     public class PersonDO
     {
-        public string FirstName  { get; set; }
-        public string LastName  { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }
