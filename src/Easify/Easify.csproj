@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <IncludeSymbols>True</IncludeSymbols>
     <Authors>Mohammad Moattar; Aurimas Gecas</Authors>
     <Company>ICG</Company>
     <Description>Core components such as ServiceCollection based implementations for Automapper and ComponentResolver</Description>
