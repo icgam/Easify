@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>EasyApi Logging base component to support logging standards</Description>
+    <Description>Easify Logging base component to support logging standards</Description>
     <Copyright>ICG</Copyright>
-    <PackageProjectUrl>https://github.com/icgam/EasyApi</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/icgam/EasyApi</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/icgam/Easify</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
     <RepositoryType>Private</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>ICG</Company>

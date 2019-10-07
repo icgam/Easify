@@ -4,9 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Aurimas Gecas, Mohammad Moattar</Authors>
     <Company>ICG</Company>
-    <Description>EasyApi base library for AspNetCore</Description>
-    <PackageProjectUrl>https://github.com/icgam/EasyApi</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/icgam/EasyApi</RepositoryUrl>
+    <Description>Easify base library for AspNetCore</Description>
+    <PackageProjectUrl>https://github.com/icgam/Easify</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
     <RepositoryType>Private</RepositoryType>
     <Copyright>ICG</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

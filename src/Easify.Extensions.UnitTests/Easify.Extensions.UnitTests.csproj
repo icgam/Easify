@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="EasyApi.Extensions.UnitTests.xunit.runner.json">
+    <None Update="Easify.Extensions.UnitTests.xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

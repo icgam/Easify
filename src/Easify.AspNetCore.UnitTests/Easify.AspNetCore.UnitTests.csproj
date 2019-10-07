@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="EasyApi.AspNetCore.UnitTests.xunit.runner.json">
+    <None Update="Easify.AspNetCore.UnitTests.xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

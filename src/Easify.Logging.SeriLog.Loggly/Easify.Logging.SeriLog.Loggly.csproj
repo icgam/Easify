@@ -6,10 +6,10 @@
     <Authors>Aurimas Gecas, Mohammad Moattar</Authors>
     <Company>ICG</Company>
     <Copyright>ICG</Copyright>
-    <PackageProjectUrl>https://github.com/icgam/EasyApi</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/icgam/EasyApi</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/icgam/Easify</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
     <RepositoryType>Private</RepositoryType>
-    <Description>EasyApi logging support for Serilog and Loggly</Description>
+    <Description>Easify logging support for Serilog and Loggly</Description>
   </PropertyGroup>
 
   <ItemGroup>

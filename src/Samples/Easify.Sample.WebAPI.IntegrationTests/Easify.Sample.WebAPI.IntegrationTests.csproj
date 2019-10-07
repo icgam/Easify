@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="EasyApi.Sample.WebAPI.IntegrationTests.xunit.runner.json">
+    <None Update="Easify.Sample.WebAPI.IntegrationTests.xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

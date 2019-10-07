@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>EasyApi logging support for Serilog and Seq</Description>
+    <Description>Easify logging support for Serilog and Seq</Description>
     <Company>ICG</Company>
     <Authors>Aurimas Gecas, Mohammad Moattar</Authors>
     <Copyright>ICG</Copyright>
-    <PackageProjectUrl>https://github.com/icgam/EasyApi</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/icgam/EasyApi</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/icgam/Easify</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
     <RepositoryType>Private</RepositoryType>
   </PropertyGroup>
 
