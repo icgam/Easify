@@ -2,10 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Company>ICG</Company>
-    <Authors>Aurimas Gecas</Authors>
     <Description>Packages provide CORE interfaces that are used in .NET Core apps bootstrapping. Interfaces allows one to extend the pipeline with custom/optional extension methods to configure extra features, such as security, messaging, etc.</Description>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Mohammad Moattar; Aurimas Gecas</Authors>
+    <Company>ICG</Company>
+    <PackageProjectUrl>http://github.com/icgam/Easify</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,10 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net47</TargetFramework>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Authors>Aurimas Gecas</Authors>
-    <Company>ICG</Company>
     <Description>Library provides hosting infrastructure for .NET Core API to be hosted as a Windows Service</Description>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Mohammad Moattar; Aurimas Gecas</Authors>
+    <Company>ICG</Company>
+    <PackageProjectUrl>http://github.com/icgam/Easify</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,10 +2,14 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Description>Dependency Injection components for AspNetCore</Description>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Authors>Mohammad Moattar</Authors>
         <Company>ICG</Company>
-        <Description>Dependency Injection components for AspNetCore</Description>
+        <PackageProjectUrl>http://github.com/icgam/Easify</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
+        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+        <Version>1.0.0</Version>
     </PropertyGroup>
     
     <ItemGroup>
