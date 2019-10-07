@@ -1,6 +1,12 @@
 # Easify
 
+[![Build status](https://ci.appveyor.com/api/projects/status/6fqw0sy0jp6s584o?svg=true)](https://ci.appveyor.com/project/moattarwork/flache) ![](https://img.shields.io/nuget/v/Easify.svg?style=flat-square)
+
+## Introduction
+
 Easify is a set of libraries which facilitate different aspects of a Restful/Microservice api and takes away the boilerplate configuration/bootstrap code that needs to be written each time a new API project is setup. There are up's and down's to this approach, however the benefit of this approach is to setup consistent api projects faster and easier.
+
+## Features
 
 Boilerplate api provides the following features:
 
