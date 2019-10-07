@@ -21,6 +21,6 @@ jobs:
         dotnet-version: 2.2.108
     - name: Build & Test with dotnet
       run: | 
-        dotnet build src/EasyApi.sln --configuration Release
-        dotnet test src/EasyApi.sln --configuration Release 
+        dotnet build src/Easify.sln --configuration Release
+        dotnet test src/Easify.sln --configuration Release 
 
