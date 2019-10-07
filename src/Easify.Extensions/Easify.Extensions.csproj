@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <IncludeSymbols>True</IncludeSymbols>
     <Description>Exposes interfaces to expose external services to framework consumers, such as ITypeMapp, IComponentResolver, etc ...</Description>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Mohammad Moattar; Aurimas Gecas</Authors>
