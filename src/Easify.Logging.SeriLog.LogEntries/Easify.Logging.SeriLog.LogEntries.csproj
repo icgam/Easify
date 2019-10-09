@@ -14,11 +14,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0" />
+    <PackageReference Include="Serilog.Sinks.Logentries" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Easify.Logging.SeriLog\Easify.Logging.SeriLog.csproj" />
-    <ProjectReference Include="..\Serilog.Sinks.Logentries\Serilog.Sinks.Logentries.csproj" />
   </ItemGroup>
 
 </Project>
