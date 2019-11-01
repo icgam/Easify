@@ -1,6 +1,6 @@
 # Easify
 
-[![Build status](https://ci.appveyor.com/api/projects/status/6fqw0sy0jp6s584o?svg=true)](https://ci.appveyor.com/project/moattarwork/flache) ![](https://img.shields.io/nuget/v/Easify.svg?style=flat-square)
+[![Build status](https://ci.appveyor.com/api/projects/status/6fqw0sy0jp6s584o?svg=true)](https://ci.appveyor.com/project/moattarwork/easify) ![](https://img.shields.io/nuget/v/Easify.svg?style=flat-square)
 
 ## Introduction
 
