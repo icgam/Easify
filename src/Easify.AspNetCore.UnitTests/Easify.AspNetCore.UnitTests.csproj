@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Easify.AspNetCore\Easify.AspNetCore.csproj" />
-    <ProjectReference Include="..\Easify.Testing.Core\Easify.Testing.Core.csproj" />
+    <ProjectReference Include="..\Easify.Testing\Easify.Testing.csproj" />
   </ItemGroup>
 
   <ItemGroup>
