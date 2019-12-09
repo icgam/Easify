@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RestEase" Version="1.4.4" />
+    <PackageReference Include="RestEase" Version="1.4.10" />
   </ItemGroup>
 
   <ItemGroup>
