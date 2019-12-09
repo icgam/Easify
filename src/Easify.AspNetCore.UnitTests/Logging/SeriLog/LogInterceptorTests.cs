@@ -17,7 +17,7 @@
 using System;
 using System.Threading.Tasks;
 using Easify.AspNetCore.UnitTests.Helpers;
-using Easify.Testing.Core;
+using Easify.Testing.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;

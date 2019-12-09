@@ -17,7 +17,7 @@
 using Newtonsoft.Json;
 using Xunit.Abstractions;
 
-namespace Easify.Testing.Core
+namespace Easify.Testing.Extensions
 {
     public static class TestOutputHelperExtensions
     {

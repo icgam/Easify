@@ -20,7 +20,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Easify.Sample.WebAPI.IntegrationTests.Helpers;
-using Easify.Testing.Core;
+using Easify.Testing.Extensions;
 using Serilog;
 using Xunit;
 using Xunit.Abstractions;

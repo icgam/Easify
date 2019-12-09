@@ -57,7 +57,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{AD8A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easify.Logging.UnitTests", "Easify.Logging.UnitTests\Easify.Logging.UnitTests.csproj", "{F651FDFD-7470-46A7-A5A0-049CB105DA49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.Testing.Core", "Easify.Testing.Core\Easify.Testing.Core.csproj", "{390814AF-B462-4390-BFDA-D20D958FFC86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.Testing", "Easify.Testing\Easify.Testing.csproj", "{390814AF-B462-4390-BFDA-D20D958FFC86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{CA0D37AC-F8C9-4D06-A278-9220B72D24CE}"
 EndProject
@@ -66,6 +66,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.Bootstrap", "Easify.Bootstrap\Easify.Bootstrap.csproj", "{8FAC79B7-196C-4497-8F97-C27EC13A3E64}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.DependencyInjection", "Easify.DependencyInjection\Easify.DependencyInjection.csproj", "{7CD486D2-3852-447E-AB7F-DE2FE6812182}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.Testing.Integration", "Easify.Testing.Integration\Easify.Testing.Integration.csproj", "{BA0BF231-029B-49AE-A4EA-5C862640DD24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.Testing.UnitTests", "Easify.Testing.UnitTests\Easify.Testing.UnitTests.csproj", "{083BE000-4BA1-4A91-B91E-63E858178995}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -175,6 +179,14 @@ Global
 		{7CD486D2-3852-447E-AB7F-DE2FE6812182}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CD486D2-3852-447E-AB7F-DE2FE6812182}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CD486D2-3852-447E-AB7F-DE2FE6812182}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA0BF231-029B-49AE-A4EA-5C862640DD24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA0BF231-029B-49AE-A4EA-5C862640DD24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA0BF231-029B-49AE-A4EA-5C862640DD24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA0BF231-029B-49AE-A4EA-5C862640DD24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{083BE000-4BA1-4A91-B91E-63E858178995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{083BE000-4BA1-4A91-B91E-63E858178995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{083BE000-4BA1-4A91-B91E-63E858178995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{083BE000-4BA1-4A91-B91E-63E858178995}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -209,6 +221,8 @@ Global
 		{8FAC79B7-196C-4497-8F97-C27EC13A3E64} = {C6B49B11-8BC9-4A68-9238-85BECC4BDF97}
 		{7CD486D2-3852-447E-AB7F-DE2FE6812182} = {C6B49B11-8BC9-4A68-9238-85BECC4BDF97}
 		{97D76867-95BA-4C6A-93C8-78D81B7A63EE} = {ED11ED00-F4D4-4BFB-BF14-1F2EFE5E72F1}
+		{BA0BF231-029B-49AE-A4EA-5C862640DD24} = {CA0D37AC-F8C9-4D06-A278-9220B72D24CE}
+		{083BE000-4BA1-4A91-B91E-63E858178995} = {CA0D37AC-F8C9-4D06-A278-9220B72D24CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD317B39-D1E3-4033-A80A-C5F8CACAAF2C}
