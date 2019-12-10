@@ -6,6 +6,7 @@
         <Authors>Mohammad Moattar, David Cassell</Authors>
         <Company>ICG</Company>
         <Description>Testing library for intergation which contains useful tools and helpers</Description>
+        <Version>1.0.0</Version>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.1"/>
