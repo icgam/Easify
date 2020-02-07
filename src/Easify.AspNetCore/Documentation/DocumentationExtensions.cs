@@ -23,37 +23,34 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace Easify.AspNetCore.Documentation
 {
-    public static class Extensions
+    public static class DocumentationExtensions
     {
         public static IServiceCollection AddDefaultApiDocumentation(this IServiceCollection services,
-            IConfiguration config)
+            IConfiguration configuration)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
-            if (config == null) throw new ArgumentNullException(nameof(config));
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            var title = config[ConfigurationKeys.AppTitleKey];
-            var version = config[ConfigurationKeys.AppVersionKey];
+            var application = configuration.GetApplicationInfo();
 
             services.AddSwaggerGen(options =>
             {
                 options.OperationFilter<RequestCorrelationHeaderFilter>();
-                options.SwaggerDoc(version, new Info {Title = title, Version = version});
+                options.SwaggerDoc(application.Version, new Info {Title = application.Name, Version = application.Version});
             });
             return services;
         }
 
         public static IApplicationBuilder UseDefaultApiDocumentation(this IApplicationBuilder app,
-            IConfiguration config)
+            IConfiguration configuration)
         {
             if (app == null) throw new ArgumentNullException(nameof(app));
-            if (config == null) throw new ArgumentNullException(nameof(config));
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            // TODO: Avoid duplicating the code for these extensions
-            var title = config[ConfigurationKeys.AppTitleKey];
-            var version = config[ConfigurationKeys.AppVersionKey];
+            var application = configuration.GetApplicationInfo();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint($"/swagger/{version}/swagger.json", title); });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint($"/swagger/{application.Version}/swagger.json", application.Name); });
 
             return app;
         }
