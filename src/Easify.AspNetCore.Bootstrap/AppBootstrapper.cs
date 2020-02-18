@@ -22,7 +22,9 @@ using Easify.AspNetCore.ExceptionHandling;
 using Easify.AspNetCore.Mvc;
 using Easify.AspNetCore.RequestCorrelation;
 using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
+using Easify.AspNetCore.Security;
 using Easify.Bootstrap;
+using Easify.Configurations;
 using Easify.Configurations.Fluents;
 using Easify.ExceptionHandling;
 using Easify.ExceptionHandling.ConfigurationBuilder;
@@ -109,9 +111,27 @@ namespace Easify.AspNetCore.Bootstrap
             _services.AddRequestCorrelation(b => _requestCorrelationExtender(b.ExcludeDefaultUrls()));
             _services.AddDefaultMvc<TStartup>();
             _services.AddDefaultCorsPolicy();
-            _services.AddDefaultApiDocumentation(_configuration);
 
-            foreach (var extender in _pipelineExtenders) extender(_services, _configuration);
+            // TODO: Needs to be changed
+            var appInfo = _configuration.GetApplicationInfo();
+            var authOptions = _configuration.GetAuthOptions();
+
+            _services.AddAuthentication(authOptions);
+
+            switch (authOptions.AuthenticationMode)
+            {
+                case AuthenticationMode.OAuth2:
+                    _services.AddOpenApiDocumentation(appInfo, sg => sg.UseOAuth2Schema(authOptions.Authentication));
+                    break;
+                case AuthenticationMode.Impersonated:
+                case AuthenticationMode.None:
+                    _services.AddOpenApiDocumentation(appInfo);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            _pipelineExtenders.ForEach(e => e(_services, _configuration));
 
             return _containerFactory(_services, _configuration);
         }
