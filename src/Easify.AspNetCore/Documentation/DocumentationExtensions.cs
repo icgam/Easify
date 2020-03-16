@@ -16,9 +16,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Easify.AspNetCore.Security;
 using Easify.Configurations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
@@ -53,6 +57,7 @@ namespace Easify.AspNetCore.Documentation
             services.AddSwaggerGen(options =>
             {
                 options.OperationFilter<RequestCorrelationHeaderFilter>();
+                
                 options.SwaggerDoc(appInfo.Version, new Info {Title = appInfo.Name, Version = appInfo.Version});
 
                 extend?.Invoke(options);
@@ -69,17 +74,21 @@ namespace Easify.AspNetCore.Documentation
             var scheme = new OAuth2Scheme
             {
                 AuthorizationUrl = $"{authentication.Authority}/oauth2/authorize",
-                Description = authentication.Description,
                 Flow = "implicit",
-                Type = "oauth2",
-                TokenUrl = $"{authentication.Authority}/oauth2/v2.0/token",
                 Scopes = new Dictionary<string, string>
                 {
                     {"user_impersonation", "Access API"}
-                }
+                },
+                
             };
-
-            options.AddSecurityDefinition("oauth2", scheme);
+            options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+            {
+                Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                Name = "Authorization",
+                In = "header",
+                Type = "apiKey"
+            });
+            // options.AddSecurityDefinition("oauth2", scheme);
         }
 
         public static void ConfigureOAuth2(this SwaggerUIOptions options, AppInfo appInfo, AuthenticationInfo authentication)
@@ -88,12 +97,11 @@ namespace Easify.AspNetCore.Documentation
             if (authentication == null) throw new ArgumentNullException(nameof(authentication));
             
             options.OAuthClientId(authentication.Audience);
-            options.OAuthClientSecret(authentication.AudienceSecret);
             options.OAuthAppName(appInfo.Name);
-            options.OAuthRealm(authentication.Audience); // TODO: WTF?
-            options.OAuthScopeSeparator(" ");
-            options.OAuthAdditionalQueryStringParams(new Dictionary<string, string> { {"resource", authentication.Audience} }); 
-            options.OAuthUseBasicAuthenticationWithAccessCodeGrant();
+            options.OAuthAdditionalQueryStringParams(new Dictionary<string, string>
+            {
+                {"resource", authentication.Audience}
+            }); 
         }
     }
 }
