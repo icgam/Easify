@@ -63,7 +63,7 @@ namespace Easify.AspNetCore.Bootstrap
             app.UseUserIdentityLogging();
             app.UseHealth();
             app.UseMvc();
-            app.UseOpenApiDocumentation(appInfo, u => u.ConfigureOAuth2(appInfo, authOptions.Authentication));
+            app.UseOpenApiDocumentation(appInfo, u => u.ConfigureAuth(appInfo, authOptions.Authentication));
 
             LogResolvedEnvironment(env, loggerFactory);
         }

@@ -19,5 +19,6 @@ namespace Easify.Http
     public interface IRequestContext : IOperationContext
     {
         string CorrelationId { get; }
+        string AuthorizationHeader { get; }
     }
 }

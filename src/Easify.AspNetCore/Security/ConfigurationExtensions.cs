@@ -15,27 +15,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
-namespace Easify.Sample.WebAPI.Controllers
+namespace Easify.AspNetCore.Security
 {
-    [Route("api/[controller]")]
-    public class SampleController : Controller
+    public static class ConfigurationExtensions
     {
-        public SampleController(ILogger<SampleController> logger)
+        public static AuthOptions GetAuthOptions(this IConfiguration configuration)
         {
-            Log = logger ?? throw new ArgumentNullException(nameof(logger));
-        }
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-        private ILogger<SampleController> Log { get; }
+            var options = new AuthOptions();
+            configuration.GetSection(nameof(AuthOptions)).Bind(options);
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult Get()
-        {
-            return Ok();
+            // TODO: Validate the options 
+
+            return options;
         }
     }
 }

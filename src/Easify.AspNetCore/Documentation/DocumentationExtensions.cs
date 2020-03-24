@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Easify.AspNetCore.Security;
+using Easify.AspNetCore.Security.Impersonations;
 using Easify.Configurations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +34,14 @@ namespace Easify.AspNetCore.Documentation
 {
     public static class DocumentationExtensions
     {
+        private static readonly Dictionary<AuthenticationMode, Action<SwaggerGenOptions, AuthenticationInfo>> Configurator 
+            = new Dictionary<AuthenticationMode, Action<SwaggerGenOptions, AuthenticationInfo>>
+            {
+                {AuthenticationMode.None, (sg, auth) => {}},
+                {AuthenticationMode.Impersonated, (sg, auth) => sg.UseApiKeyScheme(auth)},
+                {AuthenticationMode.OAuth2, (sg, auth) => sg.UseOAuth2Scheme(auth)},
+            };
+        
         public static IApplicationBuilder UseOpenApiDocumentation(this IApplicationBuilder app,
             AppInfo appInfo, Action<SwaggerUIOptions> extend = null)
         {
@@ -47,6 +56,21 @@ namespace Easify.AspNetCore.Documentation
 
             return app;
         }
+        
+        public static IServiceCollection AddOpenApiDocumentation(this IServiceCollection services,
+            AppInfo appInfo, AuthOptions authOptions)
+        {
+            if (services == null) throw new ArgumentNullException(nameof(services));
+            if (authOptions == null) throw new ArgumentNullException(nameof(authOptions));
+
+            if (!Configurator.ContainsKey(authOptions.AuthenticationMode))
+                throw new InvalidAuthenticationModeException(authOptions.AuthenticationMode);
+
+            var action = Configurator[authOptions.AuthenticationMode];
+            services.AddOpenApiDocumentation(appInfo, options => action(options, authOptions.Authentication));
+
+            return services;
+        }
 
         public static IServiceCollection AddOpenApiDocumentation(this IServiceCollection services,
             AppInfo appInfo, Action<SwaggerGenOptions> extend = null)
@@ -57,51 +81,66 @@ namespace Easify.AspNetCore.Documentation
             services.AddSwaggerGen(options =>
             {
                 options.OperationFilter<RequestCorrelationHeaderFilter>();
-                
                 options.SwaggerDoc(appInfo.Version, new Info {Title = appInfo.Name, Version = appInfo.Version});
 
                 extend?.Invoke(options);
             });
 
             return services;
-        }
-
-        public static void UseOAuth2Schema(this SwaggerGenOptions options, AuthenticationInfo authentication)
+        }        
+        
+        public static void UseOAuth2Scheme(this SwaggerGenOptions options, AuthenticationInfo authentication)
         {
-            if (options == null) throw new ArgumentNullException(nameof(options));
-            if (authentication == null) throw new ArgumentNullException(nameof(authentication));
-
             var scheme = new OAuth2Scheme
             {
                 AuthorizationUrl = $"{authentication.Authority}/oauth2/authorize",
                 Flow = "implicit",
-                Scopes = new Dictionary<string, string>
-                {
-                    {"user_impersonation", "Access API"}
-                },
-                
+                Description = authentication.Description,
+                Scopes = new Dictionary<string, string>()
             };
-            options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+            options.AddSecurityDefinition("oauth2", scheme);
+            options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
             {
-                Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                Name = "Authorization",
-                In = "header",
-                Type = "apiKey"
+                {"oauth2", new string[] { }}
             });
-            // options.AddSecurityDefinition("oauth2", scheme);
+        }
+        
+        public static void UseApiKeyScheme(this SwaggerGenOptions options, AuthenticationInfo authentication)
+        {
+            var scheme = new ApiKeyScheme
+            {
+                Description = authentication.Description,
+                In = "header",
+                Name = "Authorization",
+                Type = "apiKey"
+            };
+            
+            options.AddSecurityDefinition(ImpersonationBearerDefaults.AuthenticationScheme, scheme);
+            options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+            {
+                {ImpersonationBearerDefaults.AuthenticationScheme, new string[] { }}
+            });
         }
 
-        public static void ConfigureOAuth2(this SwaggerUIOptions options, AppInfo appInfo, AuthenticationInfo authentication)
+        public static void ConfigureAuth(this SwaggerUIOptions options, AppInfo appInfo,
+            AuthenticationInfo authentication)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
             if (authentication == null) throw new ArgumentNullException(nameof(authentication));
-            
+
             options.OAuthClientId(authentication.Audience);
             options.OAuthAppName(appInfo.Name);
             options.OAuthAdditionalQueryStringParams(new Dictionary<string, string>
             {
                 {"resource", authentication.Audience}
-            }); 
+            });
+        }
+    }
+
+    public class InvalidAuthenticationModeException : Exception
+    {
+        public InvalidAuthenticationModeException(AuthenticationMode authenticationMode) : base(authenticationMode.ToString())
+        {
         }
     }
 }

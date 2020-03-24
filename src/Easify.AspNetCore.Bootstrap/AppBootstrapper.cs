@@ -100,6 +100,9 @@ namespace Easify.AspNetCore.Bootstrap
         public IServiceProvider Bootstrap()
         {
             _configurationSectionBuilder.Build();
+            
+            var appInfo = _configuration.GetApplicationInfo();
+            var authOptions = _configuration.GetAuthOptions();
 
             _services.TryAddSingleton<IDateTimeProvider, DateTimeProvider>();
             _services.TryAddScoped<IUrlHelper, UrlHelper>();
@@ -111,25 +114,8 @@ namespace Easify.AspNetCore.Bootstrap
             _services.AddRequestCorrelation(b => _requestCorrelationExtender(b.ExcludeDefaultUrls()));
             _services.AddDefaultMvc<TStartup>();
             _services.AddDefaultCorsPolicy();
-
-            // TODO: Needs to be changed
-            var appInfo = _configuration.GetApplicationInfo();
-            var authOptions = _configuration.GetAuthOptions();
-
             _services.AddAuthentication(authOptions);
-
-            switch (authOptions.AuthenticationMode)
-            {
-                case AuthenticationMode.OAuth2:
-                    _services.AddOpenApiDocumentation(appInfo, sg => sg.UseOAuth2Schema(authOptions.Authentication));
-                    break;
-                case AuthenticationMode.Impersonated:
-                case AuthenticationMode.None:
-                    _services.AddOpenApiDocumentation(appInfo);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            _services.AddOpenApiDocumentation(appInfo, authOptions);
 
             _pipelineExtenders.ForEach(e => e(_services, _configuration));
 
