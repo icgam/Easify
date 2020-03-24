@@ -45,7 +45,7 @@ namespace Easify.RestEase
             var client = RestClient.For<T>(httpContext);
             client.CorrelationId = _requestContext.CorrelationId;
 
-            if (options.IncludeAuthorizationHeader)
+            if (options.IncludeAuthorizationHeader && !string.IsNullOrWhiteSpace(_requestContext.AuthorizationHeader))
                 client.Authorization = AuthenticationHeaderValue.Parse(_requestContext.AuthorizationHeader);
 
             return client;
