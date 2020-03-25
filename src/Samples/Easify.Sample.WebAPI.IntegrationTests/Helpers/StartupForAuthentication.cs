@@ -15,58 +15,44 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using AutoMapper;
 using Easify.AspNetCore.Bootstrap;
-using Easify.AspNetCore.Bootstrap.Extensions;
-using Easify.AspNetCore.Logging.SeriLog;
 using Easify.RestEase;
 using Easify.Sample.WebAPI.Core;
-using Easify.Sample.WebAPI.Core.Mappings;
 using Easify.Sample.WebAPI.Domain;
-using Foil;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
-namespace Easify.Sample.WebAPI
+namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
-    public class Startup
+    public abstract class StartupForAuthentication
     {
-        public Startup(IConfiguration configuration)
+        protected StartupForAuthentication(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         private IConfiguration Configuration { get; }
 
+        protected virtual Action<ISetAuthenticationMode> AuthConfigure => o => o.WithNoAuth();
+
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            return ConfigureUsingServiceCollection(services);
-        }
-
-        private IServiceProvider ConfigureUsingServiceCollection(IServiceCollection services)
-        {
-            return services.BootstrapApp<Startup>(Configuration,
-                app => app
-                    .AddConfigSection<Clients>()
+            return services.BootstrapApp<StartupForIntegration>(Configuration,
+                app => app.AddConfigSection<Clients>()
                     .AndSection<Section1>()
                     .AndSection<Section2>()
                     .HandleApplicationException<TemplateApiApplicationException>()
-                    .ConfigureMappings(c =>
-                    {
-                        c.CreateMap<PersonEntity, PersonDO>();
-                        c.CreateMap<AssetEntity, AssetDO>().ConvertUsing<AssetConverter>();
-                    })
+                    .AndHandle<ThirdPartyPluginException>()
+                    .UseUserErrors()
+                    .ConfigureAuthentication(AuthConfigure)
                     .AddServices((container, config) =>
                     {
                         container.AddRestClient<IValuesClient, Clients>(c => c.ProducerClientUrl);
-                        container.AddTransientWithInterception<IMyService, MyService>(by =>
-                            by.InterceptBy<LogInterceptor>());
-                        container.AddTransientWithInterception<IRateProvider, DummyRateProvider>(by =>
-                            by.InterceptBy<LogInterceptor>());
-                        container.AddSingleton<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>();
+                        container.TryAddTransient<IMyService, MyService>();
                     })
             );
         }

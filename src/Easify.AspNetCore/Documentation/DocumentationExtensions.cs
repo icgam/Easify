@@ -67,7 +67,7 @@ namespace Easify.AspNetCore.Documentation
                 throw new InvalidAuthenticationModeException(authOptions.AuthenticationMode);
 
             var action = Configurator[authOptions.AuthenticationMode];
-            services.AddOpenApiDocumentation(appInfo, options => action(options, authOptions.Authentication));
+            services.AddOpenApiDocumentation(appInfo, o => action(o, authOptions.Authentication));
 
             return services;
         }
@@ -134,13 +134,6 @@ namespace Easify.AspNetCore.Documentation
             {
                 {"resource", authentication.Audience}
             });
-        }
-    }
-
-    public class InvalidAuthenticationModeException : Exception
-    {
-        public InvalidAuthenticationModeException(AuthenticationMode authenticationMode) : base(authenticationMode.ToString())
-        {
         }
     }
 }

@@ -15,27 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Easify.AspNetCore.Security;
 
-namespace Easify.Sample.WebAPI.Controllers
+namespace Easify.AspNetCore.Documentation
 {
-    [Route("api/[controller]")]
-    public class SampleController : Controller
+    public class InvalidAuthenticationModeException : Exception
     {
-        public SampleController(ILogger<SampleController> logger)
+        public InvalidAuthenticationModeException(AuthenticationMode authenticationMode) : base(authenticationMode.ToString())
         {
-            Log = logger ?? throw new ArgumentNullException(nameof(logger));
-        }
-
-        private ILogger<SampleController> Log { get; }
-
-        [HttpGet]
-        [Authorize]
-        public IActionResult Get()
-        {
-            return Ok();
         }
     }
 }

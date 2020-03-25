@@ -74,7 +74,7 @@ namespace Easify.AspNetCore.Security.Impersonations
             if (authorizationHeader.Count != 1)
                 return (string.Empty, true, "No Authorization header");
 
-            var headerValueSections = authorizationHeader[0].Split(new string[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+            var headerValueSections = authorizationHeader[0].Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
             if (headerValueSections.Length != 2)
                 return (string.Empty, true, "Invalid Authorization header");
 
