@@ -41,20 +41,20 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            return services.BootstrapApp<StartupForIntegration>(Configuration,
-                app => app.AddConfigSection<Clients>()
-                    .AndSection<Section1>()
-                    .AndSection<Section2>()
-                    .HandleApplicationException<TemplateApiApplicationException>()
-                    .AndHandle<ThirdPartyPluginException>()
-                    .UseUserErrors()
-                    .ConfigureAuthentication(AuthConfigure)
-                    .AddServices((container, config) =>
-                    {
-                        container.AddRestClient<IValuesClient, Clients>(c => c.ProducerClientUrl);
-                        container.TryAddTransient<IMyService, MyService>();
-                    })
-            );
+                return services.BootstrapApp<StartupForIntegration>(Configuration,
+                    app => app.AddConfigSection<Clients>()
+                        .AndSection<Section1>()
+                        .AndSection<Section2>()
+                        .HandleApplicationException<TemplateApiApplicationException>()
+                        .AndHandle<ThirdPartyPluginException>()
+                        .UseUserErrors()
+                        .ConfigureAuthentication(AuthConfigure)
+                        .AddServices((container, config) =>
+                        {
+                            container.AddRestClient<IValuesClient, Clients>(c => c.ProducerClientUrl, o => o.ExcludeAuthorizationHeader());
+                            container.TryAddTransient<IMyService, MyService>();
+                        })
+                );
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
