@@ -16,6 +16,7 @@
 
 using System;
 using Easify.AspNetCore.Bootstrap;
+using Easify.AspNetCore.Security.Fluent;
 using Easify.RestEase;
 using Easify.Sample.WebAPI.Core;
 using Easify.Sample.WebAPI.Domain;

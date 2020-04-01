@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Easify.AspNetCore.Security.Fluent;
 using Easify.Bootstrap;
 
 namespace Easify.AspNetCore.Bootstrap

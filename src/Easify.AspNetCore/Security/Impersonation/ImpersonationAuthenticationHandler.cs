@@ -23,7 +23,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Easify.AspNetCore.Security.Impersonations
+namespace Easify.AspNetCore.Security.Impersonation
 {
     public sealed class ImpersonationAuthenticationHandler : AuthenticationHandler<ImpersonationBearerOptions>
     {

@@ -23,6 +23,7 @@ using Easify.AspNetCore.Mvc;
 using Easify.AspNetCore.RequestCorrelation;
 using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
 using Easify.AspNetCore.Security;
+using Easify.AspNetCore.Security.Fluent;
 using Easify.Bootstrap;
 using Easify.Configurations;
 using Easify.Configurations.Fluents;

@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Easify.AspNetCore.Bootstrap
+namespace Easify.AspNetCore.Security.Fluent
 {
     public interface IConfigureWithAuthority
     {
-        void UseParameters(string authority, string audience);
+        void UseAuthOptions(string authority, string audience);
     }
 }

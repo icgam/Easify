@@ -16,6 +16,7 @@
 
 using System;
 using Easify.AspNetCore.Bootstrap;
+using Easify.AspNetCore.Security.Fluent;
 using Microsoft.Extensions.Configuration;
 
 namespace Easify.Sample.WebAPI.IntegrationTests.Helpers

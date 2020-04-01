@@ -17,7 +17,7 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Easify.AspNetCore.Security.Impersonations;
+using Easify.AspNetCore.Security.Impersonation;
 using Easify.Sample.WebAPI.IntegrationTests.Helpers;
 using FluentAssertions;
 using Xunit;

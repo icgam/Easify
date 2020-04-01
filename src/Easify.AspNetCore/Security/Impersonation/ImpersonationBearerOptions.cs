@@ -16,7 +16,7 @@
 
 using Microsoft.AspNetCore.Authentication;
 
-namespace Easify.AspNetCore.Security.Impersonations
+namespace Easify.AspNetCore.Security.Impersonation
 {
     public sealed class ImpersonationBearerOptions : AuthenticationSchemeOptions
     {

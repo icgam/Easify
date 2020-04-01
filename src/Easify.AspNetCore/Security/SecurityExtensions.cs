@@ -16,7 +16,7 @@
 
 
 using System;
-using Easify.AspNetCore.Security.Impersonations;
+using Easify.AspNetCore.Security.Impersonation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;

@@ -16,15 +16,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Easify.AspNetCore.Security;
-using Easify.AspNetCore.Security.Impersonations;
+using Easify.AspNetCore.Security.Impersonation;
 using Easify.Configurations;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;

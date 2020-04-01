@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Easify.AspNetCore.Bootstrap;
+using Easify.AspNetCore.Security.Fluent;
 
 namespace Easify.AspNetCore.Security
 {
@@ -39,7 +39,7 @@ namespace Easify.AspNetCore.Security
             return this;
         }
 
-        public void UseParameters(string authority, string audience)
+        public void UseAuthOptions(string authority, string audience)
         {
             if (authority == null) throw new ArgumentNullException(nameof(authority));
             if (audience == null) throw new ArgumentNullException(nameof(audience));
