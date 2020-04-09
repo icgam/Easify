@@ -14,8 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Easify.Http;
+using System.Net.Http.Headers;
+using Microsoft.Net.Http.Headers;
 using RestEase;
+using HttpHeaders = Easify.Http.HttpHeaders;
 
 namespace Easify.RestEase.Client
 {
@@ -23,6 +25,10 @@ namespace Easify.RestEase.Client
     // TODO: Extend this with the with extra properties for security & ...
     public interface IRestClient
     {
-        [Header(HttpHeaders.HttpRequestId)] string CorrelationId { get; set; }
+        [Header(HttpHeaders.HttpRequestId)] 
+        string CorrelationId { get; set; }
+        
+        [Header(HeaderNames.Authorization)]
+        AuthenticationHeaderValue Authorization { get; set; }
     }
 }

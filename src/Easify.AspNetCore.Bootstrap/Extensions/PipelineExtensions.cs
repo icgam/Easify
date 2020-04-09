@@ -60,6 +60,6 @@ namespace Easify.AspNetCore.Bootstrap.Extensions
             });
 
             return bootstrapper;
-        }
+        }        
     }
 }

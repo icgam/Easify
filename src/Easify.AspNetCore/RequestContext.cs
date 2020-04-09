@@ -15,10 +15,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Net.Http.Headers;
 using System.Security.Principal;
 using Easify.AspNetCore.RequestCorrelation;
 using Easify.Http;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Headers;
+using Microsoft.Net.Http.Headers;
 
 namespace Easify.AspNetCore
 {
@@ -29,9 +32,11 @@ namespace Easify.AspNetCore
             if (httpContextAccessor == null) throw new ArgumentNullException(nameof(httpContextAccessor));
             CorrelationId = httpContextAccessor.HttpContext.Request.GetRequestId();
             User = httpContextAccessor.HttpContext.User;
+            AuthorizationHeader = httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Authorization];
         }
 
         public string CorrelationId { get; }
+        public string AuthorizationHeader { get; }
         public IPrincipal User { get; }
     }
 }

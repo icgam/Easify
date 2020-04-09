@@ -1,4 +1,4 @@
-// This software is part of the Easify framework
+﻿// This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -15,14 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
-using Easify.Bootstrap;
+using Easify.AspNetCore.Security;
 
-namespace Easify.AspNetCore.Bootstrap
+namespace Easify.AspNetCore.Documentation
 {
-    public interface IConfigureRequestCorrelation : IConfigureAuthentication
+    public class InvalidAuthenticationModeException : Exception
     {
-        IConfigureAuthentication ConfigureCorrelation(Func<IExcludeRequests, IBuildOptions> optionsProvider);
-        IConfigureAuthentication ConfigureCorrelation(Func<IExcludeRequests, ICorrelateRequests> optionsProvider);
+        public InvalidAuthenticationModeException(AuthenticationMode authenticationMode) : base(authenticationMode.ToString())
+        {
+        }
     }
 }

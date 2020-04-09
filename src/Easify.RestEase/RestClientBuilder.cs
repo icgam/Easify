@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Net.Http.Headers;
 using Easify.Http;
 using Easify.RestEase.Client;
 using RestEase;
@@ -22,7 +23,7 @@ using RestEase;
 namespace Easify.RestEase
 {
     // TODO: Should be revisited in shadow of the v2.1 Factory and Polly
-    public class RestClientBuilder : IRestClientBuilder
+    public sealed class RestClientBuilder : IRestClientBuilder
     {
         private readonly IRequestContext _requestContext;
 
@@ -31,16 +32,28 @@ namespace Easify.RestEase
             _requestContext = requestContext ?? throw new ArgumentNullException(nameof(requestContext));
         }
 
-        public T Build<T>(string baseUrl) where T : IRestClient
+        public T Build<T>(string baseUrl, Action<IConfigureRestClient> configure) where T : IRestClient
         {
             if (baseUrl == null) throw new ArgumentNullException(nameof(baseUrl));
+            if (configure == null) throw new ArgumentNullException(nameof(configure));
 
             var httpContext = new Uri(baseUrl).ToHttpContext(m => m.EnableDefaultCredential());
+            var options = new RestClientOptions();
+
+            configure(options);
 
             var client = RestClient.For<T>(httpContext);
             client.CorrelationId = _requestContext.CorrelationId;
 
+            if (options.IncludeAuthorizationHeader && !string.IsNullOrWhiteSpace(_requestContext.AuthorizationHeader))
+                client.Authorization = AuthenticationHeaderValue.Parse(_requestContext.AuthorizationHeader);
+
             return client;
+        }
+        
+        public T Build<T>(string baseUrl) where T : IRestClient
+        {
+            return Build<T>(baseUrl, m => { });
         }
     }
 }

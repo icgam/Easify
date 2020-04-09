@@ -1,4 +1,4 @@
-// This software is part of the Easify framework
+﻿// This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -15,14 +15,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
-using Easify.Bootstrap;
+using Easify.AspNetCore.Bootstrap;
+using Easify.AspNetCore.Security.Fluent;
+using Microsoft.Extensions.Configuration;
 
-namespace Easify.AspNetCore.Bootstrap
+namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
-    public interface IConfigureRequestCorrelation : IConfigureAuthentication
+    public sealed class StartupForNoAuth : StartupForAuthentication
     {
-        IConfigureAuthentication ConfigureCorrelation(Func<IExcludeRequests, IBuildOptions> optionsProvider);
-        IConfigureAuthentication ConfigureCorrelation(Func<IExcludeRequests, ICorrelateRequests> optionsProvider);
+        public StartupForNoAuth(IConfiguration configuration) : base(configuration) {}
+
+        protected override Action<ISetAuthenticationMode> AuthConfigure => o => o.WithNoAuth();
     }
 }

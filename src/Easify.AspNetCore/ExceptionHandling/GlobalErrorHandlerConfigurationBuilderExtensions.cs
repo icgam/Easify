@@ -26,8 +26,8 @@ namespace Easify.AspNetCore.ExceptionHandling
 {
     public static class GlobalErrorHandlerConfigurationBuilderExtensions
     {
-        public const string GenericErrorMessage = "Unknown Error Happened";
-        public const string GenericErrorType = "UnknownException";
+        private const string GenericErrorMessage = "Unknown Error Happened";
+        private const string GenericErrorType = "UnknownException";
 
         public static GlobalErrorHandlerConfigurationBuilder UseDefault(
             this GlobalErrorHandlerConfigurationBuilder builder)

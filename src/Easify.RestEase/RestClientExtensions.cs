@@ -29,7 +29,16 @@ namespace Easify.RestEase
             where TClient : class, IRestClient
             where TConfiguration : class, new()
         {
+            return services.AddRestClient<TClient, TConfiguration>(urlProvider, o => {});
+        }        
+        
+        public static IServiceCollection AddRestClient<TClient, TConfiguration>(this IServiceCollection services,
+            Func<TConfiguration, string> urlProvider, Action<IConfigureRestClient> configure)
+            where TClient : class, IRestClient
+            where TConfiguration : class, new()
+        {
             if (urlProvider == null) throw new ArgumentNullException(nameof(urlProvider));
+            if (configure == null) throw new ArgumentNullException(nameof(configure));
 
             services.TryAddTransient<IRestClientBuilder, RestClientBuilder>();
             services.AddTransient(m =>
@@ -37,24 +46,7 @@ namespace Easify.RestEase
                 var config = m.GetService<IOptions<TConfiguration>>();
                 var builder = m.GetService<IRestClientBuilder>();
 
-                return builder.Build<TClient>(urlProvider(config.Value));
-            });
-
-            return services;
-        }
-
-        public static IServiceCollection AddRestClient<TClient>(this IServiceCollection services,
-            Func<string> urlProvider)
-            where TClient : class, IRestClient
-        {
-            if (urlProvider == null) throw new ArgumentNullException(nameof(urlProvider));
-
-            services.TryAddTransient<IRestClientBuilder, RestClientBuilder>();
-            services.AddTransient(m =>
-            {
-                var builder = m.GetService<IRestClientBuilder>();
-
-                return builder.Build<TClient>(urlProvider());
+                return builder.Build<TClient>(urlProvider(config.Value), configure);
             });
 
             return services;
@@ -65,7 +57,16 @@ namespace Easify.RestEase
             where TClient : class, IRestClient
             where TConfiguration : class, new()
         {
+            return services.TryAddRestClient<TClient, TConfiguration>(urlProvider, o => {});
+        }        
+        
+        public static IServiceCollection TryAddRestClient<TClient, TConfiguration>(this IServiceCollection services,
+            Func<TConfiguration, string> urlProvider, Action<IConfigureRestClient> configure)
+            where TClient : class, IRestClient
+            where TConfiguration : class, new()
+        {
             if (urlProvider == null) throw new ArgumentNullException(nameof(urlProvider));
+            if (configure == null) throw new ArgumentNullException(nameof(configure));
 
             services.TryAddTransient<IRestClientBuilder, RestClientBuilder>();
             services.TryAddTransient(m =>
@@ -73,24 +74,7 @@ namespace Easify.RestEase
                 var config = m.GetService<IOptions<TConfiguration>>();
                 var builder = m.GetService<IRestClientBuilder>();
 
-                return builder.Build<TClient>(urlProvider(config.Value));
-            });
-
-            return services;
-        }
-
-        public static IServiceCollection TryAddRestClient<TClient>(this IServiceCollection services,
-            Func<string> urlProvider)
-            where TClient : class, IRestClient
-        {
-            if (urlProvider == null) throw new ArgumentNullException(nameof(urlProvider));
-
-            services.TryAddTransient<IRestClientBuilder, RestClientBuilder>();
-            services.TryAddTransient(m =>
-            {
-                var builder = m.GetService<IRestClientBuilder>();
-
-                return builder.Build<TClient>(urlProvider());
+                return builder.Build<TClient>(urlProvider(config.Value), configure);
             });
 
             return services;

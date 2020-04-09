@@ -1,4 +1,4 @@
-// This software is part of the Easify framework
+﻿// This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -15,14 +15,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
-using Easify.Bootstrap;
+using Microsoft.Extensions.Configuration;
 
-namespace Easify.AspNetCore.Bootstrap
+namespace Easify.AspNetCore.Security
 {
-    public interface IConfigureRequestCorrelation : IConfigureAuthentication
+    public static class ConfigurationExtensions
     {
-        IConfigureAuthentication ConfigureCorrelation(Func<IExcludeRequests, IBuildOptions> optionsProvider);
-        IConfigureAuthentication ConfigureCorrelation(Func<IExcludeRequests, ICorrelateRequests> optionsProvider);
+        public static AuthOptions GetAuthOptions(this IConfiguration configuration)
+        {
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+
+            var options = new AuthOptions();
+            configuration.GetSection(nameof(AuthOptions)).Bind(options);
+
+            // TODO: Validate the options 
+
+            return options;
+        }
     }
 }
