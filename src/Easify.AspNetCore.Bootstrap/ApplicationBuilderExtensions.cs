@@ -20,6 +20,8 @@ using Easify.AspNetCore.Documentation;
 using Easify.AspNetCore.Health;
 using Easify.AspNetCore.Logging.SeriLog;
 using Easify.AspNetCore.RequestCorrelation;
+using Easify.AspNetCore.Security;
+using Easify.Configurations;
 using Easify.ExceptionHandling;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,6 +42,9 @@ namespace Easify.AspNetCore.Bootstrap
             if (env == null) throw new ArgumentNullException(nameof(env));
             if (loggerFactory == null) throw new ArgumentNullException(nameof(loggerFactory));
 
+            var appInfo = configuration.GetApplicationInfo();
+            var authOptions = configuration.GetAuthOptions();
+
             app.UseCorsWithDefaultPolicy();
 
             if (env.IsDevelopment())
@@ -52,12 +57,13 @@ namespace Easify.AspNetCore.Bootstrap
                 app.UseGlobalExceptionHandler();
             }
 
+            app.UseAuthentication();
             app.UseRequestCorrelation();
             app.UseCorrelatedLogs();
             app.UseUserIdentityLogging();
             app.UseHealth();
             app.UseMvc();
-            app.UseDefaultApiDocumentation(configuration);
+            app.UseOpenApiDocumentation(appInfo, u => u.ConfigureAuth(appInfo, authOptions.Authentication));
 
             LogResolvedEnvironment(env, loggerFactory);
         }

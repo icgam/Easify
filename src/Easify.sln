@@ -71,6 +71,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.Testing.Integration"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.Testing.UnitTests", "Easify.Testing.UnitTests\Easify.Testing.UnitTests.csproj", "{083BE000-4BA1-4A91-B91E-63E858178995}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.RestEase.UnitTests", "Easify.RestEase.UnitTests\Easify.RestEase.UnitTests.csproj", "{9D0AA97D-07FC-4756-9190-43C6C65512B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -187,6 +189,10 @@ Global
 		{083BE000-4BA1-4A91-B91E-63E858178995}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{083BE000-4BA1-4A91-B91E-63E858178995}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{083BE000-4BA1-4A91-B91E-63E858178995}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D0AA97D-07FC-4756-9190-43C6C65512B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D0AA97D-07FC-4756-9190-43C6C65512B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D0AA97D-07FC-4756-9190-43C6C65512B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D0AA97D-07FC-4756-9190-43C6C65512B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -223,6 +229,7 @@ Global
 		{97D76867-95BA-4C6A-93C8-78D81B7A63EE} = {ED11ED00-F4D4-4BFB-BF14-1F2EFE5E72F1}
 		{BA0BF231-029B-49AE-A4EA-5C862640DD24} = {CA0D37AC-F8C9-4D06-A278-9220B72D24CE}
 		{083BE000-4BA1-4A91-B91E-63E858178995} = {CA0D37AC-F8C9-4D06-A278-9220B72D24CE}
+		{9D0AA97D-07FC-4756-9190-43C6C65512B1} = {C6B49B11-8BC9-4A68-9238-85BECC4BDF97}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD317B39-D1E3-4033-A80A-C5F8CACAAF2C}

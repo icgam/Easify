@@ -22,7 +22,10 @@ using Easify.AspNetCore.ExceptionHandling;
 using Easify.AspNetCore.Mvc;
 using Easify.AspNetCore.RequestCorrelation;
 using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
+using Easify.AspNetCore.Security;
+using Easify.AspNetCore.Security.Fluent;
 using Easify.Bootstrap;
+using Easify.Configurations;
 using Easify.Configurations.Fluents;
 using Easify.ExceptionHandling;
 using Easify.ExceptionHandling.ConfigurationBuilder;
@@ -46,19 +49,22 @@ namespace Easify.AspNetCore.Bootstrap
         ISetDetailsLevel,
         IExtendPipeline,
         IConfigureRequestCorrelation,
+        IConfigureAuthentication,
         IConfigureApplicationBootstrapper where TStartup : class
     {
         private readonly IConfiguration _configuration;
         private readonly ConfigurationSectionBuilder _configurationSectionBuilder;
         private readonly GlobalErrorHandlerConfigurationBuilder _errorHandlerBuilder;
-
         private readonly List<Action<IServiceCollection, IConfiguration>> _pipelineExtenders =
             new List<Action<IServiceCollection, IConfiguration>>();
 
         private readonly IServiceCollection _services;
+        private readonly AppInfo _appInfo; 
+        
+        private AuthOptions _authOptions;
         private Func<IServiceCollection, IConfiguration, IServiceProvider> _containerFactory;
-
         private Func<IExcludeRequests, IBuildOptions> _requestCorrelationExtender = cop => cop.EnforceCorrelation();
+
 
         public AppBootstrapper(
             IServiceCollection services,
@@ -70,6 +76,8 @@ namespace Easify.AspNetCore.Bootstrap
             _errorHandlerBuilder = new GlobalErrorHandlerConfigurationBuilder(services);
 
             _errorHandlerBuilder.UseStandardMessage();
+            _appInfo = _configuration.GetApplicationInfo();
+            _authOptions = _configuration.GetAuthOptions();
         }
 
         public IAddExtraConfigSection AndSection<TSection>()
@@ -109,9 +117,10 @@ namespace Easify.AspNetCore.Bootstrap
             _services.AddRequestCorrelation(b => _requestCorrelationExtender(b.ExcludeDefaultUrls()));
             _services.AddDefaultMvc<TStartup>();
             _services.AddDefaultCorsPolicy();
-            _services.AddDefaultApiDocumentation(_configuration);
+            _services.AddAuthentication(_authOptions);
+            _services.AddOpenApiDocumentation(_appInfo, _authOptions);
 
-            foreach (var extender in _pipelineExtenders) extender(_services, _configuration);
+            _pipelineExtenders.ForEach(e => e(_services, _configuration));
 
             return _containerFactory(_services, _configuration);
         }
@@ -158,7 +167,7 @@ namespace Easify.AspNetCore.Bootstrap
             return this;
         }
 
-        public IExtendPipeline ConfigureCorrelation(
+        public IConfigureAuthentication ConfigureCorrelation(
             Func<IExcludeRequests, IBuildOptions> optionsProvider)
         {
             _requestCorrelationExtender = optionsProvider ??
@@ -166,7 +175,7 @@ namespace Easify.AspNetCore.Bootstrap
             return this;
         }
 
-        public IExtendPipeline ConfigureCorrelation(Func<IExcludeRequests, ICorrelateRequests> optionsProvider)
+        public IConfigureAuthentication ConfigureCorrelation(Func<IExcludeRequests, ICorrelateRequests> optionsProvider)
         {
             if (optionsProvider == null) throw new ArgumentNullException(nameof(optionsProvider));
             _requestCorrelationExtender = r => optionsProvider(r).EnforceCorrelation();
@@ -177,6 +186,13 @@ namespace Easify.AspNetCore.Bootstrap
         {
             if (pipelineExtender == null) throw new ArgumentNullException(nameof(pipelineExtender));
             _pipelineExtenders.Add(pipelineExtender);
+            return this;
+        }
+
+        public IExtendPipeline ConfigureAuthentication(Action<ISetAuthenticationMode> configure)
+        {
+            if (configure == null) throw new ArgumentNullException(nameof(configure));
+            configure(_authOptions);
             return this;
         }
 

@@ -20,9 +20,10 @@ using Easify.Http;
 
 namespace Easify.AspNetCore.Bootstrap.UnitTests
 {
-    public class DummyRequestContext : IRequestContext
+    public sealed class DummyRequestContext : IRequestContext
     {
         public string CorrelationId { get; } = Guid.NewGuid().ToString();
+        public string AuthorizationHeader { get; } = string.Empty;
         public IPrincipal User { get; } = new GenericPrincipal(new GenericIdentity("Test"), new string[] { });
     }
 }

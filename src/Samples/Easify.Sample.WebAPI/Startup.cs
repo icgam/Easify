@@ -53,7 +53,8 @@ namespace Easify.Sample.WebAPI
                     .AddConfigSection<Clients>()
                     .AndSection<Section1>()
                     .AndSection<Section2>()
-                    .HandleApplicationException<TemplateApiApplicationException>().ConfigureMappings(c =>
+                    .HandleApplicationException<TemplateApiApplicationException>()
+                    .ConfigureMappings(c =>
                     {
                         c.CreateMap<PersonEntity, PersonDO>();
                         c.CreateMap<AssetEntity, AssetDO>().ConvertUsing<AssetConverter>();
