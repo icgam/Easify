@@ -19,6 +19,7 @@ using AutoMapper;
 using Easify.AspNetCore.Bootstrap;
 using Easify.AspNetCore.Bootstrap.Extensions;
 using Easify.AspNetCore.Logging.SeriLog;
+using Easify.AspNetCore.Telemetry.AppInsights;
 using Easify.RestEase;
 using Easify.Sample.WebAPI.Core;
 using Easify.Sample.WebAPI.Core.Mappings;
@@ -67,6 +68,7 @@ namespace Easify.Sample.WebAPI
                         container.AddTransientWithInterception<IRateProvider, DummyRateProvider>(by =>
                             by.InterceptBy<LogInterceptor>());
                         container.AddSingleton<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>();
+                        container.AddTelemetry();
                     })
             );
         }
