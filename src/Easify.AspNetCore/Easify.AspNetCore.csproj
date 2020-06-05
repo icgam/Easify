@@ -45,4 +45,7 @@
     <ProjectReference Include="..\Easify\Easify.csproj" />
     <ProjectReference Include="..\Easify.RestEase\Easify.RestEase.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Telemetry" />
+  </ItemGroup>
 </Project>
