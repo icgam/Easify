@@ -30,15 +30,16 @@ namespace Easify.AspNetCore.Telemetry.AppInsights
         {
             _application = applicationAccessor?.Value ?? throw new ArgumentNullException(nameof(applicationAccessor));
         }
+        
         public void Initialize(ITelemetry telemetry)
         {
-            if (string.IsNullOrEmpty(telemetry.Context.Cloud.RoleName))
-            {
-                var roleName = $"{_application.Name}-{_application.Environment.Name}";
+            if (!string.IsNullOrEmpty(telemetry.Context.Cloud.RoleName)) 
+                return;
+            
+            var roleName = $"{_application.Name}-{_application.Environment.Name}";
                 
-                telemetry.Context.Cloud.RoleName = roleName;
-                telemetry.Context.Cloud.RoleInstance = $"{roleName}-Instance";
-            }
+            telemetry.Context.Cloud.RoleName = roleName;
+            telemetry.Context.Cloud.RoleInstance = $"{roleName}-Instance";
         }
     }
 }

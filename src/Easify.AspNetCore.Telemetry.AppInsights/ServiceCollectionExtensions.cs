@@ -17,12 +17,11 @@
 using System;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Easify.AspNetCore.Telemetry.AppInsights
 {
-    public static class AppInsightsExtensions
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddTelemetry(this IServiceCollection services, Action<ApplicationInsightsServiceOptions> configure = null)
         {
