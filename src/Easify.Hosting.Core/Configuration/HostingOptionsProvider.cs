@@ -44,8 +44,8 @@ namespace Easify.Hosting.Core.Configuration
             var builder = new ConfigurationBuilder()
                 .AddJsonFile(Path.Combine(pathToContentRoot, "appSettings.json"), false, true)
                 .AddJsonFile(Path.Combine(pathToContentRoot, $"appsettings.{environmentName}.json"), true, true)
-                .AddCommandLine(args)
-                .AddEnvironmentVariables(EnvironmentVariablePrefix);
+                .AddEnvironmentVariables(EnvironmentVariablePrefix)
+                .AddCommandLine(args);
             
             var configuration = builder.Build();
 
