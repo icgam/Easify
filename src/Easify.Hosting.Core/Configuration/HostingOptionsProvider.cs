@@ -25,6 +25,7 @@ namespace Easify.Hosting.Core.Configuration
     public sealed class HostingOptionsProvider
     {
         private const string InteractiveFlag = "--interactive";
+        private const string EnvironmentVariablePrefix = "EASIFY_";
 
         public HostingOptions GetHostingOptions(string[] args)
         {
@@ -44,7 +45,8 @@ namespace Easify.Hosting.Core.Configuration
                 .AddJsonFile(Path.Combine(pathToContentRoot, "appSettings.json"), false, true)
                 .AddJsonFile(Path.Combine(pathToContentRoot, $"appsettings.{environmentName}.json"), true, true)
                 .AddCommandLine(args)
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables(EnvironmentVariablePrefix);
+            
             var configuration = builder.Build();
 
             return configuration;

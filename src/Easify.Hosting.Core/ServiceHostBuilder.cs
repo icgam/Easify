@@ -51,10 +51,9 @@ namespace Easify.Hosting.Core
                 })
                 .Build();
 
-            if (_hostingOptions.LaunchedAsService)
-                return _serviceContainerBuilder(webHost);
-
-            return new WebHostContainer(webHost);
+            return _hostingOptions.LaunchedAsService
+                ? _serviceContainerBuilder(webHost)
+                : new WebHostContainer(webHost);
         }
     }
 }
