@@ -22,7 +22,7 @@ namespace Easify.Configurations
     {
         public static AppInfo GetApplicationInfo(this IConfiguration config)
         {
-            var name = config[ConfigurationKeys.AppTitleKey];
+            var name = config[ConfigurationKeys.AppNameKey];
             var version = config[ConfigurationKeys.AppVersionKey];
             var environment = config[ConfigurationKeys.AppEnvironmentNameKey];
 
