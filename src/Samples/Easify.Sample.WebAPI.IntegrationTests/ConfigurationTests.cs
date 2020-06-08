@@ -17,9 +17,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using Easify.Sample.WebAPI.Domain;
 using Easify.Sample.WebAPI.IntegrationTests.Helpers;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace Easify.Sample.WebAPI.IntegrationTests
