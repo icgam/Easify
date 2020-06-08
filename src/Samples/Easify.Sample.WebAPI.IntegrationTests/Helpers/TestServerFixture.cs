@@ -20,11 +20,13 @@ using System.Net.Http;
 using System.Threading;
 using Easify.AspNetCore.Logging.SeriLog.Fluent;
 using Easify.Configurations;
+using Easify.Hosting.Core.Configuration;
 using Easify.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NSubstitute.Extensions;
 using Serilog;
 
 namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
@@ -49,8 +51,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
                     var env = context.HostingEnvironment;
                     env.EnvironmentName = options.Environment;
 
-                    builder.SetBasePath(env.ContentRootPath)
-                        .AddJsonFile("appsettings.json", false, true);
+                    builder.ConfigureBuilder(env.ContentRootPath, env.EnvironmentName, new string[] {});
                 })
                 .UseStartup<TStartup>()
                 .ConfigureServices(options.ConfigureServices);
