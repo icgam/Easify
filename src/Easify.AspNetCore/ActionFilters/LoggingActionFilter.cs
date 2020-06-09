@@ -23,7 +23,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Easify.AspNetCore.ActionFilters
 {
-    // TODO: Does it need to even be an action
     public class LoggingActionFilter : IActionFilter, IAsyncActionFilter
     {
         private readonly ILogger _log;

@@ -17,13 +17,14 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Easify.ExceptionHandling;
 using Easify.ExceptionHandling.Domain;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Easify.ExceptionHandling
+namespace Easify.AspNetCore.ExceptionHandling
 {
     public sealed class ErrorHandlingMiddleware
     {

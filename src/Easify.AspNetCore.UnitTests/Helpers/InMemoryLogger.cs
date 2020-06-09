@@ -22,7 +22,7 @@ using Microsoft.Extensions.Logging.Console;
 
 namespace Easify.AspNetCore.UnitTests.Helpers
 {
-    public sealed class InMemoryLogger<T> : ILogger<T>, ILogger where T : class
+    public sealed class InMemoryLogger<T> : ILogger<T> where T : class
     {
         private static readonly string LoglevelPadding = ": ";
         private static readonly string MessagePadding;
@@ -43,6 +43,7 @@ namespace Easify.AspNetCore.UnitTests.Helpers
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Filter = filter ?? ((category, logLevel) => true);
+            ScopeProvider = new LoggerExternalScopeProvider();
         }
 
         public Func<string, LogLevel, bool> Filter
@@ -52,6 +53,8 @@ namespace Easify.AspNetCore.UnitTests.Helpers
         }
 
         public string Name { get; }
+        
+        private IExternalScopeProvider ScopeProvider { get; }
 
         public List<string> Logs
         {
@@ -88,7 +91,7 @@ namespace Easify.AspNetCore.UnitTests.Helpers
         {
             if (state == null) throw new ArgumentNullException(nameof(state));
 
-            return ConsoleLogScope.Push(Name, state);
+            return ScopeProvider.Push(state);
         }
 
         private void WriteMessage(LogLevel logLevel, string logName, int eventId, string message, Exception exception)

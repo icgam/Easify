@@ -17,6 +17,7 @@
 using System;
 using Easify.AspNetCore.Cors;
 using Easify.AspNetCore.Documentation;
+using Easify.AspNetCore.ExceptionHandling;
 using Easify.AspNetCore.Health;
 using Easify.AspNetCore.Logging.SeriLog;
 using Easify.AspNetCore.RequestCorrelation;
