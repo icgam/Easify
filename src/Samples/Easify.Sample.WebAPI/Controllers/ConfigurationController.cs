@@ -1,4 +1,4 @@
-// This software is part of the Easify framework
+﻿// This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,19 +14,30 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-namespace Easify.Configurations
+namespace Easify.Sample.WebAPI.Controllers
 {
-    public static class ConfigurationExtensions
+    [Route("api/[controller]")]
+    public class ConfigurationController : Controller
     {
-        public static AppInfo GetApplicationInfo(this IConfiguration config)
-        {
-            var name = config[ConfigurationKeys.AppNameKey];
-            var version = config[ConfigurationKeys.AppVersionKey];
-            var environment = config[ConfigurationKeys.AppEnvironmentNameKey];
+        private readonly IConfiguration _configuration;
 
-            return new AppInfo(name, version, environment);
+        public ConfigurationController(IConfiguration configuration)
+        {
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
+        
+        [HttpGet("environment/{name}")]
+        public IActionResult GetValidEnvironmentConfig(string name)
+        {
+            var configItem = _configuration[name];
+            if (string.IsNullOrWhiteSpace(configItem))
+                return NotFound();
+            
+            return Ok(configItem);
+        } 
     }
 }

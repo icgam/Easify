@@ -30,21 +30,17 @@ namespace Easify.Hosting.Core.Configuration
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
             var isService = LaunchedAsService(args);
-            var pathToContentRoot = GetPathToContentRoot(isService);
-            var configuration = LoadConfiguration(pathToContentRoot, args);
+            var basePath = GetPathToContentRoot(isService);
+            var configuration = LoadConfiguration(basePath, args);
 
-            return new HostingOptions(pathToContentRoot, isService, configuration);
+            return new HostingOptions(basePath, isService, configuration);
         }
 
-        private IConfiguration LoadConfiguration(string pathToContentRoot, string[] args)
+        private IConfiguration LoadConfiguration(string basePath, string[] args)
         {
-            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile(Path.Combine(pathToContentRoot, "appSettings.json"), false, true)
-                .AddJsonFile(Path.Combine(pathToContentRoot, $"appsettings.{environmentName}.json"), true, true)
-                .AddCommandLine(args)
-                .AddEnvironmentVariables();
+            var builder = new ConfigurationBuilder().ConfigureBuilder(basePath, environment, args);
             var configuration = builder.Build();
 
             return configuration;

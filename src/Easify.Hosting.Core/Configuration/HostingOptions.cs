@@ -29,7 +29,7 @@ namespace Easify.Hosting.Core.Configuration
             if (string.IsNullOrWhiteSpace(pathToContentRoot))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(pathToContentRoot));
 
-            Title = configuration[ConfigurationKeys.AppTitleKey];
+            Name = configuration[ConfigurationKeys.AppNameKey];
             Version = configuration[ConfigurationKeys.AppVersionKey];
             BaseUrl = configuration.GetSection("ServiceHost").Get<ServiceHostConfig>().BaseUrl;
             PathToContentRoot = pathToContentRoot;
@@ -37,7 +37,7 @@ namespace Easify.Hosting.Core.Configuration
             Configuration = configuration;
         }
 
-        public string Title { get; }
+        public string Name { get; }
         public string Version { get; }
         public string BaseUrl { get; }
         public string PathToContentRoot { get; }
