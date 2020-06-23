@@ -20,5 +20,6 @@
     <Content Update="appsettings.PROD.Development.json">
       <DependentUpon>appsettings.PROD.json</DependentUpon>
     </Content>
+    <Content Remove="logs\loggly-buffer-20200622.json" />
   </ItemGroup>
 </Project>
