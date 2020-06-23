@@ -43,7 +43,7 @@ In order to achieve all of this functionality you merely need a few lines of cod
     {
         public static void Main(string[] args)
         {
-            WebHost.Run<Startup>(s =>  s.ConfigureLogger<Startup>());
+            HostAsWeb.Run<Startup>(s =>  s.ConfigureLogger<Startup>());
         }
     }
 
