@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\Easify.AspNetCore.Telemetry.AppInsights\Easify.AspNetCore.Telemetry.AppInsights.csproj" />
     <ProjectReference Include="..\..\Easify.Logging.SeriLog.Loggly\Easify.Logging.SeriLog.Loggly.csproj" />
     <ProjectReference Include="..\..\Easify.AspNetCore.Bootstrap\Easify.AspNetCore.Bootstrap.csproj" />
+    <ProjectReference Include="..\..\Easify.Logging.SeriLog.Seq\Easify.Logging.SeriLog.Seq.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.json">

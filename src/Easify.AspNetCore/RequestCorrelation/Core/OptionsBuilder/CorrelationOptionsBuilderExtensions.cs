@@ -26,6 +26,7 @@ namespace Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder
 
             excludeRequests
                 .ExcludeUrl(f => f.WhenEndsWith("/health"))
+                .ExcludeUrl(f => f.WhenEndsWith("/diagnostics/status"))
                 .ExcludeUrl(f => f.WhenEndsWith("/diagnostics/logs"))
                 .ExcludeUrl(f => f.WhenContains("/swagger"));
 

@@ -21,14 +21,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Easify.Hosting.WindowsService
 {
-    public sealed class InstrumentedWebHostService : WebHostService
+    public sealed class DefaultWebHostService : WebHostService
     {
-        public InstrumentedWebHostService(IWebHost host) : base(host)
+        public DefaultWebHostService(IWebHost host) : base(host)
         {
-            Log = host.Services.GetRequiredService<ILogger<InstrumentedWebHostService>>();
+            Log = host.Services.GetRequiredService<ILogger<DefaultWebHostService>>();
         }
 
-        private ILogger<InstrumentedWebHostService> Log { get; }
+        private ILogger<DefaultWebHostService> Log { get; }
 
         protected override void OnStarting(string[] args)
         {

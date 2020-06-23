@@ -16,14 +16,13 @@
 
 using System;
 using Easify.AspNetCore.Cors;
+using Easify.AspNetCore.Dignostics;
 using Easify.AspNetCore.Documentation;
 using Easify.AspNetCore.ExceptionHandling;
-using Easify.AspNetCore.Health;
 using Easify.AspNetCore.Logging.SeriLog;
 using Easify.AspNetCore.RequestCorrelation;
 using Easify.AspNetCore.Security;
 using Easify.Configurations;
-using Easify.ExceptionHandling;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

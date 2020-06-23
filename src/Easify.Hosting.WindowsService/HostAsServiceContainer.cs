@@ -15,22 +15,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.ServiceProcess;
+using Easify.Hosting.Core;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Easify.Hosting.Core.HostContainer
+namespace Easify.Hosting.WindowsService
 {
-    public sealed class WebHostContainer : IServiceHost
+    public sealed class HostAsServiceContainer : IHostContainer
     {
         private readonly IWebHost _host;
 
-        public WebHostContainer(IWebHost host)
+        public HostAsServiceContainer(IWebHost host)
         {
             _host = host ?? throw new ArgumentNullException(nameof(host));
         }
 
         public void Run()
         {
-            _host.Run();
+            var webHostService = new DefaultWebHostService(_host);
+            ServiceBase.Run(webHostService);
         }
     }
 }

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="InstrumentedWebHostService.cs">
+    <Compile Update="DefaultWebHostService.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
