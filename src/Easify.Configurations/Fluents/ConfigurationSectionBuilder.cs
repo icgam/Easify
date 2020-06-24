@@ -34,7 +34,7 @@ namespace Easify.Configurations.Fluents
         public IAddExtraConfigSection And<TSection>() where TSection : class, new()
         {
             var sectionName = typeof(TSection).Name;
-            _services.Configure<TSection>(_configuration.GetSection(sectionName));
+            _services.Configure<TSection>(m => _configuration.GetSection(sectionName));
 
             return this;
         }
@@ -43,7 +43,7 @@ namespace Easify.Configurations.Fluents
         {
             if (string.IsNullOrWhiteSpace(section))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(section));
-            _services.Configure<TSection>(_configuration.GetSection(section));
+            _services.Configure<TSection>(m => _configuration.GetSection(section));
             return this;
         }
 
@@ -61,7 +61,7 @@ namespace Easify.Configurations.Fluents
             if (string.IsNullOrWhiteSpace(section))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(section));
 
-            _services.Configure<TSection>(_configuration.GetSection(section));
+            _services.Configure<TSection>(m => _configuration.GetSection(section));
             return this;
         }
 

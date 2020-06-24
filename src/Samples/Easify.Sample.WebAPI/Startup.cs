@@ -55,6 +55,7 @@ namespace Easify.Sample.WebAPI
                     .AndSection<Section1>()
                     .AndSection<Section2>()
                     .HandleApplicationException<TemplateApiApplicationException>()
+                    .ConfigureCorrelation(m => m.AutoCorrelateRequests())
                     .ConfigureMappings(c =>
                     {
                         c.CreateMap<PersonEntity, PersonDO>();

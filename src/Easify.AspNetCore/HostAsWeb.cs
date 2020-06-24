@@ -15,41 +15,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.IO;
 using Easify.AspNetCore.Logging.SeriLog.Fluent;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Serilog;
 
 namespace Easify.AspNetCore
 {
-    public static class WebHost
+    public static class HostAsWeb
     {
         private static IWebHost Build<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerBuilderFactory, string[] args)
             where TStartup : class
         {
             if (loggerBuilderFactory == null) throw new ArgumentNullException(nameof(loggerBuilderFactory));
 
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .ConfigureAppConfiguration((context, builder) =>
+            var host = WebHost
+                .CreateDefaultBuilder<TStartup>(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    var env = context.HostingEnvironment;
-
-                    builder.SetBasePath(env.ContentRootPath)
-                        .AddJsonFile("hosting.json", true)
-                        .AddJsonFile("appsettings.json", false, true)
-                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-                        .AddEnvironmentVariables()
-                        .AddCommandLine(args);
+                    var env = hostingContext.HostingEnvironment;
+                    var options = new ConfigurationOptions(env.ContentRootPath, env.EnvironmentName, env.ApplicationName, args);
+                    config.ConfigureBuilder(options);
                 })
-                .UseIISIntegration()
-                .UseStartup<TStartup>()
                 .UseSerilog((context, configuration) =>
                 {
-                    var loggerBuilder = loggerBuilderFactory(new LoggerBuilder(context, configuration));
-                    loggerBuilder.Build<TStartup>();
+                    loggerBuilderFactory(new LoggerBuilder(context, configuration)).Build<TStartup>();
                 })
                 .Build();
 

@@ -20,7 +20,6 @@ using Microsoft.Extensions.Configuration;
 
 namespace Easify.Hosting.Core.Configuration
 {
-    //TODO: This should be revised regarding to the new capabilities in v2.0
     public sealed class HostingOptions
     {
         public HostingOptions(string pathToContentRoot, bool launchedAsService, IConfiguration configuration)

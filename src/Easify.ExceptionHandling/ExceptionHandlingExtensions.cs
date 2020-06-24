@@ -17,13 +17,9 @@
 using System;
 using Easify.ExceptionHandling.ConfigurationBuilder;
 using Easify.ExceptionHandling.ConfigurationBuilder.Fluent;
-using Easify.ExceptionHandling.ErrorBuilder;
-using Easify.ExceptionHandling.ErrorBuilder.Fluent;
 using Easify.ExceptionHandling.Formatter;
 using Easify.ExceptionHandling.Providers;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using RestEase;
 
 namespace Easify.ExceptionHandling
 {
@@ -44,19 +40,6 @@ namespace Easify.ExceptionHandling
             services.AddTransient<IErrorProvider, ErrorProvider>();
             services.AddTransient<IErrorMessageFormatter, HierarchicalErrorMessageFormatter>();
             services.AddTransient<IErrorResponseProvider, ErrorResponseProvider>();
-        }
-
-        public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder app)
-        {
-            if (app == null) throw new ArgumentNullException(nameof(app));
-            app.UseMiddleware<ErrorHandlingMiddleware>();
-            return app;
-        }
-
-        public static IProvideErrorBuilder<ApiException> UseBuilderForApi(
-            this ISetErrorBuilder<ApiException> builderProvider)
-        {
-            return builderProvider.Use(new ErrorBuilderForApiException());
         }
     }
 }

@@ -15,22 +15,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Microsoft.AspNetCore.Hosting;
+using Easify.ExceptionHandling.ErrorBuilder;
+using Easify.ExceptionHandling.ErrorBuilder.Fluent;
+using Microsoft.AspNetCore.Builder;
+using RestEase;
 
-namespace Easify.Hosting.Core.HostContainer
+namespace Easify.AspNetCore.ExceptionHandling
 {
-    public sealed class WebHostContainer : IServiceHost
+    public static class ExceptionHandlingExtensions
     {
-        private readonly IWebHost _host;
-
-        public WebHostContainer(IWebHost host)
+        public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder app)
         {
-            _host = host ?? throw new ArgumentNullException(nameof(host));
+            if (app == null) throw new ArgumentNullException(nameof(app));
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+            return app;
         }
 
-        public void Run()
+        public static IProvideErrorBuilder<ApiException> UseBuilderForApi(
+            this ISetErrorBuilder<ApiException> builderProvider)
         {
-            _host.Run();
+            return builderProvider.Use(new ErrorBuilderForApiException());
         }
     }
 }

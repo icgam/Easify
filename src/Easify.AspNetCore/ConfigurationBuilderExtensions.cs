@@ -16,25 +16,35 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 
-namespace Easify.Hosting.Core.Configuration
+namespace Easify.AspNetCore
 {
     public static class ConfigurationBuilderExtensions
     {
         public const string EnvironmentVariablePrefix = "EASIFY_";
-        public static IConfigurationBuilder ConfigureBuilder(this IConfigurationBuilder builder, string basePath, string environment, string[] args)
+        public static IConfigurationBuilder ConfigureBuilder(this IConfigurationBuilder builder, ConfigurationOptions options)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
-            if (basePath == null) throw new ArgumentNullException(nameof(basePath));
-            if (environment == null) throw new ArgumentNullException(nameof(environment));
-            if (args == null) throw new ArgumentNullException(nameof(args));
-            
-            builder.SetBasePath(basePath)
-                .AddJsonFile(Path.Combine(basePath, "appSettings.json"), false, true)
-                .AddJsonFile(Path.Combine(basePath, $"appsettings.{environment}.json"), true, true)
+            if (options == null) throw new ArgumentNullException(nameof(options));
+
+            builder
+                .AddJsonFile(Path.Combine(options.BasePath, "appSettings.json"), false, true)
+                .AddJsonFile(Path.Combine(options.BasePath, $"appsettings.{options.Environment}.json"), true, true);
+                
+            if (options.IsDevelopment)
+            {
+                var appAssembly = Assembly.Load(new AssemblyName(options.AppEntry));
+                if (appAssembly != null)
+                {
+                    builder.AddUserSecrets(appAssembly, optional: true);
+                }
+            }   
+                
+            builder
                 .AddEnvironmentVariables(EnvironmentVariablePrefix)
-                .AddCommandLine(args);
+                .AddCommandLine(options.Args);
 
             return builder;
         }

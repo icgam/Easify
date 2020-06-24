@@ -21,6 +21,7 @@ using Easify.AspNetCore.ActionFilters;
 using Easify.AspNetCore.Serializations;
 using Easify.Extensions;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Easify.AspNetCore.Mvc
@@ -41,7 +42,8 @@ namespace Easify.AspNetCore.Mvc
                     options.Filters.Add(typeof(ValidateModelStateActionFilter));
                 })
                 .AddJsonOptions(o => o.SerializerSettings.ConfigureJsonSettings())
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromDomain<TStartup>(prefix));
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromDomain<TStartup>(prefix))
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             return services;
         }

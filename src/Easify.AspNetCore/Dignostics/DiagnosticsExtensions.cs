@@ -14,10 +14,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Easify.Hosting.Core.HostContainer
+using System;
+using Microsoft.AspNetCore.Builder;
+
+namespace Easify.AspNetCore.Dignostics
 {
-    public interface IServiceHost
+    public static class DiagnosticsExtensions
     {
-        void Run();
+        public static IApplicationBuilder UseHealth(this IApplicationBuilder app)
+        {
+            if (app == null) throw new ArgumentNullException(nameof(app));
+            return app.UseMiddleware<DiagnosticsMiddleware>();
+        }
     }
 }

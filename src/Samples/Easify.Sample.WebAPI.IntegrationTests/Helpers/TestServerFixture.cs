@@ -18,15 +18,13 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
+using Easify.AspNetCore;
 using Easify.AspNetCore.Logging.SeriLog.Fluent;
 using Easify.Configurations;
-using Easify.Hosting.Core.Configuration;
 using Easify.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NSubstitute.Extensions;
 using Serilog;
 
 namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
@@ -50,8 +48,9 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
                 {
                     var env = context.HostingEnvironment;
                     env.EnvironmentName = options.Environment;
-
-                    builder.ConfigureBuilder(env.ContentRootPath, env.EnvironmentName, new string[] {});
+                    
+                    var configOptions = new ConfigurationOptions(env.ContentRootPath, env.EnvironmentName, env.ApplicationName, new string[] {});
+                    builder.ConfigureBuilder(configOptions);
                 })
                 .UseStartup<TStartup>()
                 .ConfigureServices(options.ConfigureServices);

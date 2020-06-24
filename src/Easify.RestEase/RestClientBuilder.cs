@@ -43,6 +43,8 @@ namespace Easify.RestEase
             configure(options);
 
             var client = RestClient.For<T>(httpContext);
+            
+            // TODO: Should be set into headers directly rather than property. It will be an issue with scoped singleton scope.
             client.CorrelationId = _requestContext.CorrelationId;
 
             if (options.IncludeAuthorizationHeader && !string.IsNullOrWhiteSpace(_requestContext.AuthorizationHeader))

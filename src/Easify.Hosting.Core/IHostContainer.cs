@@ -14,16 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Easify.Hosting.Core.HostContainer;
-using Microsoft.AspNetCore.Hosting;
-
-namespace Easify.Hosting.WindowsService
+namespace Easify.Hosting.Core
 {
-    public static class WebHostBuilderExtensions
+    public interface IHostContainer
     {
-        public static IServiceHost UseWindowsService(this IWebHost webHost)
-        {
-            return new WindowsServiceHostContainer(webHost);
-        }
+        void Run();
     }
 }

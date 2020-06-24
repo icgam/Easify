@@ -18,29 +18,44 @@ using System;
 using Easify.AspNetCore.Logging.SeriLog.Fluent;
 using Easify.Hosting.Core;
 using Easify.Hosting.Core.Configuration;
-using Easify.Hosting.Core.HostContainer;
 using Microsoft.AspNetCore.Hosting;
+using Serilog;
 
 namespace Easify.Hosting.WindowsService
 {
-    public static class WindowsServiceHost
+    public static class HostAsService
     {
-        private static void Build<TStartup>(Func<IWebHost, IServiceHost> serviceContainerBuilder,
+        private static void Build<TStartup>(Func<IWebHost, IHostContainer> serviceContainerBuilder,
             Func<ILoggerBuilder, IBuildLogger> loggerBuilderFactory, string[] args) where TStartup : class
         {
             var options = new HostingOptionsProvider().GetHostingOptions(args);
-            var hostBuilder = new ServiceHostBuilder<TStartup>(options, serviceContainerBuilder);
-            var host = hostBuilder.Build(loggerBuilderFactory, args);
-            host.Run();
+            
+            var webHost = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(options.PathToContentRoot)
+                .UseUrls(options.BaseUrl)
+                .UseConfiguration(options.Configuration)
+                .UseStartup<TStartup>()
+                .UseSerilog((context, configuration) =>
+                {
+                    loggerBuilderFactory(new LoggerBuilder(context, configuration)).Build<TStartup>();
+                })
+                .Build();
+
+            var serviceHost = options.LaunchedAsService
+                ? new HostAsServiceContainer(webHost)
+                : (IHostContainer)new HostAsWebContainer(webHost);
+
+            serviceHost.Run();
         }
 
-        public static void Run<TStartup>(Func<IWebHost, IServiceHost> serviceContainerBuilder,
+        public static void Run<TStartup>(Func<IWebHost, IHostContainer> serviceContainerBuilder,
             Func<ILoggerBuilder, IBuildLogger> loggerBuilderFactory) where TStartup : class
         {
             Run<TStartup>(serviceContainerBuilder, loggerBuilderFactory, new string[] { });
         }
 
-        public static void Run<TStartup>(Func<IWebHost, IServiceHost> serviceContainerBuilder,
+        public static void Run<TStartup>(Func<IWebHost, IHostContainer> serviceContainerBuilder,
             Func<ILoggerBuilder, IBuildLogger> loggerBuilderFactory, string[] args) where TStartup : class
         {
             Build<TStartup>(serviceContainerBuilder, loggerBuilderFactory, args);

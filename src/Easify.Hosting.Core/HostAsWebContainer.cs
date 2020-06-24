@@ -15,16 +15,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 
-namespace Easify.AspNetCore.Health
+namespace Easify.Hosting.Core
 {
-    public static class DiagnosticsExtensions
+    public sealed class HostAsWebContainer : IHostContainer
     {
-        public static IApplicationBuilder UseHealth(this IApplicationBuilder app)
+        private readonly IWebHost _host;
+
+        public HostAsWebContainer(IWebHost host)
         {
-            if (app == null) throw new ArgumentNullException(nameof(app));
-            return app.UseMiddleware<HealthMiddleware>();
+            _host = host ?? throw new ArgumentNullException(nameof(host));
+        }
+
+        public void Run()
+        {
+            _host.Run();
         }
     }
 }

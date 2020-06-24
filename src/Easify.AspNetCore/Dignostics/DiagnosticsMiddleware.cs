@@ -27,15 +27,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Newtonsoft.Json;
 
-namespace Easify.AspNetCore.Health
+namespace Easify.AspNetCore.Dignostics
 {
-    public sealed class HealthMiddleware
+    public sealed class DiagnosticsMiddleware
     {
         private const string JsonContentType = "application/json";
         private readonly IHostingEnvironment _host;
         private readonly RequestDelegate _next;
 
-        public HealthMiddleware(RequestDelegate next, IHostingEnvironment host)
+        public DiagnosticsMiddleware(RequestDelegate next, IHostingEnvironment host)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _host = host ?? throw new ArgumentNullException(nameof(host));
@@ -44,7 +44,7 @@ namespace Easify.AspNetCore.Health
         public async Task Invoke(HttpContext context)
         {
             var uri = new Uri(context.Request.GetDisplayUrl());
-            if (uri.AbsolutePath.Equals("/health", StringComparison.OrdinalIgnoreCase))
+            if (uri.AbsolutePath.Equals("/diagnostics/status", StringComparison.OrdinalIgnoreCase))
             {
                 var health = GenerateHealthInfo();
                 context.Response.ContentType = JsonContentType;
@@ -59,7 +59,7 @@ namespace Easify.AspNetCore.Health
         public string GenerateHealthInfo()
         {
             var version =
-                Assembly.GetEntryAssembly()
+                Assembly.GetEntryAssembly()?
                     .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                     .InformationalVersion;
 

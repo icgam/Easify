@@ -15,9 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using Easify.AspNetCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Easify.Hosting.Core.Configuration
@@ -31,36 +34,43 @@ namespace Easify.Hosting.Core.Configuration
             if (args == null) throw new ArgumentNullException(nameof(args));
             var isService = LaunchedAsService(args);
             var basePath = GetPathToContentRoot(isService);
-            var configuration = LoadConfiguration(basePath, args);
+            var appEntryName = GetEntryName(isService);
+            var configuration = LoadConfiguration(basePath, appEntryName, args);
 
             return new HostingOptions(basePath, isService, configuration);
         }
 
-        private IConfiguration LoadConfiguration(string basePath, string[] args)
+        private IConfiguration LoadConfiguration(string basePath, string appEntryName, string[] args)
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-            var builder = new ConfigurationBuilder().ConfigureBuilder(basePath, environment, args);
-            var configuration = builder.Build();
+            var configuration = new ConfigurationBuilder()
+                .ConfigureBuilder(new ConfigurationOptions(basePath, environment, appEntryName, args))
+                .Build();
 
             return configuration;
         }
 
-        private bool LaunchedAsService(string[] args)
+        private static bool LaunchedAsService(IEnumerable<string> args)
         {
             return (Debugger.IsAttached || args.Contains(InteractiveFlag)) == false;
         }
 
-        private string GetPathToContentRoot(bool isService)
+        private static string GetPathToContentRoot(bool isService)
         {
-            var pathToContentRoot = Directory.GetCurrentDirectory();
-            if (isService)
-            {
-                var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
-                pathToContentRoot = Path.GetDirectoryName(pathToExe);
-            }
-
-            return pathToContentRoot;
+            if (!isService) 
+                return Directory.GetCurrentDirectory();
+            
+            var pathToExe = Process.GetCurrentProcess().MainModule?.FileName;
+            return Path.GetDirectoryName(pathToExe);
+        }        
+        
+        private static string GetEntryName(bool isService)
+        {
+            if (!isService) 
+                return Assembly.GetEntryAssembly()?.GetName().Name;
+            
+            var pathToExe = Process.GetCurrentProcess().MainModule?.FileName;
+            return Path.GetFileName(pathToExe);
         }
     }
 }
