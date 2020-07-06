@@ -20,8 +20,8 @@ using Easify.Bootstrap;
 
 namespace Easify.AspNetCore.Bootstrap
 {
-    public interface IConfigureAuthentication : IExtendPipeline
+    public interface IConfigureAuthentication : IConfigureHealthChecks, IExtendPipeline
     {
-        IExtendPipeline ConfigureAuthentication(Action<ISetAuthenticationMode> configure);
+        IConfigureHealthChecks ConfigureAuthentication(Action<ISetAuthenticationMode> configure);
     }
 }

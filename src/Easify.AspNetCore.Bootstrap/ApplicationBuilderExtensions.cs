@@ -59,9 +59,15 @@ namespace Easify.AspNetCore.Bootstrap
 
             app.UseAuthentication();
             app.UseRequestCorrelation();
+            app.UseHealthChecks("/health");
+            app.UseHealthChecksUI(setup =>
+            {
+                setup.ApiPath = "/health";
+                setup.UIPath = "/health-ui";
+            });
             app.UseCorrelatedLogs();
             app.UseUserIdentityLogging();
-            app.UseHealth();
+            app.UseDiagnostics();
             app.UseMvc();
             app.UseOpenApiDocumentation(appInfo, u => u.ConfigureAuth(appInfo, authOptions.Authentication));
 

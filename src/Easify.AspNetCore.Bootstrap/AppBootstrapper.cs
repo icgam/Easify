@@ -40,7 +40,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Easify.AspNetCore.Bootstrap
 {
-    // TODO: Bootstrapping shouldn't be dependent to this but a bunch of options to middleware
     public sealed class AppBootstrapper<TStartup> :
         IBootstrapApplication,
         IConfigureContainer,
@@ -50,6 +49,7 @@ namespace Easify.AspNetCore.Bootstrap
         IExtendPipeline,
         IConfigureRequestCorrelation,
         IConfigureAuthentication,
+        IConfigureHealthChecks,
         IConfigureApplicationBootstrapper where TStartup : class
     {
         private readonly IConfiguration _configuration;
@@ -61,7 +61,7 @@ namespace Easify.AspNetCore.Bootstrap
         private readonly IServiceCollection _services;
         private readonly AppInfo _appInfo; 
         
-        private AuthOptions _authOptions;
+        private readonly AuthOptions _authOptions;
         private Func<IServiceCollection, IConfiguration, IServiceProvider> _containerFactory;
         private Func<IExcludeRequests, IBuildOptions> _requestCorrelationExtender = cop => cop.EnforceCorrelation();
 
@@ -189,10 +189,22 @@ namespace Easify.AspNetCore.Bootstrap
             return this;
         }
 
-        public IExtendPipeline ConfigureAuthentication(Action<ISetAuthenticationMode> configure)
+        public IConfigureHealthChecks ConfigureAuthentication(Action<ISetAuthenticationMode> configure)
         {
             if (configure == null) throw new ArgumentNullException(nameof(configure));
             configure(_authOptions);
+            return this;
+        }        
+        
+        public IExtendPipeline ConfigureHealthChecks(Action<IHealthChecksBuilder> configure)
+        {
+            if (configure == null) throw new ArgumentNullException(nameof(configure));
+
+            var healthCheckBuilder = _services.AddHealthChecks();
+            configure(healthCheckBuilder);
+
+            _services.AddHealthChecksUI();
+            
             return this;
         }
 
