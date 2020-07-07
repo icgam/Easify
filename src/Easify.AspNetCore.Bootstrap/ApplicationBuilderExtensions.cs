@@ -23,7 +23,9 @@ using Easify.AspNetCore.Logging.SeriLog;
 using Easify.AspNetCore.RequestCorrelation;
 using Easify.AspNetCore.Security;
 using Easify.Configurations;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -59,12 +61,12 @@ namespace Easify.AspNetCore.Bootstrap
 
             app.UseAuthentication();
             app.UseRequestCorrelation();
-            app.UseHealthChecks("/health");
-            app.UseHealthChecksUI(setup =>
+            app.UseHealthChecks("/health", new HealthCheckOptions
             {
-                setup.ApiPath = "/health";
-                setup.UIPath = "/health-ui";
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
+
             app.UseCorrelatedLogs();
             app.UseUserIdentityLogging();
             app.UseDiagnostics();

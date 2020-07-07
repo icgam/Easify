@@ -54,7 +54,7 @@ namespace Easify.Logging.SeriLog.Loggly
             config.Transport.EndpointHostname = serverUri.Host;
             config.Transport.EndpointPort = SslPort;
             config.Transport.LogTransport = LogTransport.Https;
-
+            config.IsEnabled = options.IsEnabled;
 
             if (options.AllowLogLevelToBeControlledRemotely)
                 return _configurationServices.SinkConfiguration.Loggly(bufferBaseFilename: options.BufferBaseFilename,

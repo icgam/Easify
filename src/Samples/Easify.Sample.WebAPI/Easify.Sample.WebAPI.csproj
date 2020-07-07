@@ -6,6 +6,8 @@
   <ItemGroup>
     <PackageReference Include="Foil" Version="1.0.30" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="2.2.35" />
+    <PackageReference Include="AspNetcore.HealthChecks.Publisher.Seq" Version="2.2.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Easify.AspNetCore.Telemetry.AppInsights\Easify.AspNetCore.Telemetry.AppInsights.csproj" />

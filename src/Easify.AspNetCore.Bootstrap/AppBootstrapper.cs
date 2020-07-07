@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using Easify.AspNetCore.Cors;
 using Easify.AspNetCore.Documentation;
 using Easify.AspNetCore.ExceptionHandling;
+using Easify.AspNetCore.Health;
 using Easify.AspNetCore.Mvc;
 using Easify.AspNetCore.RequestCorrelation;
 using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
@@ -200,11 +201,8 @@ namespace Easify.AspNetCore.Bootstrap
         {
             if (configure == null) throw new ArgumentNullException(nameof(configure));
 
-            var healthCheckBuilder = _services.AddHealthChecks();
-            configure(healthCheckBuilder);
+            _services.AddDefaultHealthChecks(configure);
 
-            _services.AddHealthChecksUI();
-            
             return this;
         }
 

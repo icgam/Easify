@@ -38,7 +38,6 @@
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="2.2.3" />
-    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="2.2.35" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Easify.Configurations\Easify.Configurations.csproj" />

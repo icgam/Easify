@@ -62,6 +62,11 @@ namespace Easify.Sample.WebAPI
                         c.AddUrlGroup(new Uri("http://www.google.com"), HttpMethod.Get, "google");
                         c.AddUrlGroup(new Uri("http://www.Microsoft.com"), HttpMethod.Get, "microsoft");
                         c.AddUrlGroup(new Uri("http://www.icgam.com"), HttpMethod.Get, "icgam");
+                        c.AddSeqPublisher(setup =>
+                        {
+                            setup.Endpoint = Configuration["seq:ServerUrl"];
+                            setup.ApiKey = Configuration["seq:ApiKey"];
+                        });
                     })
                     .ConfigureMappings(c =>
                     {
@@ -77,12 +82,14 @@ namespace Easify.Sample.WebAPI
                             by.InterceptBy<LogInterceptor>());
                         container.AddSingleton<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>();
                         container.AddTelemetry();
+                        container.AddHealthChecksUI();
                     })
             );
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseHealthChecksUI();
             app.UseDefaultApiPipeline(Configuration, env, loggerFactory);
         }
     }
