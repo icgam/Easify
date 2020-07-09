@@ -24,9 +24,9 @@ using Xunit;
 
 namespace Easify.Sample.WebAPI.IntegrationTests
 {
-    public sealed class AutomapperControllerTests : IDisposable
+    public sealed class HealthControllerTests : IDisposable
     {
-        public AutomapperControllerTests()
+        public HealthControllerTests()
         {
             Fixture = TestServerFixture<StartupForAutomapper>.Create();
         }
@@ -49,7 +49,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         [Theory]
         [InlineData("John", "Dow")]
         [InlineData("Jane", "Dow")]
-        public async Task GivenUserWhenRequestedShouldMapAndReturnCorrectUserResult(string firstName, string lastName)
+        public async Task GivenAPIRunningWhenHealthRequestedShouldReturnHealthCheckFor(string firstName, string lastName)
         {
             // Arrange
             // Act
