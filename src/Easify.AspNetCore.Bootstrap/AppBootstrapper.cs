@@ -60,6 +60,7 @@ namespace Easify.AspNetCore.Bootstrap
             new List<Action<IServiceCollection, IConfiguration>>();
 
         private readonly IServiceCollection _services;
+        private readonly IHealthChecksBuilder _healthChecksBuilder;
         private readonly AppInfo _appInfo; 
         
         private readonly AuthOptions _authOptions;
@@ -79,6 +80,8 @@ namespace Easify.AspNetCore.Bootstrap
             _errorHandlerBuilder.UseStandardMessage();
             _appInfo = _configuration.GetApplicationInfo();
             _authOptions = _configuration.GetAuthOptions();
+            
+            _healthChecksBuilder = _services.AddHealthChecks();
         }
 
         public IAddExtraConfigSection AndSection<TSection>()
@@ -201,7 +204,7 @@ namespace Easify.AspNetCore.Bootstrap
         {
             if (configure == null) throw new ArgumentNullException(nameof(configure));
 
-            _services.AddDefaultHealthChecks(configure);
+            configure(_healthChecksBuilder);
 
             return this;
         }

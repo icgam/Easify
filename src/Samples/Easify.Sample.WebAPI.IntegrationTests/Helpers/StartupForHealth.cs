@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Net.Http;
 using Easify.AspNetCore.Bootstrap;
 using Easify.AspNetCore.Security.Fluent;
 using Easify.RestEase;
@@ -29,7 +30,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
-    public abstract class StartupForHealth
+    public abstract class StartupForHealth<T> where T: class
     {
         protected StartupForHealth(IConfiguration configuration)
         {
@@ -37,19 +38,19 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
         }
 
         private IConfiguration Configuration { get; }
-
-        protected virtual Action<ISetAuthenticationMode> AuthConfigure => o => o.WithNoAuth();
+        
+        protected virtual Action<IHealthChecksBuilder> ConfigureHealth => o => { };
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-                return services.BootstrapApp<StartupForIntegration>(Configuration,
+                return services.BootstrapApp<T>(Configuration,
                     app => app.AddConfigSection<Clients>()
                         .AndSection<Section1>()
                         .AndSection<Section2>()
                         .HandleApplicationException<TemplateApiApplicationException>()
                         .AndHandle<ThirdPartyPluginException>()
                         .UseUserErrors()
-                        .ConfigureAuthentication(AuthConfigure)
+                        .ConfigureHealthChecks(ConfigureHealth)
                         .AddServices((container, config) =>
                         {
                             container.AddRestClient<IValuesClient, Clients>(c => c.ProducerClientUrl, o => o.ExcludeAuthorizationHeader());
@@ -62,5 +63,25 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
         {
             app.UseDefaultApiPipeline(Configuration, env, loggerFactory);
         }
+    }
+
+    public sealed class StartupForHealthy : StartupForHealth<StartupForHealthy>
+    {
+        public StartupForHealthy(IConfiguration configuration) : base(configuration)
+        {
+        }
+
+        protected override Action<IHealthChecksBuilder> ConfigureHealth => 
+            b => b.AddUrlGroup(new Uri("http://www.microsoft.com"), HttpMethod.Get, "microsoft");
+    }
+    
+    public sealed class StartupForUnhealthy : StartupForHealth<StartupForUnhealthy>
+    {
+        public StartupForUnhealthy(IConfiguration configuration) : base(configuration)
+        {
+        }
+
+        protected override Action<IHealthChecksBuilder> ConfigureHealth => 
+            b => b.AddUrlGroup(new Uri("http://www.microsoftwithwrongurl.com"), HttpMethod.Get, "microsoftwithwrongurl");
     }
 }

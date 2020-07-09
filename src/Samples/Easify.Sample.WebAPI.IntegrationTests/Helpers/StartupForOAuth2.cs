@@ -21,7 +21,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
-    public sealed class StartupForOAuth2 : StartupForAuthentication
+    public sealed class StartupForOAuth2 : StartupForAuthentication<StartupForOAuth2>
     {
         public StartupForOAuth2(IConfiguration configuration) : base(configuration) {}
 

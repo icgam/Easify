@@ -24,61 +24,38 @@ using Xunit;
 
 namespace Easify.Sample.WebAPI.IntegrationTests
 {
-    public sealed class HealthControllerTests : IDisposable
+    public sealed class HealthControllerTests
     {
-        public HealthControllerTests()
+        [Fact]
+        public async Task GivenAPIRunning_WhenHealthRequested_ShouldReturnHealthy()
         {
-            Fixture = TestServerFixture<StartupForAutomapper>.Create();
-        }
-
-        private TestServerFixture<StartupForAutomapper> Fixture { get; }
-
-        public void Dispose()
-        {
-            try
+            using (var fixture = TestServerFixture<StartupForHealthy>.Create())
             {
-                Fixture.Dispose();
+                // Arrange
+                // Act
+                var response = await fixture.Client.GetAsync($"health");
+                var responseString = await response.Content.ReadAsStringAsync();
+                var content = JsonConvert.DeserializeObject<PersonDO>(responseString);
+
+                // Assert
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             }
-            catch (Exception e)
+        }        
+        
+        [Fact]
+        public async Task GivenAPIRunning_WhenHealthRequested_ShouldReturnUnhealthy()
+        {
+            using (var fixture = TestServerFixture<StartupForUnhealthy>.Create())
             {
-                Console.WriteLine(e);
-                throw;
+                // Arrange
+                // Act
+                var response = await fixture.Client.GetAsync($"health");
+                var responseString = await response.Content.ReadAsStringAsync();
+                var content = JsonConvert.DeserializeObject<PersonDO>(responseString);
+
+                // Assert
+                Assert.Equal(HttpStatusCode.ServiceUnavailable, response.StatusCode);
             }
-        }
-
-        [Theory]
-        [InlineData("John", "Dow")]
-        [InlineData("Jane", "Dow")]
-        public async Task GivenAPIRunningWhenHealthRequestedShouldReturnHealthCheckFor(string firstName, string lastName)
-        {
-            // Arrange
-            // Act
-            var response = await Fixture.Client.GetAsync($"api/automapper/person/{firstName}/{lastName}");
-            var responseString = await response.Content.ReadAsStringAsync();
-            var content = JsonConvert.DeserializeObject<PersonDO>(responseString);
-
-            // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.Equal(firstName, content.FirstName);
-            Assert.Equal(lastName, content.LastName);
-        }
-
-        [Theory]
-        [InlineData("ast1")]
-        [InlineData("ast2")]
-        [InlineData("ast3")]
-        public async Task GivenAssetWhenRequestedShouldMapAndReturnAssetWithCorrectRating(string assetId)
-        {
-            // Arrange
-            // Act
-            var response = await Fixture.Client.GetAsync($"api/automapper/asset/{assetId}");
-            var responseString = await response.Content.ReadAsStringAsync();
-            var content = JsonConvert.DeserializeObject<AssetDO>(responseString);
-
-            // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.Equal(assetId, content.Id);
-            Assert.Equal("AAA", content.Rating);
         }
     }
 }
