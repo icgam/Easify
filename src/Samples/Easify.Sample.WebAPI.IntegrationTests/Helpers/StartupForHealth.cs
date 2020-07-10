@@ -82,6 +82,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
         }
 
         protected override Action<IHealthChecksBuilder> ConfigureHealth => 
-            b => b.AddUrlGroup(new Uri("http://www.microsoftwithwrongurl.com"), HttpMethod.Get, "microsoftwithwrongurl");
+            b =>
+            { 
+                b.AddUrlGroup(new Uri("http://www.microsoft.com"), HttpMethod.Get, "microsoft");
+                b.AddUrlGroup(new Uri("http://www.microsoftwithwrongurl.com"), HttpMethod.Get, "microsoftwithwrongurl");
+            };
     }
 }

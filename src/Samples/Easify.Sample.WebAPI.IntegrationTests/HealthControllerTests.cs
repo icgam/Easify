@@ -15,10 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Easify.Sample.WebAPI.Domain;
 using Easify.Sample.WebAPI.IntegrationTests.Helpers;
+using FluentAssertions;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -29,33 +31,57 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         [Fact]
         public async Task GivenAPIRunning_WhenHealthRequested_ShouldReturnHealthy()
         {
+            // Arrange
             using (var fixture = TestServerFixture<StartupForHealthy>.Create())
             {
-                // Arrange
                 // Act
                 var response = await fixture.Client.GetAsync($"health");
                 var responseString = await response.Content.ReadAsStringAsync();
-                var content = JsonConvert.DeserializeObject<PersonDO>(responseString);
+                var actual = JsonConvert.DeserializeObject<HealthData>(responseString);
 
                 // Assert
-                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                response.StatusCode.Should().Be(HttpStatusCode.OK);
+                actual.Status.Should().Be(HealthStatus.Healthy);
+                actual.Entries["microsoft"].Status.Should().Be(HealthStatus.Healthy);
+                actual.Entries["microsoft"].Exception.Should().BeNull();
             }
         }        
         
         [Fact]
         public async Task GivenAPIRunning_WhenHealthRequested_ShouldReturnUnhealthy()
         {
+            // Arrange
             using (var fixture = TestServerFixture<StartupForUnhealthy>.Create())
             {
-                // Arrange
                 // Act
                 var response = await fixture.Client.GetAsync($"health");
                 var responseString = await response.Content.ReadAsStringAsync();
-                var content = JsonConvert.DeserializeObject<PersonDO>(responseString);
+                var actual = JsonConvert.DeserializeObject<HealthData>(responseString);
 
                 // Assert
-                Assert.Equal(HttpStatusCode.ServiceUnavailable, response.StatusCode);
+                response.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
+                actual.Status.Should().Be(HealthStatus.Unhealthy);
+                actual.Entries["microsoft"].Status.Should().Be(HealthStatus.Healthy);
+                actual.Entries["microsoft"].Exception.Should().BeNull();
+                actual.Entries["microsoftwithwrongurl"].Status.Should().Be(HealthStatus.Unhealthy);
+                actual.Entries["microsoftwithwrongurl"].Exception.Should().NotBeNull();
+                actual.Entries["microsoftwithwrongurl"].Description.Should().NotBeNull();
             }
+        }
+
+        private class HealthData
+        {
+            public Dictionary<string, HealthDataEntry> Entries { get; set; }
+            public HealthStatus Status { get; set; }
+            public TimeSpan TotalDuration { get; set; }
+        }
+        
+        private class HealthDataEntry
+        {
+            public string Description { get; set; }
+            public TimeSpan Duration { get; set; }
+            public string Exception { get; set; }
+            public HealthStatus Status { get; set; }
         }
     }
 }
