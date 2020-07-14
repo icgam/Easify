@@ -17,6 +17,7 @@
 using System;
 using System.Threading.Tasks;
 using Polly;
+using Polly.Registry;
 
 namespace Easify.Resilience
 {
@@ -24,21 +25,89 @@ namespace Easify.Resilience
     {
         public static void ExecuteWithPolicy<T>(this T instance, Action<T> action, Policy policy)
         {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            if (policy == null) throw new ArgumentNullException(nameof(policy));
+            
             policy.Execute(() => action(instance));
         }        
         
         public static TResult ExecuteWithPolicy<T, TResult>(this T instance, Func<T, TResult> func, Policy policy)
         {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (policy == null) throw new ArgumentNullException(nameof(policy));
+            
             return policy.Execute(() => func(instance));
         }     
         
         public static Task ExecuteWithPolicyAsync<T>(this T instance, Func<T, Task> func, AsyncPolicy policy)
         {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (policy == null) throw new ArgumentNullException(nameof(policy));
+            
             return policy.ExecuteAsync(() => func(instance));
         }        
         
-        public static Task<TResult> ExecuteWithPolicy<T, TResult>(this T instance, Func<T, Task<TResult>> func, AsyncPolicy policy)
+        public static Task<TResult> ExecuteWithPolicyAsync<T, TResult>(this T instance, Func<T, Task<TResult>> func, AsyncPolicy policy)
         {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (policy == null) throw new ArgumentNullException(nameof(policy));
+            
+            return policy.ExecuteAsync(() => func(instance));
+        }        
+        
+        public static void ExecuteWithPolicy<T>(this T instance, Action<T> action, string policyName, IReadOnlyPolicyRegistry<string> registry)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            if (policyName == null) throw new ArgumentNullException(nameof(policyName));
+            if (registry == null) throw new ArgumentNullException(nameof(registry));
+            
+            if (!registry.TryGet<Policy>(policyName, out var policy))
+                throw new InvalidPolicyException($"{policyName} hasn't been found in registry");
+
+            policy.Execute(() => action(instance));
+        }        
+        
+        public static TResult ExecuteWithPolicy<T, TResult>(this T instance, Func<T, TResult> func, string policyName, IReadOnlyPolicyRegistry<string> registry)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (policyName == null) throw new ArgumentNullException(nameof(policyName));
+            if (registry == null) throw new ArgumentNullException(nameof(registry));
+            
+            if (!registry.TryGet<Policy>(policyName, out var policy))
+                throw new InvalidPolicyException($"{policyName} hasn't been found in registry");
+            
+            return policy.Execute(() => func(instance));
+        }     
+        
+        public static Task ExecuteWithPolicyAsync<T>(this T instance, Func<T, Task> func, string policyName, IReadOnlyPolicyRegistry<string> registry)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (policyName == null) throw new ArgumentNullException(nameof(policyName));
+            if (registry == null) throw new ArgumentNullException(nameof(registry));
+            
+            if (!registry.TryGet<AsyncPolicy>(policyName, out var policy))
+                throw new InvalidPolicyException($"{policyName} hasn't been found in registry");
+            
+            return policy.ExecuteAsync(() => func(instance));
+        }        
+        
+        public static Task<TResult> ExecuteWithPolicyAsync<T, TResult>(this T instance, Func<T, Task<TResult>> func, string policyName, IReadOnlyPolicyRegistry<string> registry)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (policyName == null) throw new ArgumentNullException(nameof(policyName));
+            if (registry == null) throw new ArgumentNullException(nameof(registry));
+            
+            if (!registry.TryGet<AsyncPolicy>(policyName, out var policy))
+                throw new InvalidPolicyException($"{policyName} hasn't been found in registry");
+            
             return policy.ExecuteAsync(() => func(instance));
         }
     }

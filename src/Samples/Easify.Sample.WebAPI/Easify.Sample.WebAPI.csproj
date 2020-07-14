@@ -23,5 +23,13 @@
       <DependentUpon>appsettings.PROD.json</DependentUpon>
     </Content>
     <Content Remove="logs\loggly-buffer-20200622.json" />
+    <None Remove="sample.png" />
+    <Content Include="sample.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Remove="health-ui.css" />
+    <Content Include="health-ui.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

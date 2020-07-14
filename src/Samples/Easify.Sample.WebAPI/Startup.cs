@@ -89,7 +89,10 @@ namespace Easify.Sample.WebAPI
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseHealthChecksUI();
+            app.UseHealthChecksUI(m =>
+            {
+                m.AddCustomStylesheet("health-ui.css");
+            });
             app.UseDefaultApiPipeline(Configuration, env, loggerFactory);
         }
     }

@@ -21,35 +21,66 @@ namespace Easify.Resilience
 {
     public class PolicyFor
     {
-        public static Policy DataStoreResilienceStrategy<TException>(Action<PolicyOptions> configure) where TException : Exception
+        public static Policy DataStoreResilienceStrategy<TException>(Action<PolicyOptions> configure = null) where TException : Exception
         {
             var options = new PolicyOptions();
-            configure(options);
+            configure?.Invoke(options);
 
             return RetryPolicy<TException>(options.Retry);
         }        
         
-        public static Policy ServiceCallResilienceStrategy<TException>(Action<PolicyOptions> configure) where TException : Exception
+        public static Policy ServiceCallResilienceStrategy<TException>(Action<PolicyOptions> configure = null) where TException : Exception
         {
             var options = new PolicyOptions();
-            configure(options);
+            configure?.Invoke(options);
 
             return Policy.Wrap(RetryPolicy<TException>(options.Retry),
                 CircuitBreakerPolicy<TException>(options.CircuitBreaker));
+        }        
+        
+        public static AsyncPolicy DataStoreResilienceStrategyAsync<TException>(Action<PolicyOptions> configure = null) where TException : Exception
+        {
+            var options = new PolicyOptions();
+            configure?.Invoke(options);
+
+            return RetryPolicyAsync<TException>(options.Retry);
+        }        
+        
+        public static AsyncPolicy ServiceCallResilienceStrategyAsync<TException>(Action<PolicyOptions> configure = null) where TException : Exception
+        {
+            var options = new PolicyOptions();
+            configure?.Invoke(options);
+
+            return Policy.WrapAsync(RetryPolicyAsync<TException>(options.Retry),
+                CircuitBreakerPolicyAsync<TException>(options.CircuitBreaker));
         }
 
-        private static Policy RetryPolicy<TException>(PolicyRetryOptions options) where TException : Exception
+        public static Policy RetryPolicy<TException>(PolicyRetryOptions options) where TException : Exception
         {
             return Policy
                 .Handle<TException>()
                 .WaitAndRetry(options.WaitsOnRetry, options.OnRetry);
+        }          
+        
+        public static AsyncPolicy RetryPolicyAsync<TException>(PolicyRetryOptions options) where TException : Exception
+        {
+            return Policy
+                .Handle<TException>()
+                .WaitAndRetryAsync(options.WaitsOnRetry, options.OnRetry);
         }        
         
-        private static Policy CircuitBreakerPolicy<TException>(PolicyCircuitBreakOptions options) where TException : Exception
+        public static Policy CircuitBreakerPolicy<TException>(PolicyCircuitBreakOptions options) where TException : Exception
         {
             return Policy
                 .Handle<TException>()
                 .CircuitBreaker(options.NumberOfExceptionsBefore, options.DurationOfBreak, options.OnBreak, options.OnReset);
+        } 
+        
+        public static AsyncPolicy CircuitBreakerPolicyAsync<TException>(PolicyCircuitBreakOptions options) where TException : Exception
+        {
+            return Policy
+                .Handle<TException>()
+                .CircuitBreakerAsync(options.NumberOfExceptionsBefore, options.DurationOfBreak, options.OnBreak, options.OnReset);
         }
     }
 }
