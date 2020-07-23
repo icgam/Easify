@@ -48,7 +48,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         }        
         
         [Fact]
-        public async Task GivenAPIRunning_WhenHealthRequested_ShouldReturnUnhealthy()
+        public async Task GivenAPIRunning_WhenHealthRequestedAndOneOfTheDependenciesIsUnhealthy_ShouldReturnUnhealthy()
         {
             // Arrange
             using (var fixture = TestServerFixture<StartupForUnhealthy>.Create())
