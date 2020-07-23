@@ -24,9 +24,9 @@ using Xunit;
 
 namespace Easify.Sample.WebAPI.IntegrationTests
 {
-    public sealed class AutomapperControllerTests : IDisposable
+    public sealed class AutoMapperControllerTests : IDisposable
     {
-        public AutomapperControllerTests()
+        public AutoMapperControllerTests()
         {
             Fixture = TestServerFixture<StartupForAutomapper>.Create();
         }

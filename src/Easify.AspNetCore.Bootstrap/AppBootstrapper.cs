@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using Easify.AspNetCore.Cors;
 using Easify.AspNetCore.Documentation;
 using Easify.AspNetCore.ExceptionHandling;
+using Easify.AspNetCore.Health;
 using Easify.AspNetCore.Mvc;
 using Easify.AspNetCore.RequestCorrelation;
 using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
@@ -40,7 +41,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Easify.AspNetCore.Bootstrap
 {
-    // TODO: Bootstrapping shouldn't be dependent to this but a bunch of options to middleware
     public sealed class AppBootstrapper<TStartup> :
         IBootstrapApplication,
         IConfigureContainer,
@@ -50,6 +50,7 @@ namespace Easify.AspNetCore.Bootstrap
         IExtendPipeline,
         IConfigureRequestCorrelation,
         IConfigureAuthentication,
+        IConfigureHealthChecks,
         IConfigureApplicationBootstrapper where TStartup : class
     {
         private readonly IConfiguration _configuration;
@@ -59,9 +60,10 @@ namespace Easify.AspNetCore.Bootstrap
             new List<Action<IServiceCollection, IConfiguration>>();
 
         private readonly IServiceCollection _services;
+        private readonly IHealthChecksBuilder _healthChecksBuilder;
         private readonly AppInfo _appInfo; 
         
-        private AuthOptions _authOptions;
+        private readonly AuthOptions _authOptions;
         private Func<IServiceCollection, IConfiguration, IServiceProvider> _containerFactory;
         private Func<IExcludeRequests, IBuildOptions> _requestCorrelationExtender = cop => cop.EnforceCorrelation();
 
@@ -78,6 +80,8 @@ namespace Easify.AspNetCore.Bootstrap
             _errorHandlerBuilder.UseStandardMessage();
             _appInfo = _configuration.GetApplicationInfo();
             _authOptions = _configuration.GetAuthOptions();
+            
+            _healthChecksBuilder = _services.AddHealthChecks();
         }
 
         public IAddExtraConfigSection AndSection<TSection>()
@@ -189,10 +193,19 @@ namespace Easify.AspNetCore.Bootstrap
             return this;
         }
 
-        public IExtendPipeline ConfigureAuthentication(Action<ISetAuthenticationMode> configure)
+        public IConfigureHealthChecks ConfigureAuthentication(Action<ISetAuthenticationMode> configure)
         {
             if (configure == null) throw new ArgumentNullException(nameof(configure));
             configure(_authOptions);
+            return this;
+        }        
+        
+        public IExtendPipeline ConfigureHealthChecks(Action<IHealthChecksBuilder> configure)
+        {
+            if (configure == null) throw new ArgumentNullException(nameof(configure));
+
+            configure(_healthChecksBuilder);
+
             return this;
         }
 

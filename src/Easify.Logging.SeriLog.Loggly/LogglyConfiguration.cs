@@ -18,6 +18,7 @@ namespace Easify.Logging.SeriLog.Loggly
 {
     public sealed class LogglyConfiguration
     {
+        public bool IsEnabled { get; set; } = true;
         public string ServerUrl { get; set; }
         public string CustomerToken { get; set; }
         public bool AllowLogLevelToBeControlledRemotely { get; set; }

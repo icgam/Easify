@@ -34,7 +34,8 @@ namespace Easify.AspNetCore
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     var env = hostingContext.HostingEnvironment;
-                    var options = new ConfigurationOptions(env.ContentRootPath, env.EnvironmentName, env.ApplicationName, args);
+                    var options = new ConfigurationOptions(env.ContentRootPath, env.EnvironmentName,
+                        env.ApplicationName, args);
                     config.ConfigureBuilder(options);
                 })
                 .UseSerilog((context, configuration) =>

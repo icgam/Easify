@@ -21,7 +21,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
-    public sealed class StartupForImpersonation : StartupForAuthentication
+    public sealed class StartupForImpersonation : StartupForAuthentication<StartupForImpersonation>
     {
         public StartupForImpersonation(IConfiguration configuration) : base(configuration) {}
 

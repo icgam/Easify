@@ -21,7 +21,7 @@ namespace Easify.AspNetCore.Dignostics
 {
     public static class DiagnosticsExtensions
     {
-        public static IApplicationBuilder UseHealth(this IApplicationBuilder app)
+        public static IApplicationBuilder UseDiagnostics(this IApplicationBuilder app)
         {
             if (app == null) throw new ArgumentNullException(nameof(app));
             return app.UseMiddleware<DiagnosticsMiddleware>();

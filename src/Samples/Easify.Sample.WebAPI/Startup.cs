@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Net.Http;
 using AutoMapper;
 using Easify.AspNetCore.Bootstrap;
 using Easify.AspNetCore.Bootstrap.Extensions;
@@ -56,6 +57,17 @@ namespace Easify.Sample.WebAPI
                     .AndSection<Section2>()
                     .HandleApplicationException<TemplateApiApplicationException>()
                     .ConfigureCorrelation(m => m.AutoCorrelateRequests())
+                    .ConfigureHealthChecks(c =>
+                    {
+                        c.AddUrlGroup(new Uri("http://www.google.com"), HttpMethod.Get, "google");
+                        c.AddUrlGroup(new Uri("http://www.Microsoft.com"), HttpMethod.Get, "microsoft");
+                        c.AddUrlGroup(new Uri("http://www.icgam.com"), HttpMethod.Get, "icgam");
+                        c.AddSeqPublisher(setup =>
+                        {
+                            setup.Endpoint = Configuration["seq:ServerUrl"];
+                            setup.ApiKey = Configuration["seq:ApiKey"];
+                        });
+                    })
                     .ConfigureMappings(c =>
                     {
                         c.CreateMap<PersonEntity, PersonDO>();
@@ -70,12 +82,17 @@ namespace Easify.Sample.WebAPI
                             by.InterceptBy<LogInterceptor>());
                         container.AddSingleton<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>();
                         container.AddTelemetry();
+                        container.AddHealthChecksUI();
                     })
             );
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseHealthChecksUI(m =>
+            {
+                m.AddCustomStylesheet("health-ui.css");
+            });
             app.UseDefaultApiPipeline(Configuration, env, loggerFactory);
         }
     }

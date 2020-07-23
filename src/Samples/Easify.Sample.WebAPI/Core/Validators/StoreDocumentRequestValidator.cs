@@ -1,16 +1,16 @@
 // This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -35,7 +35,7 @@ namespace Easify.Sample.WebAPI.Core.Validators
             RuleFor(m => m.RequestId).NotEmpty();
             RuleFor(m => m.Operation).Must(OneOfSupportedOperations).WithMessage(GetValidOperationsMessage);
             RuleFor(c => c.Owner).NotNull().SetValidator(new OwnerValidator());
-            RuleFor(c => c.Documents).NotNull().NotEmpty().SetCollectionValidator(new DocumentValidator());
+            RuleForEach(c => c.Documents).NotNull().NotEmpty().SetValidator(new DocumentValidator());
         }
 
         private string GetValidOperationsMessage(StoreDocumentsRequest request)

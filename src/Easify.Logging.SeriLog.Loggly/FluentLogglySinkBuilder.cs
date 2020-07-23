@@ -55,6 +55,7 @@ namespace Easify.Logging.SeriLog.Loggly
             var config = LogglyConfig.Instance;
             config.CustomerToken = _customerToken;
             config.ApplicationName = $"MyApp-{_configurationServices.EnvironmentName}";
+            config.IsEnabled = true;
 
             config.Transport.EndpointHostname = _serverUri.Host;
             config.Transport.EndpointPort = SslPort;

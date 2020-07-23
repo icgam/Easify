@@ -29,7 +29,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
-    public abstract class StartupForAuthentication
+    public abstract class StartupForAuthentication<T> where T : class
     {
         protected StartupForAuthentication(IConfiguration configuration)
         {
@@ -42,7 +42,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-                return services.BootstrapApp<StartupForIntegration>(Configuration,
+                return services.BootstrapApp<T>(Configuration,
                     app => app.AddConfigSection<Clients>()
                         .AndSection<Section1>()
                         .AndSection<Section2>()
