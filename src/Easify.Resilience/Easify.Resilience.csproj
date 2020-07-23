@@ -6,6 +6,8 @@
         <Title>Easify.Resilience</Title>
         <Authors>Mohammad Moattar</Authors>
         <Description>Resilience library for Easify</Description>
+        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+        <Version>1.0.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
