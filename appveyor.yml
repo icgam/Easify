@@ -1,4 +1,4 @@
-version: 2.1.{build}
+version: 2.2.{build}
 pull_requests:
   do_not_increment_build_number: true
 image: Previous Visual Studio 2017
@@ -30,9 +30,15 @@ test_script:
 
     dotnet test ./src/Easify.ExceptionHandling.UnitTests/Easify.ExceptionHandling.UnitTests.csproj
 
+    dotnet test ./src/Easify.Resilience.UnitTests/Easify.Resilience.UnitTests.csproj   
+    
+    dotnet test ./src/Easify.RestEase.UnitTests/Easify.RestEase.UnitTests.csproj
+
     dotnet test ./src/Easify.AspNetCore.UnitTests/Easify.AspNetCore.UnitTests.csproj
 
     dotnet test ./src/Easify.AspNetCore.Bootstrap.UnitTests/Easify.AspNetCore.Bootstrap.UnitTests.csproj
+    
+    dotnet test ./src/Easify.Testing.UnitTests/Easify.Testing.UnitTests.csproj
 
     dotnet test ./src/Samples/Easify.Sample.WebApi.IntegrationTests/Easify.Sample.WebApi.IntegrationTests.csproj
 artifacts:
