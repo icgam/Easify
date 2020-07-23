@@ -7,7 +7,6 @@
         <Authors>Mohammad Moattar</Authors>
         <PackageProjectUrl>https://github.com/icgam/Easify</PackageProjectUrl>
         <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
-        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <Version>1.0.0</Version>
     </PropertyGroup>
 
