@@ -25,7 +25,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
     public class CorrelatedRequestsStartup
     {
-        public CorrelatedRequestsStartup(IHostingEnvironment env)
+        public CorrelatedRequestsStartup(IWebHostEnvironment env)
         {
         }
 
@@ -34,7 +34,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
             services.AddRequestCorrelation();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseRequestCorrelation();
             app.Run(async context => { await context.Response.WriteAsync("Hello World!"); });

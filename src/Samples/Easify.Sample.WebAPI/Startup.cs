@@ -80,18 +80,20 @@ namespace Easify.Sample.WebAPI
                         container.AddTransientWithInterception<IRateProvider, DummyRateProvider>(by =>
                             by.InterceptBy<LogInterceptor>());
                         container.AddSingleton<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>();
-                        container.AddHealthChecksUI();
+                        services
+                            .AddHealthChecksUI()
+                            .AddInMemoryStorage();
                     })
             );
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseHealthChecksUI(m =>
-            {
-                m.AddCustomStylesheet("health-ui.css");
-            });
             app.UseDefaultApiPipeline(Configuration, env, loggerFactory);
+            app.UseEndpoints(config =>
+            {
+                config.MapHealthChecksUI(m => m.AddCustomStylesheet("health-ui.css"));
+            });
         }
     }
 }

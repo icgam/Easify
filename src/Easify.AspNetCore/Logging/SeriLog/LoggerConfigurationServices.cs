@@ -23,13 +23,13 @@ namespace Easify.AspNetCore.Logging.SeriLog
 {
     public sealed class LoggerConfigurationServices : ILoggerConfiguration
     {
-        public LoggerConfigurationServices(LoggerSinkConfiguration sinkConfiguration, IHostingEnvironment environment)
+        public LoggerConfigurationServices(LoggerSinkConfiguration sinkConfiguration, IWebHostEnvironment environment)
         {
             SinkConfiguration = sinkConfiguration ?? throw new ArgumentNullException(nameof(sinkConfiguration));
             Environment = environment ?? throw new ArgumentNullException(nameof(environment));
         }
 
-        public IHostingEnvironment Environment { get; }
+        public IWebHostEnvironment Environment { get; }
         public LoggerSinkConfiguration SinkConfiguration { get; }
         public string ApplicationName => Environment.ApplicationName;
         public string EnvironmentName => Environment.EnvironmentName;

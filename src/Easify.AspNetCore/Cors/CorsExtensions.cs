@@ -38,8 +38,7 @@ namespace Easify.AspNetCore.Cors
                 {
                     builder.AllowAnyOrigin()
                         .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
+                        .AllowAnyMethod();
 
                     configure.Invoke(builder);
                 });

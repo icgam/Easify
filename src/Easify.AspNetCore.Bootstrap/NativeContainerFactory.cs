@@ -37,7 +37,7 @@ namespace Easify.AspNetCore.Bootstrap
             IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddSingleton<IComponentResolver, ServiceCollectionBasedComponentResolver>();
+            services.AddSingleton<IComponentResolver, ServiceProviderComponentResolver>();
             serviceConfigurationProvider(services, configuration);
             return services.BuildServiceProvider();
         }

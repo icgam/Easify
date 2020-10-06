@@ -26,7 +26,7 @@ namespace Easify.AspNetCore.Mvc
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
 
-            builder.AddJsonOptions(o => o.SerializerSettings.ConfigureJsonSettings());
+            builder.AddNewtonsoftJson(o => o.SerializerSettings.ConfigureJsonSettings());
 
             return builder;
         }

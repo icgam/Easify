@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Threading.Tasks;
 using Easify.AspNetCore.Logging.SeriLog.Fluent;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -56,6 +57,18 @@ namespace Easify.AspNetCore
             where TStartup : class
         {
             Build<TStartup>(loggerBuilderFactory, args).Run();
+        }        
+        
+        //TODO: Recently Added
+        public static Task RunAsync<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerBuilderFactory) where TStartup : class
+        {
+            return RunAsync<TStartup>(loggerBuilderFactory, new string[] { });
+        }
+
+        public static Task RunAsync<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerBuilderFactory, string[] args)
+            where TStartup : class
+        {
+            return Build<TStartup>(loggerBuilderFactory, args).RunAsync();
         }
     }
 }

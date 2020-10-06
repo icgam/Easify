@@ -85,7 +85,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
                 Assert.Equal("OurApplicationException", e1.ErrorType);
                 Assert.Collection(e1.ChildErrors, t1 =>
                     {
-                        Assert.Equal("My friedly leaf1!", t1.Message);
+                        Assert.Equal("My friendly leaf1!", t1.Message);
                         Assert.Equal("OurApplicationException", t1.ErrorType);
                         Assert.Empty(t1.ChildErrors);
                     },

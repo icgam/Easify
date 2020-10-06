@@ -19,10 +19,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Easify.ExceptionHandling;
 using Easify.ExceptionHandling.Domain;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using IHostingEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 
 namespace Easify.AspNetCore.ExceptionHandling
 {
@@ -35,12 +37,12 @@ namespace Easify.AspNetCore.ExceptionHandling
             ("Access-Control-Allow-Headers", "*")
         };
 
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly IErrorResponseProvider _errorResponseProvider;
         private readonly ILogger<ErrorHandlingMiddleware> _log;
         private readonly RequestDelegate _next;
 
-        public ErrorHandlingMiddleware(RequestDelegate next, IHostingEnvironment env,
+        public ErrorHandlingMiddleware(RequestDelegate next, IWebHostEnvironment env,
             IErrorResponseProvider errorResponseProvider,
             ILogger<ErrorHandlingMiddleware> log)
         {

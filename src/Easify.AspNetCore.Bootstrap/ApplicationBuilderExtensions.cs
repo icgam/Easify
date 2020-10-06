@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Easify.AspNetCore.Bootstrap
@@ -36,7 +37,7 @@ namespace Easify.AspNetCore.Bootstrap
     {
         public static void UseDefaultApiPipeline(this IApplicationBuilder app,
             IConfiguration configuration,
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
             if (app == null) throw new ArgumentNullException(nameof(app));
@@ -59,24 +60,29 @@ namespace Easify.AspNetCore.Bootstrap
                 app.UseGlobalExceptionHandler();
             }
 
-            app.UseAuthentication();
+            app.UseHttpsRedirection();
+            app.UseRouting();
             app.UseRequestCorrelation();
-            app.UseHealthChecks("/health", new HealthCheckOptions
-            {
-                Predicate = _ => true,
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            });
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseCorrelatedLogs();
             app.UseUserIdentityLogging();
             app.UseDiagnostics();
-            app.UseMvc();
             app.UseOpenApiDocumentation(appInfo, u => u.ConfigureAuth(appInfo, authOptions.Authentication));
-
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                endpoints.MapControllers();
+            });
+            
             LogResolvedEnvironment(env, loggerFactory);
         }
 
-        private static void LogResolvedEnvironment(IHostingEnvironment env, ILoggerFactory loggerFactory)
+        private static void LogResolvedEnvironment(IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             var log = loggerFactory.CreateLogger("Startup");
             log.LogInformation($"Application is started in '{env.EnvironmentName.ToUpper()}' environemnt ...");

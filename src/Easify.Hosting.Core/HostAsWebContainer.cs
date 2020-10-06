@@ -30,7 +30,7 @@ namespace Easify.Hosting.Core
 
         public void Run()
         {
-            _host.Run();
+            _host.Start();
         }
     }
 }

@@ -18,6 +18,7 @@ using Easify.AspNetCore;
 using Easify.Logging.SeriLog.Loggly;
 using Easify.Logging.SeriLog.Seq;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Easify.Sample.WebAPI
 {

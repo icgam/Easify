@@ -22,6 +22,7 @@ using Easify.Logging.SeriLog;
 using Easify.Logging.SeriLog.OptionsBuilder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 
@@ -57,7 +58,7 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
         }
 
         public IConfiguration Configuration => _context.Configuration;
-        public IHostingEnvironment Environment => _context.HostingEnvironment;
+        public IWebHostEnvironment Environment => _context.HostingEnvironment;
 
         public IBuildLogger ConfigureLogger<TStartup>() where TStartup : class
         {
@@ -137,7 +138,7 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
             sinksProvider?.Invoke(new LoggerConfigurationServices(loggerConfiguration.WriteTo, env)).Build();
         }
 
-        private static string GetLogFilePath(IHostingEnvironment env, LoggingOptions options)
+        private static string GetLogFilePath(IWebHostEnvironment env, LoggingOptions options)
         {
             var defaultPath = env.IsDevelopment() ? $"{env.ContentRootPath}\\logs" : "D:\\logs";
             return options.LogsPathSet ? options.LogsPath : defaultPath;

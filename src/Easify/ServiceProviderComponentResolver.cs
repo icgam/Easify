@@ -21,12 +21,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Easify
 {
-    // TODO: Should be renamed
-    public sealed class ServiceCollectionBasedComponentResolver : IComponentResolver
+    public sealed class ServiceProviderComponentResolver : IComponentResolver
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public ServiceCollectionBasedComponentResolver(IServiceProvider serviceProvider)
+        public ServiceProviderComponentResolver(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }

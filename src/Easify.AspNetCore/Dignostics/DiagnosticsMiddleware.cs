@@ -32,10 +32,10 @@ namespace Easify.AspNetCore.Dignostics
     public sealed class DiagnosticsMiddleware
     {
         private const string JsonContentType = "application/json";
-        private readonly IHostingEnvironment _host;
+        private readonly IWebHostEnvironment _host;
         private readonly RequestDelegate _next;
 
-        public DiagnosticsMiddleware(RequestDelegate next, IHostingEnvironment host)
+        public DiagnosticsMiddleware(RequestDelegate next, IWebHostEnvironment host)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _host = host ?? throw new ArgumentNullException(nameof(host));
