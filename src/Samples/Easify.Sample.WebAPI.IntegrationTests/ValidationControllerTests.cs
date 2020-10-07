@@ -50,7 +50,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
 
             // Act
-            var response = await fixture.Client.PostAsync("api/Validation", new JsonContent(request));
+            var response = await fixture.CreateClient().PostAsync("api/Validation", new JsonContent(request));
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -63,7 +63,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
             
             // Act
-            var response = await fixture.Client.PostAsync("api/Validation",
+            var response = await fixture.CreateClient().PostAsync("api/Validation",
                 new StringContent(string.Empty, Encoding.UTF8, "application/json"));
 
             // Assert
@@ -87,7 +87,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
 
             // Act
-            var response = await fixture.Client.PostAsync("api/Validation", new JsonContent(request));
+            var response = await fixture.CreateClient().PostAsync("api/Validation", new JsonContent(request));
 
             // Assert
             var responseString = await response.Content.ReadAsStringAsync();
@@ -113,7 +113,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
 
             // Act
-            var response = await fixture.Client.PostAsync("api/Validation", new JsonContent(request));
+            var response = await fixture.CreateClient().PostAsync("api/Validation", new JsonContent(request));
 
             // Assert
             var responseString = await response.Content.ReadAsStringAsync();

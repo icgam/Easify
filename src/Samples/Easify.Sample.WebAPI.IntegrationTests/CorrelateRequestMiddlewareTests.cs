@@ -37,7 +37,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
 {
     public class CorrelateRequestMiddlewareTests
     {
-        private DefaultHttpContext GetDefaultHttpContext()
+        private static DefaultHttpContext GetDefaultHttpContext()
         {
             var context = new DefaultHttpContext();
             var responseFeature = Substitute.For<IHttpResponseFeature>();

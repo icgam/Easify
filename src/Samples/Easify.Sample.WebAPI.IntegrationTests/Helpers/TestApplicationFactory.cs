@@ -1,15 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using Easify.AspNetCore;
-using Easify.AspNetCore.Logging.SeriLog.Fluent;
-using Easify.Configurations;
-using Easify.Http;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
-using Serilog;
-// This software is part of the Easify framework
+﻿// This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -25,12 +14,26 @@ using Serilog;
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.IO;
+using System.Net.Http;
+using Easify.AspNetCore;
+using Easify.AspNetCore.Logging.SeriLog.Fluent;
+using Easify.Configurations;
+using Easify.Http;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Serilog;
+
 namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
-    public sealed class TestApplicationFactory<TStartup>
-        : WebApplicationFactory<TStartup> where TStartup: class
+    public sealed class TestApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup: class
     {
         private readonly TestApplicationOptions _options;
+        
         private const string LogsDirectoryPattern = "Logs\\{0}";
         private const int LoggerFlushDelayInMs = 1000;
 
@@ -44,8 +47,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 
         protected override IWebHostBuilder CreateWebHostBuilder()
         {
-            var sessionId = Guid.NewGuid();
-            var hostBuilder = base.CreateWebHostBuilder()
+            var hostBuilder = WebHost.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((context, builder) =>
                 {
                     var env = context.HostingEnvironment;
@@ -55,13 +57,14 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
                         env.ApplicationName, new string[] { });
                     builder.ConfigureBuilder(configOptions);
                 })
+                .UseStartup<TStartup>()
                 .ConfigureServices(_options.ConfigureServices);
             
             if (_options.EnableLoggingToFile)
                 hostBuilder.UseSerilog((context, configuration) =>
                 {
                     var loggerBuilder = new LoggerBuilder(context, configuration).ConfigureLogger<TStartup>(c =>
-                        c.FlushToDiskEveryInMs(1).SaveLogsTo(LogFilePath(sessionId)));
+                        c.FlushToDiskEveryInMs(1).SaveLogsTo(LogFilePath));
                     loggerBuilder.Build<TStartup>();
                 });
 
@@ -74,44 +77,53 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
             client.AddRequestIdToHeader(Guid.NewGuid().ToString());
         }
         
-        public static TestServerFixture<TStartup> CreateWithLoggingEnabled()
+        public static TestApplicationFactory<TStartup> CreateWithLoggingEnabled()
         {
-            return new TestServerFixture<TStartup>(new TestApplicationOptions
+            return new TestApplicationFactory<TStartup>(new TestApplicationOptions
             {
                 EnableLoggingToFile = true
             });
         }
 
-        public static TestServerFixture<TStartup> Create(string environment = EnvironmentNames.Integration)
+        public static TestApplicationFactory<TStartup> Create(string environment = EnvironmentNames.Integration)
         {
-            return new TestServerFixture<TStartup>(new TestApplicationOptions
+            return new TestApplicationFactory<TStartup>(new TestApplicationOptions
             {
                 Environment = environment
             });
         }
 
-        public static TestServerFixture<TStartup> Create(Action<IServiceCollection> configureServices,
+        public static TestApplicationFactory<TStartup> Create(Action<IServiceCollection> configureServices,
             string environment = EnvironmentNames.Integration)
         {
-            return new TestServerFixture<TStartup>(new TestApplicationOptions
+            return new TestApplicationFactory<TStartup>(new TestApplicationOptions
             {
                 Environment = environment,
                 ConfigureServices = configureServices
             });
         }
 
-        private string LogFilePath(Guid sessionId)
+        private Guid SessionId { get; } = Guid.NewGuid();
+
+        public string LogFilePath
         {
-            var logsDirectory = LogDirectoryPath(sessionId);
-            var fileName = string.Format(_logFilePattern, DateTime.Today.ToString("yyyyMMdd"));
-            return Path.Combine(logsDirectory, fileName);
+            get
+            {
+                var logsDirectory = LogDirectoryPath;
+                var fileName = string.Format(_logFilePattern, DateTime.Today.ToString("yyyyMMdd"));
+                return Path.Combine(logsDirectory, fileName);
+            }
         }
 
-        private static string LogDirectoryPath(Guid sessionId)
+        public string LogDirectoryPath
         {
-            var path = Directory.GetCurrentDirectory();
-            var logsDirectory = string.Format(LogsDirectoryPattern, sessionId);
-            return Path.Combine(path, logsDirectory);
+            get
+            {
+                var path = Directory.GetCurrentDirectory();
+                var logsDirectory = string.Format(LogsDirectoryPattern, SessionId);
+                return Path.Combine(path, logsDirectory);
+            }
+
         }
     }
 }

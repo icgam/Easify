@@ -35,7 +35,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForHealthy>.Create();
             
             // Act
-            var response = await fixture.Client.GetAsync($"health");
+            var response = await fixture.CreateClient().GetAsync($"health");
             var responseString = await response.Content.ReadAsStringAsync();
             var actual = JsonConvert.DeserializeObject<HealthData>(responseString);
 
@@ -52,7 +52,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             // Arrange
             using var fixture = TestApplicationFactory<StartupForUnhealthy>.Create();
             // Act
-            var response = await fixture.Client.GetAsync($"health");
+            var response = await fixture.CreateClient().GetAsync($"health");
             var responseString = await response.Content.ReadAsStringAsync();
             var actual = JsonConvert.DeserializeObject<HealthData>(responseString);
 

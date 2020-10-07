@@ -22,7 +22,6 @@ using Easify.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -87,6 +86,9 @@ namespace Easify.AspNetCore.Documentation
         
         public static void UseOAuth2Scheme(this SwaggerGenOptions options, AuthenticationInfo authentication)
         {
+            if (authentication?.Authority == null)
+                throw new ApiDocumentationException("Invalid or missing Authentication info: Authority");
+                
             var scheme = new OpenApiSecurityScheme()
             {
                 Type = SecuritySchemeType.OAuth2,

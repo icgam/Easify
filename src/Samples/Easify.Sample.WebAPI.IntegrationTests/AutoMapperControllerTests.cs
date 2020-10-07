@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Net;
 using System.Threading.Tasks;
 using Easify.Sample.WebAPI.Domain;
@@ -35,7 +34,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForAutomapper>.Create();
             
             // Act
-            var response = await fixture.Client.GetAsync($"api/automapper/person/{firstName}/{lastName}");
+            var response = await fixture.CreateClient().GetAsync($"api/automapper/person/{firstName}/{lastName}");
             var responseString = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<PersonDO>(responseString);
 
@@ -55,7 +54,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForAutomapper>.Create();
             
             // Act
-            var response = await fixture.Client.GetAsync($"api/automapper/asset/{assetId}");
+            var response = await fixture.CreateClient().GetAsync($"api/automapper/asset/{assetId}");
             var responseString = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<AssetDO>(responseString);
 

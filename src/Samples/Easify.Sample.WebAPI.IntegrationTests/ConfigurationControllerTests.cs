@@ -42,7 +42,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForConfiguration>.Create();
 
             // Act
-            var response = await fixture.Client.GetAsync($"api/configuration/environment/{key}");
+            var response = await fixture.CreateClient().GetAsync($"api/configuration/environment/{key}");
             var responseString = await response.Content.ReadAsStringAsync();
             
             // Assert

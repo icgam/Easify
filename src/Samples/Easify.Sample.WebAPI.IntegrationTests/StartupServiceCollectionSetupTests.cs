@@ -35,7 +35,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
 
             // Act
 
-            var response = await fixture.Client.GetAsync($"api/Service/{dataToProcess}");
+            var response = await fixture.CreateClient().GetAsync($"api/Service/{dataToProcess}");
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
 
@@ -60,7 +60,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             // Act
 
             
-            var response = await fixture.Client.GetAsync($"api/Service/{dataToProcess}");
+            var response = await fixture.CreateClient().GetAsync($"api/Service/{dataToProcess}");
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
 

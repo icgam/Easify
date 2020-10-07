@@ -43,7 +43,7 @@ namespace Easify.AspNetCore.Dignostics
 
         public async Task Invoke(HttpContext context)
         {
-            var uri = new Uri(context.Request.GetDisplayUrl());
+            var uri = new Uri(context.Request.GetDisplayUrl(), UriKind.RelativeOrAbsolute);
             if (uri.AbsolutePath.Equals("/diagnostics/status", StringComparison.OrdinalIgnoreCase))
             {
                 var health = GenerateHealthInfo();

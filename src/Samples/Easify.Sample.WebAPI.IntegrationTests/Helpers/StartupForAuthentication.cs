@@ -47,8 +47,8 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
                         .AndSection<Section1>()
                         .AndSection<Section2>()
                         .HandleApplicationException<TemplateApiApplicationException>()
-                        .AndHandle<ThirdPartyPluginException>()
-                        .UseUserErrors()
+                        .AndHandle<Exception>()
+                        .UseDetailedErrors()
                         .ConfigureAuthentication(AuthConfigure)
                         .AddServices((container, config) =>
                         {

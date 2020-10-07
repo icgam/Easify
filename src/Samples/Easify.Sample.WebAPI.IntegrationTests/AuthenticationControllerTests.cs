@@ -36,10 +36,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForNoAuth>.Create();
             
             // Act
-            var response = await fixture.Client.GetAsync("api/Authentication/secured");
+            var response = await fixture.CreateClient().GetAsync("api/Authentication/secured");
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }              
         
         [Fact]
@@ -49,7 +49,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForOAuth2>.Create();
             
             // Act
-            var response = await fixture.Client.GetAsync("api/Authentication/secured");
+            var response = await fixture.CreateClient().GetAsync("api/Authentication/secured");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -62,7 +62,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForOAuth2>.Create(); 
             
             // Act
-            var response = await fixture.Client.GetAsync("api/Authentication/unsecured");
+            var response = await fixture.CreateClient().GetAsync("api/Authentication/unsecured");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -75,7 +75,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             using var fixture = TestApplicationFactory<StartupForImpersonation>.Create();
             
             // Act
-            var response = await fixture.Client.GetAsync("api/Authentication/secured");
+            var response = await fixture.CreateClient().GetAsync("api/Authentication/secured");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -91,10 +91,11 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             
             // Arrange
             using var fixture = TestApplicationFactory<StartupForImpersonation>.Create();
-            fixture.Client.DefaultRequestHeaders.Authorization =
+            var client = fixture.CreateClient();
+            client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue(ImpersonationBearerDefaults.AuthenticationScheme, header);
             // Act
-            var response = await fixture.Client.GetAsync("api/Authentication/secured");
+            var response = await client.GetAsync("api/Authentication/secured");
 
             // Assert
             response.StatusCode.Should().Be(statusCode);

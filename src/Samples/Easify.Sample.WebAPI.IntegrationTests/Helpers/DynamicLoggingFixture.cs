@@ -38,9 +38,9 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
             }
         }
 
-        public TestServerFixture<TStartup> CreateServer<TStartup>() where TStartup : class
+        public TestApplicationFactory<TStartup> CreateServer<TStartup>() where TStartup : class
         {
-            var fixture = TestServerFixture<TStartup>.CreateWithLoggingEnabled();
+            var fixture = TestApplicationFactory<TStartup>.CreateWithLoggingEnabled();
             LogFilePath = fixture.LogFilePath;
             LogDirectoryPath = fixture.LogDirectoryPath;
             return fixture;

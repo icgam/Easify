@@ -37,10 +37,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         private ITestOutputHelper Output { get; }
 
         private async Task<HttpResponseMessage> ChangeLogLevel(string levelToSet,
-            TestServerFixture<StartupForIntegration> serverFixture)
+            TestApplicationFactory<StartupForIntegration> fixture)
         {
             var responseForLevelChange =
-                await serverFixture.Client.PostAsync("diagnostics/logs", new JsonContent(new
+                await fixture.CreateClient().PostAsync("diagnostics/logs", new JsonContent(new
                 {
                     LoggingLevel = levelToSet
                 }));
@@ -66,7 +66,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
                 {
                     // Act
                     var responseForLevelChange = await ChangeLogLevel("Warning", serverFixture);
-                    var response = await serverFixture.Client.GetAsync("api/logs");
+                    var response = await serverFixture.CreateClient().GetAsync("api/logs");
 
                     Assert.Equal(HttpStatusCode.OK, responseForLevelChange.StatusCode);
                     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -74,7 +74,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
                     logLevels.Add(Log.Logger.GetActiveLogLevel());
 
                     responseForLevelChange = await ChangeLogLevel("Fatal", serverFixture);
-                    response = await serverFixture.Client.GetAsync("api/logs");
+                    response = await serverFixture.CreateClient().GetAsync("api/logs");
 
                     Assert.Equal(HttpStatusCode.OK, responseForLevelChange.StatusCode);
                     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -82,7 +82,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
                     logLevels.Add(Log.Logger.GetActiveLogLevel());
 
                     responseForLevelChange = await ChangeLogLevel("Verbose", serverFixture);
-                    response = await serverFixture.Client.GetAsync("api/logs");
+                    response = await serverFixture.CreateClient().GetAsync("api/logs");
 
                     Assert.Equal(HttpStatusCode.OK, responseForLevelChange.StatusCode);
                     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
