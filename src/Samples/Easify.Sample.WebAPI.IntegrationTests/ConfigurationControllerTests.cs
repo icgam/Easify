@@ -22,29 +22,12 @@ using Xunit;
 
 namespace Easify.Sample.WebAPI.IntegrationTests
 {
-    public sealed class ConfigurationControllerTests : IDisposable
+    public sealed class ConfigurationControllerTests
     {
         public ConfigurationControllerTests()
         {
             Environment.SetEnvironmentVariable("EASIFY_EnvVar1", "SampleValue1");
             Environment.SetEnvironmentVariable("EASIFY_EnvVar3", "SampleValue3");
-            
-            Fixture = TestServerFixture<StartupForConfiguration>.Create();
-        }
-
-        private TestServerFixture<StartupForConfiguration> Fixture { get; }
-
-        public void Dispose()
-        {
-            try
-            {
-                Fixture.Dispose();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
         }
 
         [Theory]
@@ -56,8 +39,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             string key, HttpStatusCode expectedStatus, string expectedValue)
         {
             // Arrange
+            using var fixture = TestApplicationFactory<StartupForConfiguration>.Create();
+
             // Act
-            var response = await Fixture.Client.GetAsync($"api/configuration/environment/{key}");
+            var response = await fixture.Client.GetAsync($"api/configuration/environment/{key}");
             var responseString = await response.Content.ReadAsStringAsync();
             
             // Assert

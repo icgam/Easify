@@ -1,4 +1,4 @@
-// This software is part of the Easify framework
+﻿// This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -15,14 +15,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 
-namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
+namespace Easify.AspNetCore.Features
 {
-    public sealed class TestServerOptions
+    public static class FeatureFlagExtensions
     {
-        public bool EnableLoggingToFile { get; set; } = false;
-        public string Environment { get; set; } = "Development";
-        public Action<IServiceCollection> ConfigureServices { get; set; } = sc => { };
+        public static IServiceCollection AddFeatureFlagging(this IServiceCollection services, IConfiguration configuration)
+        {
+            if (services == null) throw new ArgumentNullException(nameof(services));
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+
+            var section = configuration.GetSection("FeatureManagement");
+            services.AddFeatureManagement(section);
+
+            return services;
+        }
     }
 }

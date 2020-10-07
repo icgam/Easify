@@ -32,41 +32,38 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         public async Task GivenAPIRunning_WhenHealthRequested_ShouldReturnHealthy()
         {
             // Arrange
-            using (var fixture = TestServerFixture<StartupForHealthy>.Create())
-            {
-                // Act
-                var response = await fixture.Client.GetAsync($"health");
-                var responseString = await response.Content.ReadAsStringAsync();
-                var actual = JsonConvert.DeserializeObject<HealthData>(responseString);
+            using var fixture = TestApplicationFactory<StartupForHealthy>.Create();
+            
+            // Act
+            var response = await fixture.Client.GetAsync($"health");
+            var responseString = await response.Content.ReadAsStringAsync();
+            var actual = JsonConvert.DeserializeObject<HealthData>(responseString);
 
-                // Assert
-                response.StatusCode.Should().Be(HttpStatusCode.OK);
-                actual.Status.Should().Be(HealthStatus.Healthy);
-                actual.Entries["microsoft"].Status.Should().Be(HealthStatus.Healthy);
-                actual.Entries["microsoft"].Exception.Should().BeNull();
-            }
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            actual.Status.Should().Be(HealthStatus.Healthy);
+            actual.Entries["microsoft"].Status.Should().Be(HealthStatus.Healthy);
+            actual.Entries["microsoft"].Exception.Should().BeNull();
         }        
         
         [Fact]
         public async Task GivenAPIRunning_WhenHealthRequestedAndOneOfTheDependenciesIsUnhealthy_ShouldReturnUnhealthy()
         {
             // Arrange
-            using (var fixture = TestServerFixture<StartupForUnhealthy>.Create())
-            {
-                // Act
-                var response = await fixture.Client.GetAsync($"health");
-                var responseString = await response.Content.ReadAsStringAsync();
-                var actual = JsonConvert.DeserializeObject<HealthData>(responseString);
+            using var fixture = TestApplicationFactory<StartupForUnhealthy>.Create();
+            // Act
+            var response = await fixture.Client.GetAsync($"health");
+            var responseString = await response.Content.ReadAsStringAsync();
+            var actual = JsonConvert.DeserializeObject<HealthData>(responseString);
 
-                // Assert
-                response.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
-                actual.Status.Should().Be(HealthStatus.Unhealthy);
-                actual.Entries["microsoft"].Status.Should().Be(HealthStatus.Healthy);
-                actual.Entries["microsoft"].Exception.Should().BeNull();
-                actual.Entries["microsoftwithwrongurl"].Status.Should().Be(HealthStatus.Unhealthy);
-                actual.Entries["microsoftwithwrongurl"].Exception.Should().NotBeNull();
-                actual.Entries["microsoftwithwrongurl"].Description.Should().NotBeNull();
-            }
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
+            actual.Status.Should().Be(HealthStatus.Unhealthy);
+            actual.Entries["microsoft"].Status.Should().Be(HealthStatus.Healthy);
+            actual.Entries["microsoft"].Exception.Should().BeNull();
+            actual.Entries["microsoftwithwrongurl"].Status.Should().Be(HealthStatus.Unhealthy);
+            actual.Entries["microsoftwithwrongurl"].Exception.Should().NotBeNull();
+            actual.Entries["microsoftwithwrongurl"].Description.Should().NotBeNull();
         }
 
         private class HealthData

@@ -37,7 +37,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
         private readonly string LogFilePattern =
             $"Easify.Sample.WebAPI.IntegrationTests-{EnvironmentNames.Integration}" + "-{0}.log";
 
-        public TestServerFixture(TestServerOptions options)
+        public TestServerFixture(TestApplicationOptions options)
         {
             SessionId = Guid.NewGuid();
 
@@ -118,7 +118,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 
         public static TestServerFixture<TStartup> CreateWithLoggingEnabled()
         {
-            return new TestServerFixture<TStartup>(new TestServerOptions
+            return new TestServerFixture<TStartup>(new TestApplicationOptions
             {
                 EnableLoggingToFile = true
             });
@@ -126,7 +126,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 
         public static TestServerFixture<TStartup> Create(string environment = EnvironmentNames.Integration)
         {
-            return new TestServerFixture<TStartup>(new TestServerOptions
+            return new TestServerFixture<TStartup>(new TestApplicationOptions
             {
                 Environment = environment
             });
@@ -135,7 +135,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
         public static TestServerFixture<TStartup> Create(Action<IServiceCollection> configureServices,
             string environment = EnvironmentNames.Integration)
         {
-            return new TestServerFixture<TStartup>(new TestServerOptions
+            return new TestServerFixture<TStartup>(new TestApplicationOptions
             {
                 Environment = environment,
                 ConfigureServices = configureServices

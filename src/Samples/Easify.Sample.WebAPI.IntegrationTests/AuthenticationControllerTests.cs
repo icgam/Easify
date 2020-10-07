@@ -32,57 +32,53 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         [Fact]
         public async Task GivenAuthenticationWithOAuth2_WhenQueryingTheSecureResourceWithoutAuthorizationHeader_ThenGetInternalServerError()
         {
-            using (var fixture = TestServerFixture<StartupForNoAuth>.Create())
-            {
-                // Arrange
-                // Act
-                var response = await fixture.Client.GetAsync("api/Authentication/secured");
+            // Arrange
+            using var fixture = TestApplicationFactory<StartupForNoAuth>.Create();
+            
+            // Act
+            var response = await fixture.Client.GetAsync("api/Authentication/secured");
 
-                // Assert
-                response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-            }
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }              
         
         [Fact]
         public async Task GivenNoAuthentication_WhenQueryingTheSecureResource_ThenGetUnauthorizedStatus()
         {
-            using (var fixture = TestServerFixture<StartupForOAuth2>.Create())
-            {
-                // Arrange
-                // Act
-                var response = await fixture.Client.GetAsync("api/Authentication/secured");
+            // Arrange
+            using var fixture = TestApplicationFactory<StartupForOAuth2>.Create();
+            
+            // Act
+            var response = await fixture.Client.GetAsync("api/Authentication/secured");
 
-                // Assert
-                response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-            }
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }        
         
         [Fact]
         public async Task GivenAuthenticationWithOAuth2_WhenQueryingTheUnsecureResourceWithoutAuthorizationHeader_ThenGetOkStatus()
         {
-            using (var fixture = TestServerFixture<StartupForOAuth2>.Create())
-            {
-                // Arrange
-                // Act
-                var response = await fixture.Client.GetAsync("api/Authentication/unsecured");
+            // Arrange
+            using var fixture = TestApplicationFactory<StartupForOAuth2>.Create(); 
+            
+            // Act
+            var response = await fixture.Client.GetAsync("api/Authentication/unsecured");
 
-                // Assert
-                response.StatusCode.Should().Be(HttpStatusCode.OK);
-            }
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
         
         [Fact]
         public async Task GivenAuthenticationWithImpersonation_WhenQueryingTheResourceWithoutAuthorizationHeader_ThenGetUnauthorizedStatus()
         {
-            using (var fixture = TestServerFixture<StartupForImpersonation>.Create())
-            {
-                // Arrange
-                // Act
-                var response = await fixture.Client.GetAsync("api/Authentication/secured");
+            // Arrange
+            using var fixture = TestApplicationFactory<StartupForImpersonation>.Create();
+            
+            // Act
+            var response = await fixture.Client.GetAsync("api/Authentication/secured");
 
-                // Assert
-                response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-            }
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }     
         
         [Theory]
@@ -91,18 +87,17 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         [InlineData(DefaultImpersonationToken, HttpStatusCode.OK)]
         public async Task GivenAuthenticationWithImpersonation_WhenQueryingTheResourceAuthorizationHeader_ThenGetRelevantStatus(string header, HttpStatusCode statusCode)
         {
-            using (var fixture = TestServerFixture<StartupForImpersonation>.Create())
-            {
-                // Arrange
-                var client = fixture.Client;
-                client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue(ImpersonationBearerDefaults.AuthenticationScheme, header);
-                // Act
-                var response = await fixture.Client.GetAsync("api/Authentication/secured");
 
-                // Assert
-                response.StatusCode.Should().Be(statusCode);
-            }
+            
+            // Arrange
+            using var fixture = TestApplicationFactory<StartupForImpersonation>.Create();
+            fixture.Client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue(ImpersonationBearerDefaults.AuthenticationScheme, header);
+            // Act
+            var response = await fixture.Client.GetAsync("api/Authentication/secured");
+
+            // Assert
+            response.StatusCode.Should().Be(statusCode);
         }
     }
 }

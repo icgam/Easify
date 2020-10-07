@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using Easify.AspNetCore.Cors;
 using Easify.AspNetCore.Documentation;
 using Easify.AspNetCore.ExceptionHandling;
+using Easify.AspNetCore.Features;
 using Easify.AspNetCore.Mvc;
 using Easify.AspNetCore.RequestCorrelation;
 using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
@@ -118,6 +119,7 @@ namespace Easify.AspNetCore.Bootstrap
             _services.AddHttpRequestContext();
             _services.AddGlobalExceptionHandler(ae => _errorHandlerBuilder.UseDefault());
             _services.AddRequestCorrelation(b => _requestCorrelationExtender(b.ExcludeDefaultUrls()));
+            _services.AddFeatureFlagging(_configuration);
             _services.AddDefaultMvc<TStartup>();
             _services.AddDefaultCorsPolicy();
             _services.AddAuthentication(_authOptions);

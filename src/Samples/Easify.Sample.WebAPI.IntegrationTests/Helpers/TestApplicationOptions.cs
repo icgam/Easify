@@ -1,4 +1,4 @@
-﻿// This software is part of the Easify framework
+// This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -15,15 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Easify.AspNetCore.Security.Fluent;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
-    public sealed class StartupForOAuth2 : StartupForAuthentication<StartupForOAuth2>
+    public sealed class TestApplicationOptions
     {
-        public StartupForOAuth2(IConfiguration configuration) : base(configuration) {}
-
-        protected override Action<ISetAuthenticationMode> AuthConfigure => o => o.WithOAuth2();
+        public bool EnableLoggingToFile { get; set; } = false;
+        public string Environment { get; set; } = "Development";
+        public Action<IServiceCollection> ConfigureServices { get; set; } = sc => { };
     }
 }

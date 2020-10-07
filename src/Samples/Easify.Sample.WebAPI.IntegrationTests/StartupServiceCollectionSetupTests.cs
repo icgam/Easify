@@ -27,25 +27,24 @@ namespace Easify.Sample.WebAPI.IntegrationTests
     public sealed class StartupServiceCollectionSetupTests
     {
         [Fact]
-        public async Task GivenApiWhenNoServiceOverridedThenReturnResultAsExpected()
+        public async Task GivenApi_WhenNoServiceReplaced_ThenReturnResultAsExpected()
         {
             // Arrange
             const string dataToProcess = "my-data";
+            using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
 
             // Act
-            using (var fixture = TestServerFixture<StartupForIntegration>.Create())
-            {
-                var response = await fixture.Client.GetAsync($"api/Service/{dataToProcess}");
-                response.EnsureSuccessStatusCode();
-                var responseString = await response.Content.ReadAsStringAsync();
 
-                // Assert
-                Assert.Equal($"Processed {dataToProcess}", responseString);
-            }
+            var response = await fixture.Client.GetAsync($"api/Service/{dataToProcess}");
+            response.EnsureSuccessStatusCode();
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            Assert.Equal($"Processed {dataToProcess}", responseString);
         }
 
         [Fact]
-        public async Task GivenApiWhenServiceIsOverridedThenReturnResultFromFakeService()
+        public async Task GivenApi_WhenServiceIsOverrided_ThenReturnResultFromFakeService()
         {
             // Arrange
             const string dataToProcess = "my-data";
@@ -53,20 +52,20 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             var myServiceMock = Substitute.For<IMyService>();
             myServiceMock.Process(Arg.Any<string>())
                 .Returns(ci => $"Processed {dataToProcess} using very FAKE service");
-
-            // Act
-            using (var fixture = TestServerFixture<StartupForIntegration>.Create(s =>
+            using var fixture = TestApplicationFactory<StartupForIntegration>.Create(s =>
             {
                 s.Replace(ServiceDescriptor.Transient(c => myServiceMock));
-            }))
-            {
-                var response = await fixture.Client.GetAsync($"api/Service/{dataToProcess}");
-                response.EnsureSuccessStatusCode();
-                var responseString = await response.Content.ReadAsStringAsync();
+            });
 
-                // Assert
-                Assert.Equal($"Processed {dataToProcess} using very FAKE service", responseString);
-            }
+            // Act
+
+            
+            var response = await fixture.Client.GetAsync($"api/Service/{dataToProcess}");
+            response.EnsureSuccessStatusCode();
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            Assert.Equal($"Processed {dataToProcess} using very FAKE service", responseString);
         }
     }
 }

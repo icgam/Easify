@@ -26,29 +26,9 @@ using Xunit;
 
 namespace Easify.Sample.WebAPI.IntegrationTests
 {
-    public sealed class ValidationControllerTests : IDisposable
+    public sealed class ValidationControllerTests
     {
-        public ValidationControllerTests()
-        {
-            Fixture = TestServerFixture<StartupForIntegration>.Create();
-        }
-
-        public void Dispose()
-        {
-            try
-            {
-                Fixture.Dispose();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
         private const int UnprocessableEntity = 422;
-
-        private TestServerFixture<StartupForIntegration> Fixture { get; }
 
         [Theory]
         [InlineData("Validate")]
@@ -67,9 +47,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests
                     new Document()
                 }
             };
+            using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
 
             // Act
-            var response = await Fixture.Client.PostAsync("api/Validation", new JsonContent(request));
+            var response = await fixture.Client.PostAsync("api/Validation", new JsonContent(request));
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -79,8 +60,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         public async Task ForPostShouldReturnErrorWithMissingArguments()
         {
             // Arrange
+            using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
+            
             // Act
-            var response = await Fixture.Client.PostAsync("api/Validation",
+            var response = await fixture.Client.PostAsync("api/Validation",
                 new StringContent(string.Empty, Encoding.UTF8, "application/json"));
 
             // Assert
@@ -101,9 +84,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests
                 Owner = new Owner(),
                 Documents = new List<Document>()
             };
+            using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
 
             // Act
-            var response = await Fixture.Client.PostAsync("api/Validation", new JsonContent(request));
+            var response = await fixture.Client.PostAsync("api/Validation", new JsonContent(request));
 
             // Assert
             var responseString = await response.Content.ReadAsStringAsync();
@@ -126,9 +110,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests
                     new Document()
                 }
             };
+            using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
 
             // Act
-            var response = await Fixture.Client.PostAsync("api/Validation", new JsonContent(request));
+            var response = await fixture.Client.PostAsync("api/Validation", new JsonContent(request));
 
             // Assert
             var responseString = await response.Content.ReadAsStringAsync();
@@ -136,7 +121,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             Assert.Equal(UnprocessableEntity, (int) response.StatusCode);
             Assert.Contains("Operation must be supplied! Supported operations are: Validate, Process, Publish.",
                 responseString);
-            Assert.Contains("'Request Id' should not be empty.", responseString);
+            Assert.Contains("'Request Id' must not be empty.", responseString);
         }
     }
 }
