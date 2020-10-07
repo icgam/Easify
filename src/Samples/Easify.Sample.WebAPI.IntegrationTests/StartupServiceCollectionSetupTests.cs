@@ -67,5 +67,6 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             // Assert
             Assert.Equal($"Processed {dataToProcess} using very FAKE service", responseString);
         }
+        
     }
 }
