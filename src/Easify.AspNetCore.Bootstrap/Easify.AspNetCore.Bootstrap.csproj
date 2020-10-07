@@ -28,4 +28,8 @@
     <ProjectReference Include="..\Easify.RestEase\Easify.RestEase.csproj" />
     <ProjectReference Include="..\Easify.DependencyInjection\Easify.DependencyInjection.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Templates\home.html" />
+    <EmbeddedResource Include="Templates\home.html" />
+  </ItemGroup>
 </Project>

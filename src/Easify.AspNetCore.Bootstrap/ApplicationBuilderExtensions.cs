@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO;
+using System.Linq;
 using Easify.AspNetCore.Cors;
 using Easify.AspNetCore.Dignostics;
 using Easify.AspNetCore.Documentation;
@@ -27,6 +29,8 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -45,12 +49,21 @@ namespace Easify.AspNetCore.Bootstrap
             if (env == null) throw new ArgumentNullException(nameof(env));
             if (loggerFactory == null) throw new ArgumentNullException(nameof(loggerFactory));
 
-            var appInfo = configuration.GetApplicationInfo();
-            var authOptions = configuration.GetAuthOptions();
+            var options = new ApiPipelineOptions(configuration, env, loggerFactory);
+            app.UseDefaultApiPipeline(options);
+        }
+
+        public static void UseDefaultApiPipeline(this IApplicationBuilder app, ApiPipelineOptions options)
+        {
+            if (app == null) throw new ArgumentNullException(nameof(app));
+            if (options == null) throw new ArgumentNullException(nameof(options));
+
+            var appInfo = options.Configuration.GetApplicationInfo();
+            var authOptions = options.Configuration.GetAuthOptions();
 
             app.UseCorsWithDefaultPolicy();
 
-            if (env.IsDevelopment())
+            if (options.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
@@ -65,21 +78,71 @@ namespace Easify.AspNetCore.Bootstrap
             app.UseRequestCorrelation();
             app.UseAuthentication();
             app.UseAuthorization();
+            
+            options.PostAuthenticationConfigure?.Invoke();
+            
             app.UseCorrelatedLogs();
             app.UseUserIdentityLogging();
             app.UseDiagnostics();
             app.UseOpenApiDocumentation(appInfo, u => u.ConfigureAuth(appInfo, authOptions.Authentication));
             app.UseEndpoints(endpoints =>
             {
+                options.PreEndPointsConfigure?.Invoke(endpoints);
+                
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions
                 {
                     Predicate = _ => true,
                     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
                 });
                 endpoints.MapControllers();
+
+                if (options.EnableStartPage)
+                    options.StartPageConfigure?.Invoke(endpoints, appInfo);
+                
+                options.PostEndPointsConfigure?.Invoke(endpoints);
             });
-            
-            LogResolvedEnvironment(env, loggerFactory);
+
+            LogResolvedEnvironment(options.Environment, options.LoggerFactory);
+        }
+        
+        public static void UseStartPage(this IEndpointRouteBuilder endpoints, string applicationName)
+        {
+            if (endpoints == null) throw new ArgumentNullException(nameof(endpoints));
+            if (applicationName == null) throw new ArgumentNullException(nameof(applicationName));
+
+            endpoints.MapGet("/", context =>
+            {
+                var content = LoadStartPageFromEmbeddedResource(applicationName);
+                if (string.IsNullOrEmpty(content))
+                    content = applicationName;
+
+                context.Response.ContentType = "text/html";
+                return context.Response.WriteAsync(content);
+            });
+        }
+
+        private static string LoadStartPageFromEmbeddedResource(string applicationName)
+        {
+            var assembly = typeof(AppBootstrapper<>).Assembly;
+            var resourceName = assembly.GetManifestResourceNames().First(s => s.EndsWith("home.html", StringComparison.CurrentCultureIgnoreCase));
+            if (string.IsNullOrEmpty(resourceName))
+                return null;
+
+            try
+            {
+                var stream = assembly.GetManifestResourceStream(resourceName);
+                if (stream == null)
+                    return null;
+
+                using var reader = new StreamReader(stream);
+                var content = reader.ReadToEnd();
+                content = content.Replace("{{application}}", applicationName);
+                return content;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private static void LogResolvedEnvironment(IHostEnvironment env, ILoggerFactory loggerFactory)
