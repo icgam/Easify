@@ -61,8 +61,6 @@ namespace Easify.AspNetCore.Bootstrap
             var appInfo = options.Configuration.GetApplicationInfo();
             var authOptions = options.Configuration.GetAuthOptions();
 
-            app.UseCorsWithDefaultPolicy();
-
             if (options.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -71,17 +69,20 @@ namespace Easify.AspNetCore.Bootstrap
             else
             {
                 app.UseGlobalExceptionHandler();
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
-            app.UseRouting();
+            app.UseStaticFiles();
             app.UseRequestCorrelation();
+            app.UseCorrelatedLogs();
+            app.UseRouting();
+            app.UseCorsWithDefaultPolicy();
             app.UseAuthentication();
             app.UseAuthorization();
             
             options.PostAuthenticationConfigure?.Invoke();
-            
-            app.UseCorrelatedLogs();
+
             app.UseUserIdentityLogging();
             app.UseDiagnostics();
             app.UseOpenApiDocumentation(appInfo, u => u.ConfigureAuth(appInfo, authOptions.Authentication));
