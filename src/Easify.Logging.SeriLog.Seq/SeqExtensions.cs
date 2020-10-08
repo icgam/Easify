@@ -14,20 +14,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using Microsoft.Extensions.Configuration;
 
 namespace Easify.Logging.SeriLog.Seq
 {
     public static class SeqExtensions
     {
-        public static ISetApiKey UseSeq(this ILoggerConfiguration configurationServices, string serverUrl)
+        public static ISinkBuilderContext UseSeq(this ISinkBuilderContext sinkBuilderContext, string serverUrl, Action<ISetApiKey> configure)
         {
-            return new FluentSeqSinkBuilder(configurationServices, serverUrl);
+            var builder = new FluentSeqSinkBuilder(sinkBuilderContext, serverUrl);
+            configure(builder);
+            return builder.BuildAndCloneContext(sinkBuilderContext);
         }
 
-        public static IBuildSink UseSeq(this ILoggerConfiguration configurationServices, IConfigurationSection config)
+        public static ISinkBuilderContext UseSeq(this ISinkBuilderContext sinkBuilderContext, IConfigurationSection config)
         {
-            return new ConfigBasedSeqSinkBuilder(configurationServices, config);
+            var builder = new SeqSinkBuilder(sinkBuilderContext, config);
+            return builder.BuildAndCloneContext(sinkBuilderContext);
         }
     }
 }

@@ -25,24 +25,45 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 
 namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 {
-    public sealed class TestApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup: class
+    public sealed class TestApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
-        private readonly TestApplicationOptions _options;
-        
         private const string LogsDirectoryPattern = "Logs\\{0}";
         private const int LoggerFlushDelayInMs = 1000;
 
         private readonly string _logFilePattern =
             $"Easify.Sample.WebAPI.IntegrationTests-{EnvironmentNames.Integration}" + "-{0}.log";
 
+        private readonly TestApplicationOptions _options;
+
         public TestApplicationFactory(TestApplicationOptions options)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
+        }
+
+        private Guid SessionId { get; } = Guid.NewGuid();
+
+        public string LogFilePath
+        {
+            get
+            {
+                var logsDirectory = LogDirectoryPath;
+                var fileName = string.Format(_logFilePattern, DateTime.Today.ToString("yyyyMMdd"));
+                return Path.Combine(logsDirectory, fileName);
+            }
+        }
+
+        public string LogDirectoryPath
+        {
+            get
+            {
+                var path = Directory.GetCurrentDirectory();
+                var logsDirectory = string.Format(LogsDirectoryPattern, SessionId);
+                return Path.Combine(path, logsDirectory);
+            }
         }
 
         protected override IWebHostBuilder CreateWebHostBuilder()
@@ -59,12 +80,14 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
                 })
                 .UseStartup<TStartup>()
                 .ConfigureServices(_options.ConfigureServices);
-            
+
             if (_options.EnableLoggingToFile)
                 hostBuilder.UseSerilog((context, configuration) =>
                 {
-                    var loggerBuilder = new LoggerBuilder(context, configuration).ConfigureLogger<TStartup>(c =>
-                        c.FlushToDiskEveryInMs(1).SaveLogsTo(LogFilePath));
+                    var loggerBuilder =
+                        new LoggerBuilder(context.HostingEnvironment, context.Configuration, configuration)
+                            .ConfigureLogger<TStartup>(c =>
+                                c.FlushToDiskEveryInMs(1).SaveLogsTo(LogFilePath));
                     loggerBuilder.Build<TStartup>();
                 });
 
@@ -76,7 +99,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
             base.ConfigureClient(client);
             client.AddRequestIdToHeader(Guid.NewGuid().ToString());
         }
-        
+
         public static TestApplicationFactory<TStartup> CreateWithLoggingEnabled()
         {
             return new TestApplicationFactory<TStartup>(new TestApplicationOptions
@@ -101,29 +124,6 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
                 Environment = environment,
                 ConfigureServices = configureServices
             });
-        }
-
-        private Guid SessionId { get; } = Guid.NewGuid();
-
-        public string LogFilePath
-        {
-            get
-            {
-                var logsDirectory = LogDirectoryPath;
-                var fileName = string.Format(_logFilePattern, DateTime.Today.ToString("yyyyMMdd"));
-                return Path.Combine(logsDirectory, fileName);
-            }
-        }
-
-        public string LogDirectoryPath
-        {
-            get
-            {
-                var path = Directory.GetCurrentDirectory();
-                var logsDirectory = string.Format(LogsDirectoryPattern, SessionId);
-                return Path.Combine(path, logsDirectory);
-            }
-
         }
     }
 }

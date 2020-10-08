@@ -16,8 +16,8 @@
 
 namespace Easify.Logging.SeriLog.LogEntries
 {
-    public interface IProvideTemplate : IBuildSink
+    public interface IProvideTemplate : ISinkBuilder
     {
-        IBuildSink WithTemplate(string template);
+        ISinkBuilder WithTemplate(string template);
     }
 }

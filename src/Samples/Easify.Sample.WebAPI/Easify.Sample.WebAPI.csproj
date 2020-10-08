@@ -13,6 +13,7 @@
     <PackageReference Include="System.Linq.Async" Version="4.1.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Easify.Hosting.WindowsService\Easify.Hosting.WindowsService.csproj" />
     <ProjectReference Include="..\..\Easify.Logging.SeriLog.Loggly\Easify.Logging.SeriLog.Loggly.csproj" />
     <ProjectReference Include="..\..\Easify.AspNetCore.Bootstrap\Easify.AspNetCore.Bootstrap.csproj" />
     <ProjectReference Include="..\..\Easify.Logging.SeriLog.Seq\Easify.Logging.SeriLog.Seq.csproj" />

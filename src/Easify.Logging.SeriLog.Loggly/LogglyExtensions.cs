@@ -21,19 +21,24 @@ namespace Easify.Logging.SeriLog.Loggly
 {
     public static class LogglyExtensions
     {
-        public static ISetCustomerToken UseLoggly(this ILoggerConfiguration configurationServices, string serverUrl)
+        public static ISinkBuilderContext UseLoggly(this ISinkBuilderContext sinkBuilderContext, string serverUrl, Action<ISetCustomerToken> configure)
         {
-            if (configurationServices == null) throw new ArgumentNullException(nameof(configurationServices));
+            if (sinkBuilderContext == null) throw new ArgumentNullException(nameof(sinkBuilderContext));
             if (serverUrl == null) throw new ArgumentNullException(nameof(serverUrl));
-            var serverUri = new Uri(serverUrl, UriKind.Absolute);
+            if (configure == null) throw new ArgumentNullException(nameof(configure));
 
-            return new FluentLogglySinkBuilder(configurationServices, serverUri);
+            var serverUri = new Uri(serverUrl, UriKind.Absolute);
+            var builder = new FluentLogglySinkBuilder(sinkBuilderContext, serverUri);
+            configure(builder);
+            
+            return builder.BuildAndCloneContext(sinkBuilderContext);
         }
 
-        public static IBuildSink UseLoggly(this ILoggerConfiguration configurationServices,
+        public static ISinkBuilderContext UseLoggly(this ISinkBuilderContext sinkBuilderContext,
             IConfigurationSection config)
         {
-            return new ConfigBasedLogglySinkBuilder(configurationServices, config);
-        }
+            var builder = new LogglySinkBuilder(sinkBuilderContext, config);
+            return builder.BuildAndCloneContext(sinkBuilderContext);
+        }        
     }
 }

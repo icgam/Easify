@@ -14,23 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Microsoft.AspNetCore.Hosting;
+using Serilog;
 
-namespace Easify.Hosting.Core
+namespace Easify.Logging.SeriLog
 {
-    public sealed class HostAsWebContainer : IHostContainer
+    public interface ISinkBuilder
     {
-        private readonly IWebHost _host;
-
-        public HostAsWebContainer(IWebHost host)
-        {
-            _host = host ?? throw new ArgumentNullException(nameof(host));
-        }
-
-        public void Run()
-        {
-            _host.Start();
-        }
+        LoggerConfiguration Build();
     }
 }

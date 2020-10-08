@@ -16,22 +16,27 @@
 
 using System;
 using Easify.Logging.SeriLog;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 using Serilog.Configuration;
 
 namespace Easify.AspNetCore.Logging.SeriLog
 {
-    public sealed class LoggerConfigurationServices : ILoggerConfiguration
+    public sealed class SinkBuilderContext : ISinkBuilderContext
     {
-        public LoggerConfigurationServices(LoggerSinkConfiguration sinkConfiguration, IWebHostEnvironment environment)
+        public SinkBuilderContext(LoggerConfiguration loggerConfiguration, IHostEnvironment environment)
         {
-            SinkConfiguration = sinkConfiguration ?? throw new ArgumentNullException(nameof(sinkConfiguration));
+            LoggerConfiguration = loggerConfiguration ?? throw new ArgumentNullException(nameof(loggerConfiguration));
             Environment = environment ?? throw new ArgumentNullException(nameof(environment));
         }
 
-        public IWebHostEnvironment Environment { get; }
-        public LoggerSinkConfiguration SinkConfiguration { get; }
+        public IHostEnvironment Environment { get; }
+        public LoggerConfiguration LoggerConfiguration { get; }
         public string ApplicationName => Environment.ApplicationName;
         public string EnvironmentName => Environment.EnvironmentName;
+        public ISinkBuilderContext Clone(LoggerConfiguration loggerConfiguration)
+        {
+            return new SinkBuilderContext(loggerConfiguration, Environment);
+        }
     }
 }

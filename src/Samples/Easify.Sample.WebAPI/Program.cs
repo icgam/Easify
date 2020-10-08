@@ -17,7 +17,6 @@
 using Easify.AspNetCore;
 using Easify.Logging.SeriLog.Loggly;
 using Easify.Logging.SeriLog.Seq;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace Easify.Sample.WebAPI
@@ -30,7 +29,7 @@ namespace Easify.Sample.WebAPI
             {
                 if (s.Environment.IsDevelopment() || s.Environment.IsEnvironment("INT"))
                     return s.ConfigureLogger<Startup>(c => c.UseSeq(s.Configuration.GetSection("Logging:Seq")));
-
+                
                 return s.ConfigureLogger<Startup>(c
                     => c.UseLoggly(s.Configuration.GetSection("Logging:Loggly")));
             }, args);

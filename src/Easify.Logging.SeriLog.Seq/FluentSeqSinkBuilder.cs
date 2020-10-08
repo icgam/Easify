@@ -19,24 +19,24 @@ using Serilog;
 
 namespace Easify.Logging.SeriLog.Seq
 {
-    public sealed class FluentSeqSinkBuilder : ISetApiKey, IControlLogLevel, IBuildSink
+    public sealed class FluentSeqSinkBuilder : ISetApiKey, IControlLogLevel, ISinkBuilder
     {
-        private readonly ILoggerConfiguration _configurationServices;
+        private readonly ISinkBuilderContext _sinkBuilderContext;
         private readonly string _serverUrl;
         private bool _allowLogLevelToBeControlledRemotely;
         private string _apiKey;
 
-        public FluentSeqSinkBuilder(ILoggerConfiguration configurationServices, string serverUrl)
+        public FluentSeqSinkBuilder(ISinkBuilderContext sinkBuilderContext, string serverUrl)
         {
             if (string.IsNullOrWhiteSpace(serverUrl))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(serverUrl));
 
-            _configurationServices =
-                configurationServices ?? throw new ArgumentNullException(nameof(configurationServices));
+            _sinkBuilderContext =
+                sinkBuilderContext ?? throw new ArgumentNullException(nameof(sinkBuilderContext));
             _serverUrl = serverUrl;
         }
 
-        public IBuildSink EnableLogLevelControl()
+        public ISinkBuilder EnableLogLevelControl()
         {
             _allowLogLevelToBeControlledRemotely = true;
             return this;
@@ -45,11 +45,11 @@ namespace Easify.Logging.SeriLog.Seq
         public LoggerConfiguration Build()
         {
             if (_allowLogLevelToBeControlledRemotely)
-                return _configurationServices.SinkConfiguration.Seq(_serverUrl,
+                return _sinkBuilderContext.LoggerConfiguration.WriteTo.Seq(_serverUrl,
                     apiKey: _apiKey,
                     controlLevelSwitch: LoggingLevelSwitchProvider.Instance);
 
-            return _configurationServices.SinkConfiguration.Seq(_serverUrl,
+            return _sinkBuilderContext.LoggerConfiguration.WriteTo.Seq(_serverUrl,
                 apiKey: _apiKey);
         }
 

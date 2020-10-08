@@ -20,16 +20,14 @@ using Serilog;
 
 namespace Easify.Logging.SeriLog.Seq
 {
-    public sealed class ConfigBasedSeqSinkBuilder : IBuildSink
+    public sealed class SeqSinkBuilder : ISinkBuilder
     {
         private readonly IConfigurationSection _config;
-        private readonly ILoggerConfiguration _configurationServices;
+        private readonly ISinkBuilderContext _sinkBuilderContext;
 
-        public ConfigBasedSeqSinkBuilder(ILoggerConfiguration configurationServices, IConfigurationSection config)
+        public SeqSinkBuilder(ISinkBuilderContext sinkBuilderContext, IConfigurationSection config)
         {
-            if (configurationServices == null) throw new ArgumentNullException(nameof(configurationServices));
-
-            _configurationServices = configurationServices;
+            _sinkBuilderContext = sinkBuilderContext ?? throw new ArgumentNullException(nameof(sinkBuilderContext));
             _config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
@@ -38,11 +36,11 @@ namespace Easify.Logging.SeriLog.Seq
             var options = _config.Get<SeqConfiguration>();
 
             if (options.AllowLogLevelToBeControlledRemotely)
-                return _configurationServices.SinkConfiguration.Seq(options.ServerUrl,
+                return _sinkBuilderContext.LoggerConfiguration.WriteTo.Seq(options.ServerUrl,
                     apiKey: options.ApiKey,
                     controlLevelSwitch: LoggingLevelSwitchProvider.Instance);
 
-            return _configurationServices.SinkConfiguration.Seq(options.ServerUrl,
+            return _sinkBuilderContext.LoggerConfiguration.WriteTo.Seq(options.ServerUrl,
                 apiKey: options.ApiKey);
         }
     }

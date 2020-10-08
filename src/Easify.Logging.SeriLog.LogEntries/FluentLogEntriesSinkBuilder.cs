@@ -20,31 +20,31 @@ using Serilog.Sinks.Logentries;
 
 namespace Easify.Logging.SeriLog.LogEntries
 {
-    public sealed class FluentLogEntriesSinkBuilder : IBuildSink, IProvideTemplate
+    public sealed class FluentLogEntriesSinkBuilder : ISinkBuilder, IProvideTemplate
     {
         private readonly string _apiToken;
-        private readonly ILoggerConfiguration _configurationServices;
+        private readonly ISinkBuilderContext _sinkBuilderContext;
         private string _template;
 
-        public FluentLogEntriesSinkBuilder(ILoggerConfiguration configurationServices, string apiToken)
+        public FluentLogEntriesSinkBuilder(ISinkBuilderContext sinkBuilderContext, string apiToken)
         {
             if (string.IsNullOrWhiteSpace(apiToken))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(apiToken));
 
-            _configurationServices = configurationServices ??
-                                     throw new ArgumentNullException(nameof(configurationServices));
+            _sinkBuilderContext = sinkBuilderContext ??
+                                     throw new ArgumentNullException(nameof(sinkBuilderContext));
             _apiToken = apiToken;
         }
 
         public LoggerConfiguration Build()
         {
-            return _configurationServices.SinkConfiguration.Logentries(_apiToken,
+            return _sinkBuilderContext.LoggerConfiguration.WriteTo.Logentries(_apiToken,
                 outputTemplate: string.IsNullOrWhiteSpace(_template)
                     ? LogEntriesExtensions.DefaultLogMessageTemplate
                     : _template);
         }
 
-        public IBuildSink WithTemplate(string template)
+        public ISinkBuilder WithTemplate(string template)
         {
             if (string.IsNullOrWhiteSpace(template))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(template));

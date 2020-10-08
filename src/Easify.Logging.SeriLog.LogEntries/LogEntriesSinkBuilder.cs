@@ -21,23 +21,23 @@ using Serilog.Sinks.Logentries;
 
 namespace Easify.Logging.SeriLog.LogEntries
 {
-    public sealed class ConfigBasedLogEntriesSinkBuilder : IBuildSink
+    public sealed class LogEntriesSinkBuilder : ISinkBuilder
     {
         private readonly IConfigurationSection _config;
-        private readonly ILoggerConfiguration _configurationServices;
+        private readonly ISinkBuilderContext _sinkBuilderContext;
 
-        public ConfigBasedLogEntriesSinkBuilder(ILoggerConfiguration configurationServices,
+        public LogEntriesSinkBuilder(ISinkBuilderContext sinkBuilderContext,
             IConfigurationSection config)
         {
-            _configurationServices = configurationServices ??
-                                     throw new ArgumentNullException(nameof(configurationServices));
+            _sinkBuilderContext = sinkBuilderContext ??
+                                     throw new ArgumentNullException(nameof(sinkBuilderContext));
             _config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
         public LoggerConfiguration Build()
         {
             var options = _config.Get<LogEntriesConfiguration>();
-            return _configurationServices.SinkConfiguration.Logentries(options.Token,
+            return _sinkBuilderContext.LoggerConfiguration.WriteTo.Logentries(options.Token,
                 outputTemplate: string.IsNullOrWhiteSpace(options.LogMessageTemplate)
                     ? LogEntriesExtensions.DefaultLogMessageTemplate
                     : options.LogMessageTemplate);

@@ -18,8 +18,11 @@ using Serilog;
 
 namespace Easify.Logging.SeriLog
 {
-    public interface IBuildSink
+    public interface ISinkBuilderContext
     {
-        LoggerConfiguration Build();
+        LoggerConfiguration LoggerConfiguration { get; }
+        string ApplicationName { get; }
+        string EnvironmentName { get; }
+        public ISinkBuilderContext Clone(LoggerConfiguration loggerConfiguration);
     }
 }

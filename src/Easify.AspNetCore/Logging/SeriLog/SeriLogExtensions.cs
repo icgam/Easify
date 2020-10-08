@@ -23,7 +23,7 @@ namespace Easify.AspNetCore.Logging.SeriLog
     // TODO: Need to move out
     public static class SeriLogExtensions
     {
-        public static LoggerConfiguration IgnoreSystemLogs(this LoggerConfiguration loggerConfiguration)
+        public static Serilog.LoggerConfiguration IgnoreSystemLogs(this Serilog.LoggerConfiguration loggerConfiguration)
         {
             if (loggerConfiguration == null) throw new ArgumentNullException(nameof(loggerConfiguration));
 

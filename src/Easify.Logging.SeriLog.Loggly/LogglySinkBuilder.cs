@@ -21,7 +21,7 @@ using Serilog;
 
 namespace Easify.Logging.SeriLog.Loggly
 {
-    public sealed class ConfigBasedLogglySinkBuilder : IBuildSink
+    public sealed class LogglySinkBuilder : ISinkBuilder
     {
         private const int DefaultNumberOfEventsInSingleBatch = 50;
         private const int DefaultBatchPostingIntervalInSeconds = 5;
@@ -31,13 +31,13 @@ namespace Easify.Logging.SeriLog.Loggly
         private const int KbToBytesMultiplier = 1024;
         private const int MbToBytesMultiplier = KbToBytesMultiplier * KbToBytesMultiplier;
         private readonly IConfigurationSection _config;
-        private readonly ILoggerConfiguration _configurationServices;
+        private readonly ISinkBuilderContext _sinkBuilderContext;
 
-        public ConfigBasedLogglySinkBuilder(ILoggerConfiguration configurationServices,
+        public LogglySinkBuilder(ISinkBuilderContext sinkBuilderContext,
             IConfigurationSection config)
         {
-            _configurationServices =
-                configurationServices ?? throw new ArgumentNullException(nameof(configurationServices));
+            _sinkBuilderContext =
+                sinkBuilderContext ?? throw new ArgumentNullException(nameof(sinkBuilderContext));
             _config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
@@ -49,7 +49,7 @@ namespace Easify.Logging.SeriLog.Loggly
             var serverUri = new Uri(options.ServerUrl);
             config.CustomerToken = options.CustomerToken;
             config.ApplicationName =
-                $"{_configurationServices.ApplicationName}-{_configurationServices.EnvironmentName}";
+                $"{_sinkBuilderContext.ApplicationName}-{_sinkBuilderContext.EnvironmentName}";
 
             config.Transport.EndpointHostname = serverUri.Host;
             config.Transport.EndpointPort = SslPort;
@@ -57,7 +57,7 @@ namespace Easify.Logging.SeriLog.Loggly
             config.IsEnabled = options.IsEnabled;
 
             if (options.AllowLogLevelToBeControlledRemotely)
-                return _configurationServices.SinkConfiguration.Loggly(bufferBaseFilename: options.BufferBaseFilename,
+                return _sinkBuilderContext.LoggerConfiguration.WriteTo.Loggly(bufferBaseFilename: options.BufferBaseFilename,
                     batchPostingLimit: options.NumberOfEventsInSingleBatch.GetValueOrDefault(
                         DefaultNumberOfEventsInSingleBatch),
                     period: TimeSpan.FromSeconds(
@@ -68,7 +68,7 @@ namespace Easify.Logging.SeriLog.Loggly
                                                            DefaultRetainedInvalidPayloadsLimitMb) * MbToBytesMultiplier,
                     controlLevelSwitch: LoggingLevelSwitchProvider.Instance);
 
-            return _configurationServices.SinkConfiguration.Loggly(bufferBaseFilename: options.BufferBaseFilename,
+            return _sinkBuilderContext.LoggerConfiguration.WriteTo.Loggly(bufferBaseFilename: options.BufferBaseFilename,
                 batchPostingLimit: options.NumberOfEventsInSingleBatch.GetValueOrDefault(
                     DefaultNumberOfEventsInSingleBatch),
                 period: TimeSpan.FromSeconds(

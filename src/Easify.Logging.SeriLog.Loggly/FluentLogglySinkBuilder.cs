@@ -20,19 +20,19 @@ using Serilog;
 
 namespace Easify.Logging.SeriLog.Loggly
 {
-    public sealed class FluentLogglySinkBuilder : IControlLogLevel, IBuildSink, ISetCustomerToken, IConfigureLogBuffer
+    public sealed class FluentLogglySinkBuilder : IControlLogLevel, ISinkBuilder, ISetCustomerToken, IConfigureLogBuffer
     {
         private const int SslPort = 443;
-        private readonly ILoggerConfiguration _configurationServices;
+        private readonly ISinkBuilderContext _sinkBuilderContext;
         private readonly Uri _serverUri;
         private bool _allowLogLevelToBeControlledRemotely;
         private string _bufferBaseFilename;
         private string _customerToken;
 
-        public FluentLogglySinkBuilder(ILoggerConfiguration configurationServices, Uri serverUri)
+        public FluentLogglySinkBuilder(ISinkBuilderContext sinkBuilderContext, Uri serverUri)
         {
-            _configurationServices =
-                configurationServices ?? throw new ArgumentNullException(nameof(configurationServices));
+            _sinkBuilderContext =
+                sinkBuilderContext ?? throw new ArgumentNullException(nameof(sinkBuilderContext));
             _serverUri = serverUri ?? throw new ArgumentNullException(nameof(serverUri));
         }
 
@@ -44,7 +44,7 @@ namespace Easify.Logging.SeriLog.Loggly
             return this;
         }
 
-        public IBuildSink EnableLogLevelControl()
+        public ISinkBuilder EnableLogLevelControl()
         {
             _allowLogLevelToBeControlledRemotely = true;
             return this;
@@ -54,7 +54,7 @@ namespace Easify.Logging.SeriLog.Loggly
         {
             var config = LogglyConfig.Instance;
             config.CustomerToken = _customerToken;
-            config.ApplicationName = $"MyApp-{_configurationServices.EnvironmentName}";
+            config.ApplicationName = $"MyApp-{_sinkBuilderContext.EnvironmentName}";
             config.IsEnabled = true;
 
             config.Transport.EndpointHostname = _serverUri.Host;
@@ -62,10 +62,10 @@ namespace Easify.Logging.SeriLog.Loggly
             config.Transport.LogTransport = LogTransport.Https;
 
             if (_allowLogLevelToBeControlledRemotely)
-                return _configurationServices.SinkConfiguration.Loggly(bufferBaseFilename: _bufferBaseFilename,
+                return _sinkBuilderContext.LoggerConfiguration.WriteTo.Loggly(bufferBaseFilename: _bufferBaseFilename,
                     controlLevelSwitch: LoggingLevelSwitchProvider.Instance);
 
-            return _configurationServices.SinkConfiguration.Loggly(bufferBaseFilename: _bufferBaseFilename);
+            return _sinkBuilderContext.LoggerConfiguration.WriteTo.Loggly(bufferBaseFilename: _bufferBaseFilename);
         }
 
         public IConfigureLogBuffer WithCustomerToken(string customerToken)
