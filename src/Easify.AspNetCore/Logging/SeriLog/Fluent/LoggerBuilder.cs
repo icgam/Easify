@@ -27,9 +27,6 @@ using Serilog.Events;
 
 namespace Easify.AspNetCore.Logging.SeriLog.Fluent
 {
-    // TODO: The logging should be revamped. It's highly dependent to Asp.NEt Core which it shouldn't be
-    // TODO: AppProfile need to be seen as part of this process
-    // TODO: There should be a way to extend the variables without having them statically in the process 
     public sealed class LoggerBuilder : ILoggerBuilder, IBuildLogger
     {
         private const string LogMessageTemplate =
@@ -112,7 +109,7 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
             var assemblyName = typeof(TStartup).GetTypeInfo().Assembly.GetName().Name;
             var environmentName = applicationInfo.Environment ?? env.EnvironmentName;
             var logFilePath = GetLogFilePath(env, options);
-
+            
             loggerConfiguration
                 .MinimumLevel.ControlledBy(LoggingLevelSwitchProvider.Instance)
                 .IgnoreSystemLogs()

@@ -15,27 +15,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Easify.RestEase.Client;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using RestEase;
+using Easify.Hosting.WindowsService;
+using Serilog;
 
-namespace Easify.Testing.Integration
+namespace Easify.Sample.WindowsService
 {
-    public static class TestServerExtensions
+    class Program
     {
-        public static T CreateClient<T>(this TestServer server) where T : IRestClient
+        static void Main(string[] args)
         {
-            if (server == null) throw new ArgumentNullException(nameof(server));
+            Log.Logger = new LoggerConfiguration().WriteTo.File("c:\\ogs\\log.txt").CreateLogger();
+            Log.Logger.Information("Start the service");
+            try
+            {
+                HostAsWindowsService.Run<Startup>(c => c.ConfigureLogger<Startup>(), args);
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error("{@e}", e);
+                //throw;
+            }
 
-            return RestClient.For<T>(server.CreateClient());
-        }        
-        
-        public static T CreateClient<TStartup, T>(this WebApplicationFactory<TStartup> server) where T : IRestClient where TStartup : class
-        {
-            if (server == null) throw new ArgumentNullException(nameof(server));
-
-            return RestClient.For<T>(server.CreateClient());
         }
     }
 }

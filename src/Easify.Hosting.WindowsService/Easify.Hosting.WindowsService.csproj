@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Easify.Hosting.Core\Easify.Hosting.Core.csproj" />
+    <ProjectReference Include="..\Easify.AspNetCore\Easify.AspNetCore.csproj" />
   </ItemGroup>
 
 </Project>

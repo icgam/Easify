@@ -32,14 +32,13 @@ namespace Easify.AspNetCore.Bootstrap
         {
         }
 
-        protected override IServiceProvider ConfigureContainer(
+        protected override void ConfigureContainer(
             Action<IServiceCollection, IConfiguration> serviceConfigurationProvider,
             IServiceCollection services,
             IConfiguration configuration)
         {
             services.AddSingleton<IComponentResolver, ServiceProviderComponentResolver>();
             serviceConfigurationProvider(services, configuration);
-            return services.BuildServiceProvider();
         }
     }
 }

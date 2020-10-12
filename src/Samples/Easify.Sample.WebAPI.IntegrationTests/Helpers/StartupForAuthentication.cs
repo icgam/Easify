@@ -40,9 +40,9 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 
         protected virtual Action<ISetAuthenticationMode> AuthConfigure => o => o.WithNoAuth();
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-                return services.BootstrapApp<T>(Configuration,
+                services.BootstrapApp<T>(Configuration,
                     app => app.AddConfigSection<Clients>()
                         .AndSection<Section1>()
                         .AndSection<Section2>()

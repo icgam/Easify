@@ -43,7 +43,7 @@ namespace Easify.AspNetCore.Bootstrap
 {
     public sealed class AppBootstrapper<TStartup> :
         IBootstrapApplication,
-        IConfigureContainer,
+        IConfigureContainer, 
         IAddExtraConfigSection,
         IHandleAdditionalException,
         ISetDetailsLevel,
@@ -64,7 +64,7 @@ namespace Easify.AspNetCore.Bootstrap
         private readonly AppInfo _appInfo; 
         
         private readonly AuthOptions _authOptions;
-        private Func<IServiceCollection, IConfiguration, IServiceProvider> _containerFactory;
+        private Action<IServiceCollection, IConfiguration> _containerFactory;
         private Func<IExcludeRequests, IBuildOptions> _requestCorrelationExtender = cop => cop.EnforceCorrelation();
 
 
@@ -107,7 +107,7 @@ namespace Easify.AspNetCore.Bootstrap
             return this;
         }
 
-        public IServiceProvider Bootstrap()
+        public void Bootstrap()
         {
             _configurationSectionBuilder.Build();
 
@@ -127,7 +127,7 @@ namespace Easify.AspNetCore.Bootstrap
 
             _pipelineExtenders.ForEach(e => e(_services, _configuration));
 
-            return _containerFactory(_services, _configuration);
+            _containerFactory(_services, _configuration);
         }
 
         public IAddExtraConfigSection AddConfigSection<TSection>()
@@ -144,7 +144,6 @@ namespace Easify.AspNetCore.Bootstrap
             return this;
         }
 
-        // TODO: Need to be removed
         public IBootstrapApplication UseContainer<TContainer>(ContainerFactory<TContainer> containerFactory)
             where TContainer : class
         {

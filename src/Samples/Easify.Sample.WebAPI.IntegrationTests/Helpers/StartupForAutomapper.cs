@@ -37,9 +37,9 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 
         private IConfiguration Configuration { get; }
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            return services.BootstrapApp<StartupForAutomapper>(Configuration,
+            services.BootstrapApp<StartupForAutomapper>(Configuration,
                 app => app
                     .HandleApplicationException<TemplateApiApplicationException>()
                     .UseDetailedErrors().ConfigureMappings(c =>

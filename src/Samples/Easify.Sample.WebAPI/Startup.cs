@@ -42,14 +42,9 @@ namespace Easify.Sample.WebAPI
 
         private IConfiguration Configuration { get; }
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            return ConfigureUsingServiceCollection(services);
-        }
-
-        private IServiceProvider ConfigureUsingServiceCollection(IServiceCollection services)
-        {
-            return services.BootstrapApp<Startup>(Configuration,
+            services.BootstrapApp<Startup>(Configuration,
                 app => app
                     .AddConfigSection<Clients>()
                     .AndSection<Section1>()

@@ -18,6 +18,7 @@ using System;
 using System.Threading.Tasks;
 using Easify.AspNetCore;
 using Easify.AspNetCore.Logging.SeriLog.Fluent;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -25,6 +26,7 @@ namespace Easify.Hosting.WindowsService
 {
     public static class HostAsWindowsService
     {
+        // TODO: Should be configured with Http and Https for ease of redirect
         private static IHost Build<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerConfigure, string[] args)
             where TStartup : class
         {
@@ -33,6 +35,10 @@ namespace Easify.Hosting.WindowsService
             var host = Host
                 .CreateDefaultBuilder(args)
                 .UseWindowsService()
+                .ConfigureWebHostDefaults(builder =>
+                {
+                    builder.UseStartup<TStartup>();
+                })
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     var env = hostingContext.HostingEnvironment;
@@ -46,7 +52,7 @@ namespace Easify.Hosting.WindowsService
                         configuration)).Build<TStartup>();
                 })
                 .Build();
-
+            
             return host;
         }
 

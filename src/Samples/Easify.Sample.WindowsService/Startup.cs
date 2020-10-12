@@ -14,19 +14,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using Easify.AspNetCore.Bootstrap;
-using Easify.Sample.WebAPI.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
+namespace Easify.Sample.WindowsService
 {
-    public class StartupForConfiguration
+    public class Startup
     {
-        public StartupForConfiguration(IConfiguration configuration)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -35,12 +35,15 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 
         public void ConfigureServices(IServiceCollection services)
         {
-                services.BootstrapApp<StartupForIntegration>(Configuration,
-                    app => 
-                        app.AddConfigSection<Clients>()
-                        .HandleApplicationException<TemplateApiApplicationException>()
-                        .AddServices((container, config) => { })
-                );
+            services.BootstrapApp<Startup>(Configuration,
+                app => app
+                    .HandleApplicationException<Exception>()
+                    .ConfigureCorrelation(m => m.AutoCorrelateRequests())
+                    .AddServices((container, config) =>
+                    {
+
+                    })
+            );
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)

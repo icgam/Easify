@@ -75,6 +75,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.Resilience", "Easify
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.Resilience.UnitTests", "Easify.Resilience.UnitTests\Easify.Resilience.UnitTests.csproj", "{15A17D77-C9BE-4ADE-A42A-0DB5C88D4A0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easify.Sample.WindowsService", "Samples\Easify.Sample.WindowsService\Easify.Sample.WindowsService.csproj", "{0A9E6275-2F18-43DC-86DC-C3F3F37FB177}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -201,6 +203,10 @@ Global
 		{15A17D77-C9BE-4ADE-A42A-0DB5C88D4A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15A17D77-C9BE-4ADE-A42A-0DB5C88D4A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15A17D77-C9BE-4ADE-A42A-0DB5C88D4A0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A9E6275-2F18-43DC-86DC-C3F3F37FB177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A9E6275-2F18-43DC-86DC-C3F3F37FB177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A9E6275-2F18-43DC-86DC-C3F3F37FB177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A9E6275-2F18-43DC-86DC-C3F3F37FB177}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -239,6 +245,7 @@ Global
 		{9D0AA97D-07FC-4756-9190-43C6C65512B1} = {C6B49B11-8BC9-4A68-9238-85BECC4BDF97}
 		{74F7FFB2-57CB-4217-976A-B0916B20AD05} = {C6B49B11-8BC9-4A68-9238-85BECC4BDF97}
 		{15A17D77-C9BE-4ADE-A42A-0DB5C88D4A0C} = {C6B49B11-8BC9-4A68-9238-85BECC4BDF97}
+		{0A9E6275-2F18-43DC-86DC-C3F3F37FB177} = {709EFF89-FE7B-4818-B435-856741E1C21B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD317B39-D1E3-4033-A80A-C5F8CACAAF2C}
