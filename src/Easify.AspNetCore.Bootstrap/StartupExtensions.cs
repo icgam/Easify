@@ -41,7 +41,7 @@ namespace Easify.AspNetCore.Bootstrap
             if (serviceConfigurationProvider == null)
                 throw new ArgumentNullException(nameof(serviceConfigurationProvider));
 
-            var factory = new NativeContainerFactory(serviceConfigurationProvider);
+            var factory = new ServiceCollectionContainerFactory(serviceConfigurationProvider);
             return bootstrapper.UseContainer(factory);
         }
 

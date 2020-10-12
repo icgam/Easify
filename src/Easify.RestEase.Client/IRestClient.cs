@@ -21,8 +21,7 @@ using HttpHeaders = Easify.Http.HttpHeaders;
 
 namespace Easify.RestEase.Client
 {
-    // TODO: Is this worth to have a separate simple class
-    // TODO: Extend this with the with extra properties for security & ...
+    // TODO: Is this worth to have a separate simple class as if it's singleton it will cause redundant Corelations
     public interface IRestClient
     {
         [Header(HttpHeaders.HttpRequestId)] 

@@ -14,17 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-
-namespace Easify.Extensions
+namespace Easify
 {
-    // TODO: Should be moved to Core project. Also Add Today as well.
-    public interface IComponentResolver
+    public interface ITypeMapper
     {
-        bool IsRegistered<TComponent>() where TComponent : class;
-        bool IsRegistered(Type type);
-        IEnumerable<TComponent> Resolve<TComponent>() where TComponent : class;
-        IEnumerable<object> Resolve(Type type);
+        TDestination Map<TSource, TDestination>(TSource source, TDestination destination);
+        TDestination Map<TSource, TDestination>(TSource source);
+        TDestination Map<TDestination>(object source);
     }
 }

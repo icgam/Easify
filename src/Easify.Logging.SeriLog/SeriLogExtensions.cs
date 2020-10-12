@@ -18,12 +18,11 @@ using System;
 using Serilog;
 using Serilog.Events;
 
-namespace Easify.AspNetCore.Logging.SeriLog
+namespace Easify.Logging.SeriLog
 {
-    // TODO: Need to move out
     public static class SeriLogExtensions
     {
-        public static Serilog.LoggerConfiguration IgnoreSystemLogs(this Serilog.LoggerConfiguration loggerConfiguration)
+        public static LoggerConfiguration IgnoreSystemLogs(this LoggerConfiguration loggerConfiguration)
         {
             if (loggerConfiguration == null) throw new ArgumentNullException(nameof(loggerConfiguration));
 

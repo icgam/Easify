@@ -23,8 +23,7 @@ using RestEase;
 
 namespace Easify.ExceptionHandling.ErrorBuilder
 {
-    // TODO: Should be renamed
-    public sealed class ErrorBuilderForApiException : IErrorBuilder<ApiException>
+    public sealed class ApiExceptionErrorBuilder : IErrorBuilder<ApiException>
     {
         private const string MessageKey = "\"Message\"";
         private const string UserErrorsKey = "\"UserErrors\"";

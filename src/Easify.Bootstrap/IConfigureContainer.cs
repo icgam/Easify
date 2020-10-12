@@ -16,7 +16,6 @@
 
 namespace Easify.Bootstrap
 {
-    // TODO: Needs to be changed
     public interface IConfigureContainer
     {
         IBootstrapApplication UseContainer<TContainer>(

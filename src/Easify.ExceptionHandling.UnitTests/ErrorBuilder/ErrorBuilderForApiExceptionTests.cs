@@ -41,7 +41,7 @@ namespace Easify.ExceptionHandling.UnitTests.ErrorBuilder
             string content)
         {
             // Arrange
-            var sut = new ErrorBuilderForApiException();
+            var sut = new ApiExceptionErrorBuilder();
             var exception = BuildApiException(content);
             var internalErrors = new List<Error>();
 
@@ -66,7 +66,7 @@ namespace Easify.ExceptionHandling.UnitTests.ErrorBuilder
         public void GivenAnyExceptionWhenExceptionIsNotSuppliedThenBuilderShouldThrow()
         {
             // Arrange
-            var sut = new ErrorBuilderForApiException();
+            var sut = new ApiExceptionErrorBuilder();
 
             // Act
             // Assert
@@ -78,7 +78,7 @@ namespace Easify.ExceptionHandling.UnitTests.ErrorBuilder
         public void GivenAnyExceptionWhenInternalErrorsAreNotSuppliedThenBuilderShouldThrow()
         {
             // Arrange
-            var sut = new ErrorBuilderForApiException();
+            var sut = new ApiExceptionErrorBuilder();
 
             // Act
             // Assert
@@ -91,7 +91,7 @@ namespace Easify.ExceptionHandling.UnitTests.ErrorBuilder
         public void GivenExceptionWhenContentHasMalformedErrorThenReturnErrorWithContentShouldBeReturned()
         {
             // Arrange
-            var sut = new ErrorBuilderForApiException();
+            var sut = new ApiExceptionErrorBuilder();
             var exception = BuildApiException("{\"Message\":\"My Error!\",\"UserErrors\":[XXXXXX],\"RawErrors\":[]}");
             var internalErrors = new List<Error>();
 
@@ -122,7 +122,7 @@ namespace Easify.ExceptionHandling.UnitTests.ErrorBuilder
                 "\"UserErrors\":[ { \"Message\":\"UserMessage\", \"ErrorType\":\"ExternalUserError\", \"ChildErrors\":[] } ]," +
                 "\"RawErrors\":[]}";
 
-            var sut = new ErrorBuilderForApiException();
+            var sut = new ApiExceptionErrorBuilder();
             var exception = BuildApiException(content);
 
             // Act
@@ -162,7 +162,7 @@ namespace Easify.ExceptionHandling.UnitTests.ErrorBuilder
                 "\"UserErrors\":[ { \"Message\":\"UserMessage\", \"ErrorType\":\"ExternalUserError\", \"ChildErrors\":[] } ]," +
                 "\"RawErrors\":[ { \"Message\":\"RawMessage\", \"ErrorType\":\"ExternalRawError\", \"ChildErrors\":[] } ]}";
 
-            var sut = new ErrorBuilderForApiException();
+            var sut = new ApiExceptionErrorBuilder();
             var exception = BuildApiException(content);
 
             // Act
@@ -196,7 +196,7 @@ namespace Easify.ExceptionHandling.UnitTests.ErrorBuilder
         public void GivenExceptionWhenContentHasSerializedErrorAndLevelOfDetailsIsStandardThenReturnInteralErrorsOnly()
         {
             // Arrange
-            var sut = new ErrorBuilderForApiException();
+            var sut = new ApiExceptionErrorBuilder();
             var exception = BuildApiException("{\"Message\":\"My Error!\",\"UserErrors\":[],\"RawErrors\":[]}");
 
             // Act
@@ -232,7 +232,7 @@ namespace Easify.ExceptionHandling.UnitTests.ErrorBuilder
                 "\"UserErrors\":[ { \"Message\":\"UserMessage\", \"ErrorType\":\"ExternalUserError\", \"ChildErrors\":[] } ]," +
                 "\"RawErrors\":[ { \"Message\":\"RawMessage\", \"ErrorType\":\"ExternalRawError\", \"ChildErrors\":[] } ]}";
 
-            var sut = new ErrorBuilderForApiException();
+            var sut = new ApiExceptionErrorBuilder();
             var exception = BuildApiException(content);
 
             // Act
@@ -266,7 +266,7 @@ namespace Easify.ExceptionHandling.UnitTests.ErrorBuilder
         public void GivenExceptionWhenContentHasSerializedErrorThenReturnOriginalError()
         {
             // Arrange
-            var sut = new ErrorBuilderForApiException();
+            var sut = new ApiExceptionErrorBuilder();
             var exception = BuildApiException("{\"Message\":\"My Error!\",\"UserErrors\":[],\"RawErrors\":[]}");
 
             // Act
@@ -289,7 +289,7 @@ namespace Easify.ExceptionHandling.UnitTests.ErrorBuilder
         public void GivenExceptionWhenNoContentFoundThenErrorWithMessageShouldBeReturned()
         {
             // Arrange
-            var sut = new ErrorBuilderForApiException();
+            var sut = new ApiExceptionErrorBuilder();
             var exception = BuildApiException();
             var internalErrors = new List<Error>();
 

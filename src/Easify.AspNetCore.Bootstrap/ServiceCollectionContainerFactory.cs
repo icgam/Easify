@@ -22,11 +22,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Easify.AspNetCore.Bootstrap
 {
-    // TODO: Should be reverse dependency to the system. Using container in host registration rather than startup
     public sealed class
-        NativeContainerFactory : ContainerFactory<IServiceCollection>
+        ServiceCollectionContainerFactory : ContainerFactory<IServiceCollection>
     {
-        public NativeContainerFactory(
+        public ServiceCollectionContainerFactory(
             Action<IServiceCollection, IConfiguration> serviceConfigurationProvider) : base(
             serviceConfigurationProvider)
         {
