@@ -2,7 +2,7 @@ name: CI on Branched and PRs
 
 on:
   push:
-    branches: ['Feature/**']
+    branches: ['feature/**']
     paths: 'src/**'
   pull_request:
     branches: [ master ]
