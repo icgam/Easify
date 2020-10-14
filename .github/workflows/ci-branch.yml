@@ -2,13 +2,11 @@ name: CI on Branched and PRs
 
 on:
   push:
-    branches:
-      - 'Feature/Migrate**'
+    branches: ['Feature/Migrate**']
     paths:
       - "src/**"
   pull_request:
-    branches:
-      - master
+    branches: [ master ]
     paths:
       - "src/**"
 
