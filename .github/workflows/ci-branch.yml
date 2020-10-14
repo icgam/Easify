@@ -6,7 +6,7 @@ on:
     paths: 'src/**'
     
   push:
-    branches: ['feature/**']
+    branches-ignore: [master]
     paths: 'src/**'
     
   pull_request:
