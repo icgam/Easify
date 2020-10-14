@@ -2,7 +2,7 @@
 $user = "NT_AUTHORITY\LocalService"
 $service = "EasifyWindowsService"
 $serviceName = "Easify Windows Service"
-$serviceDescription = "Easify Windows Service to showcase Service Runner"
+$serviceDescription = "Easify Windows Service to showcase hosting as service"
 
 $acl = Get-Acl $executable
 $aclRuleArgs = $user, "Read,Write,ReadAndExecute", "ContainerInherit,ObjectInherit", "None", "Allow"
