@@ -1,8 +1,8 @@
 ﻿$executable = "<PathToExecutable>\Easify.Sample.WindowsService.Exe"
 $user = "NT_AUTHORITY\LocalService"
-$service = "SampleService"
-$serviceName = "Sample Service"
-$serviceDescription = "Sample Service Description"
+$service = "EasifyWindowsService"
+$serviceName = "Easify Windows Service"
+$serviceDescription = "Easify Windows Service to showcase Service Runner"
 
 $acl = Get-Acl $executable
 $aclRuleArgs = $user, "Read,Write,ReadAndExecute", "ContainerInherit,ObjectInherit", "None", "Allow"
