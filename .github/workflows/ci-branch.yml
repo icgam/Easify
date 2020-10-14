@@ -1,6 +1,11 @@
 name: CI on Branched and PRs
 
 on:
+  workflow_dispatch:
+    branches:
+      - "!master"
+    paths:
+      - "src/**"
   push:
     branches:
       - 'Feature/Migrate**'
