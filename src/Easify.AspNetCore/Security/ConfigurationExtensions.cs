@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Easify.Configurations;
 using Microsoft.Extensions.Configuration;
 
 namespace Easify.AspNetCore.Security
@@ -25,12 +26,15 @@ namespace Easify.AspNetCore.Security
         {
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            var options = new AuthOptions();
-            configuration.GetSection(nameof(AuthOptions)).Bind(options);
+            var authOptions = new AuthOptions();
+            configuration.GetSection(nameof(AuthOptions)).Bind(authOptions);
 
-            // TODO: Validate the options 
+            var authOptionsValidator = new AuthOptionsValidator();
+            var validationResult = authOptionsValidator.Validate(authOptions);
+            if (!validationResult.IsValid)
+                throw new InvalidConfigurationException("Invalid AuthOptions section in configuration", validationResult);
 
-            return options;
+            return authOptions;
         }
     }
 }

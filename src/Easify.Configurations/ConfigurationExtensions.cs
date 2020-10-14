@@ -24,9 +24,16 @@ namespace Easify.Configurations
         {
             var name = config[ConfigurationKeys.AppNameKey];
             var version = config[ConfigurationKeys.AppVersionKey];
-            var environment = config[ConfigurationKeys.AppEnvironmentNameKey];
+            var environment = config[ConfigurationKeys.AppEnvironmentNameKey] ?? EnvironmentNames.Development;
 
-            return new AppInfo(name, version, environment);
+            var appInfo = new AppInfo(name, version, environment);
+            
+            var appInfoValidator = new AppInfoValidator();
+            var validationResult = appInfoValidator.Validate(appInfo);
+            if (!validationResult.IsValid)
+                throw new InvalidConfigurationException("Invalid Application section in configuration", validationResult);
+            
+            return appInfo;
         }
     }
 }

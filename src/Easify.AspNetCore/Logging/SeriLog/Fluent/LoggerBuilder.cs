@@ -78,9 +78,8 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
         public IBuildLogger ConfigureLogger<TStartup>(Func<ISetFileSizeLimit, IBuildSeriLogOptions> optionsProvider,
             Func<ISinkBuilderContext, ISinkBuilderContext> sinksProvider) where TStartup : class
         {
-            if (optionsProvider == null) throw new ArgumentNullException(nameof(optionsProvider));
+            _optionsProvider = optionsProvider ?? throw new ArgumentNullException(nameof(optionsProvider));
             _sinksProvider = sinksProvider;
-            _optionsProvider = provider => provider;
 
             return this;
         }

@@ -1,4 +1,4 @@
-// This software is part of the Easify framework
+﻿// This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,26 +14,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Easify.Sample.WebAPI.Core;
-using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
 
-namespace Easify.Sample.WebAPI.Controllers
+namespace Easify.AspNetCore.Security
 {
-    [Route("api/[controller]")]
-    public class ServiceController : Controller
+    public sealed class AuthOptionsValidator : AbstractValidator<AuthOptions>
     {
-        private readonly IMyService _service;
-
-        public ServiceController(IMyService service)
+        private const string UrlPattern =
+            @"^http(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$";
+        public AuthOptionsValidator()
         {
-            _service = service ?? throw new ArgumentNullException(nameof(service));
-        }
-
-        [HttpGet("{data}")]
-        public string Get(string data)
-        {
-            return _service.Process(data);
+            RuleFor(m => m.AuthenticationMode).IsInEnum();
+            
+            When(m => m.AuthenticationMode == AuthenticationMode.OAuth2, () =>
+            {
+                RuleFor(m => m.Authentication.Authority).NotEmpty().Matches(UrlPattern);
+                RuleFor(m => m.Authentication.Audience).NotEmpty();
+            });
         }
     }
 }

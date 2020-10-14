@@ -24,18 +24,36 @@ namespace Easify.Sample.WindowsService
     {
         static void Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration().WriteTo.File("c:\\ogs\\log.txt").CreateLogger();
-            Log.Logger.Information("Start the service");
+            var logger = ConfigureLogger();
+            logger.Information("Start the service");
             try
             {
-                HostAsWindowsService.Run<Startup>(c => c.ConfigureLogger<Startup>(), args);
+                HostAsWindowsService.Run<Startup>(c =>
+                    c.ConfigureLogger<Startup>(s => s.SaveLogsTo(BaseLogLocation)), args);
             }
             catch (Exception e)
             {
-                Log.Logger.Error("{@e}", e);
-                //throw;
+                logger.Error("{@e}", e);
+                throw;
             }
-
         }
+
+        private static ILogger ConfigureLogger()
+        {
+            var location = $@"{BaseLogLocation}\service-startup-{{Date}}.log";
+            var logger = new LoggerConfiguration()
+                .Enrich.WithThreadId()
+                .Enrich.WithMachineName()
+                .Enrich.WithEnvironmentUserName()
+                .Enrich.WithProcessId()
+                .Enrich.WithProcessName()
+                .WriteTo.RollingFile(location)
+                .CreateLogger();
+
+            Log.Logger = logger;
+            return logger;
+        }
+
+        private static string BaseLogLocation => $@"{AppContext.BaseDirectory}\logs";
     }
 }

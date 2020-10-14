@@ -15,59 +15,55 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Easify.Configurations.Fluents
 {
-    public sealed class ConfigurationSectionBuilder : IAddFirstSection, IAddExtraConfigSection
+    public sealed class ConfigurationOptionBuilder : IAddFirstSection, IAddExtraConfigSection
     {
-        private readonly IConfiguration _configuration;
         private readonly IServiceCollection _services;
 
-        public ConfigurationSectionBuilder(IServiceCollection services, IConfiguration configuration)
+        public ConfigurationOptionBuilder(IServiceCollection services)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public IAddExtraConfigSection And<TSection>() where TSection : class, new()
         {
-            var sectionName = typeof(TSection).Name;
-            _services.Configure<TSection>(m => _configuration.GetSection(sectionName));
-
-            return this;
+            var section = typeof(TSection).Name;
+            return AddOptions<TSection>(section);
         }
 
         public IAddExtraConfigSection And<TSection>(string section) where TSection : class, new()
         {
-            if (string.IsNullOrWhiteSpace(section))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(section));
-            _services.Configure<TSection>(m => _configuration.GetSection(section));
-            return this;
+            return AddOptions<TSection>(section);
         }
 
         public IAddExtraConfigSection AddSection<TSection>()
             where TSection : class, new()
         {
-            _services.AddOptions();
-
-            var builder = new ConfigurationSectionBuilder(_services, _configuration);
+            var builder = new ConfigurationOptionBuilder(_services);
             return builder.And<TSection>();
         }
 
         public IAddExtraConfigSection AddSection<TSection>(string section) where TSection : class, new()
         {
-            if (string.IsNullOrWhiteSpace(section))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(section));
-
-            _services.Configure<TSection>(m => _configuration.GetSection(section));
-            return this;
+            return AddOptions<TSection>(section);
         }
 
         public void Build()
         {
             AddSection<Application>();
+        }
+
+        private ConfigurationOptionBuilder AddOptions<TSection>(string section) where TSection : class, new()
+        {
+            if (string.IsNullOrWhiteSpace(section))
+                throw new ArgumentException("Section name cannot be null or whitespace.", nameof(section));
+            
+            _services.AddOptions<TSection>(section).ValidateDataAnnotations();
+
+            return this;
         }
     }
 }

@@ -15,8 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Easify.Configurations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Easify.Sample.WebAPI.Controllers
 {
@@ -24,10 +26,12 @@ namespace Easify.Sample.WebAPI.Controllers
     public class ConfigurationController : Controller
     {
         private readonly IConfiguration _configuration;
+        private readonly IOptions<Application> _applicationAccessor;
 
-        public ConfigurationController(IConfiguration configuration)
+        public ConfigurationController(IConfiguration configuration, IOptions<Application> applicationAccessor)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _applicationAccessor = applicationAccessor ?? throw new ArgumentNullException(nameof(applicationAccessor));
         }
         
         [HttpGet("environment/{name}")]

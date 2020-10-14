@@ -1,4 +1,4 @@
-// This software is part of the Easify framework
+﻿// This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,26 +14,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Easify.Sample.WebAPI.Core;
-using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
 
-namespace Easify.Sample.WebAPI.Controllers
+namespace Easify.Configurations
 {
-    [Route("api/[controller]")]
-    public class ServiceController : Controller
+    public sealed class AppInfoValidator : AbstractValidator<AppInfo>
     {
-        private readonly IMyService _service;
-
-        public ServiceController(IMyService service)
+        public AppInfoValidator()
         {
-            _service = service ?? throw new ArgumentNullException(nameof(service));
-        }
-
-        [HttpGet("{data}")]
-        public string Get(string data)
-        {
-            return _service.Process(data);
+            RuleFor(m => m.Name).NotEmpty();
+            RuleFor(m => m.Version).NotEmpty();
+            RuleFor(m => m.Environment).NotEmpty();
         }
     }
 }

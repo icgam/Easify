@@ -16,7 +16,7 @@
 
 namespace Easify.Configurations
 {
-    public class AppInfo
+    public sealed class AppInfo
     {
         public AppInfo(string name, string version, string environment)
         {

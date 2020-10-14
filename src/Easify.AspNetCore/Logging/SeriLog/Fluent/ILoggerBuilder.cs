@@ -29,7 +29,7 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
         IConfiguration Configuration { get; }
 
         IHostEnvironment
-            Environment { get; } // TODO: Need to be move out of the interface and be replaced by a provider
+            Environment { get; } 
 
         IBuildLogger ConfigureLogger<TStartup>()
             where TStartup : class;
