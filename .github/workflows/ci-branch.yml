@@ -2,17 +2,13 @@ name: CI on Branched and PRs
 
 on:
   push:
-    branches: ['Feature/Migrate**']
-    paths:
-      - "src/**"
+    branches: [ master ]
   pull_request:
     branches: [ master ]
-    paths:
-      - "src/**"
 
 jobs:
   build:
-    
+
     runs-on: ubuntu-latest
 
     steps:
