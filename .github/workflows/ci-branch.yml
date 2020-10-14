@@ -3,7 +3,7 @@ name: ASP.NET Core CI
 on:
   push:
     branches:
-      - 'Feature/**'
+      - '!master'
     paths:
       - "src/**"
   pull_request:
