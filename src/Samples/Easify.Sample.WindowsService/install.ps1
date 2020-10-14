@@ -10,4 +10,5 @@ $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($acl
 $acl.SetAccessRule($accessRule)
 $acl | Set-Acl $executable
 
+
 New-Service -Name $service -BinaryPathName $executable -Credential $user -Description $serviceDescription -DisplayName $serviceName -StartupType Automatic
