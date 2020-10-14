@@ -49,7 +49,7 @@ jobs:
         name: nuget-packages
         path: "**/*.nupkg"
     - name: Add GitHub Packages to NuGet Config
-      run: dotnet nuget add source https://nuget.pkg.github.com/icgam/index.json -n github -u icgam -p GH_TOKEN --store-password-in-clear-text
+      run: dotnet nuget add source https://nuget.pkg.github.com/icgam/index.json -n github -u icgam -p ${{ github.token }}  --store-password-in-clear-text
     - name: Publish the package to GitHub Packages
       run: dotnet nuget push "**/*.nupkg" -s 'github' --skip-duplicate
 
