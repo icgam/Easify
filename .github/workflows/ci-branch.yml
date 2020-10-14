@@ -1,6 +1,11 @@
 name: ASP.NET Core CI
 
 on:
+  workflow_dispatch:
+    branches:
+      - "!master"
+    paths:
+      - "src/**"
   push:
     branches:
       - "!master"
