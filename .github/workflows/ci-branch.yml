@@ -48,8 +48,6 @@ jobs:
       with:
         name: nuget-packages
         path: "**/*.nupkg"
-    - name: Add GitHub Packages to NuGet Config
-      run: dotnet nuget add source https://nuget.pkg.github.com/icgam/index.json -n github -u icgam -p ${{ github.token }} --store-password-in-clear-text
     - name: Install gpr tool
       run: dotnet tool install -g gpr --no-cache -v q
     - name: Publish the package to GitHub Packages
