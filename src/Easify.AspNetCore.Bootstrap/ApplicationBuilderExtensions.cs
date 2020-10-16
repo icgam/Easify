@@ -150,7 +150,7 @@ namespace Easify.AspNetCore.Bootstrap
         private static void LogResolvedEnvironment(IHostEnvironment env, ILoggerFactory loggerFactory)
         {
             var log = loggerFactory.CreateLogger("Startup");
-            log.LogInformation($"Application is started in '{env.EnvironmentName.ToUpper()}' environemnt ...");
+            log.LogInformation($"Application is started in '{env.EnvironmentName.ToUpper()}' environment ...");
         }
     }
 }

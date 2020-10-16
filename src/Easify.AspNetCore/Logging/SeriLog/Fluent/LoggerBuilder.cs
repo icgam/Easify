@@ -103,7 +103,7 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
             var configuration = _configuration;
             var applicationInfo = configuration.GetApplicationInfo();
 
-            var optionsBuilder = new SeriLogOptionsBuilder();
+            var optionsBuilder = new SeriLogOptionsBuilder(configuration);
             var options = optionsProvider(optionsBuilder).Build();
             var assemblyName = typeof(TStartup).GetTypeInfo().Assembly.GetName().Name;
             var environmentName = applicationInfo.Environment ?? env.EnvironmentName;
@@ -136,7 +136,7 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
 
         private static string GetLogFilePath(IHostEnvironment env, LoggingOptions options)
         {
-            var defaultPath = env.IsDevelopment() ? $"{env.ContentRootPath}\\logs" : "D:\\logs";
+            var defaultPath = env.IsDevelopment() ? $"{env.ContentRootPath}\\logs" : "C:\\logs";
             return options.LogsPathSet ? options.LogsPath : defaultPath;
         }
 
