@@ -44,11 +44,8 @@ jobs:
       with:
         name: nuget-packages
         path: "**/*.nupkg"
-    - name: Install gpr tool
-      run: dotnet tool install -g gpr --no-cache -v q
+    - name: Configure github as Package Repository
+      run: dotnet nuget add source https://nuget.pkg.github.com/icgam/index.json -n "github" 
     - name: Publish the package to GitHub Packages
-      env:
-        EASIFY_PUBLISH: ${{ secrets.EASIFY_PUBLISH }} 
-      run: |
-        gpr push "**/*.nupkg" -k "%EASIFY_PUBLISH%"
+      run: dotnet push "**/*.nupkg" -s "github" -k ${{ secrets.GITHUB_TOKEN }}
 
