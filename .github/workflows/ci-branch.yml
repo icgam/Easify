@@ -47,5 +47,5 @@ jobs:
     - name: Configure github as Package Repository
       run: dotnet nuget add source https://nuget.pkg.github.com/icgam/index.json -n "github" 
     - name: Publish the package to GitHub Packages
-      run: dotnet push "**/*.nupkg" -s "github" -k ${{ secrets.GITHUB_TOKEN }}
+      run: dotnet nuget push "**/*.nupkg" -s "github" -k ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
 
