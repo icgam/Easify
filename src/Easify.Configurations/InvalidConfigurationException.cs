@@ -25,13 +25,11 @@ namespace Easify.Configurations
         public InvalidConfigurationException(string message, ValidationResult validationResult) 
             : base(BuildValidationMessage(message, validationResult))
         {
-            
         }        
         
         public InvalidConfigurationException(ValidationResult validationResult) 
             : base(BuildValidationMessage("Validation Error", validationResult))
         {
-            
         }
 
         private static string BuildValidationMessage(string message, ValidationResult validationResult)

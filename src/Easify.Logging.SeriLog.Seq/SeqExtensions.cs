@@ -25,12 +25,14 @@ namespace Easify.Logging.SeriLog.Seq
         {
             var builder = new FluentSeqSinkBuilder(sinkBuilderContext, serverUrl);
             configure(builder);
+            
             return builder.BuildAndCloneContext(sinkBuilderContext);
         }
 
         public static ISinkBuilderContext UseSeq(this ISinkBuilderContext sinkBuilderContext, IConfigurationSection config)
         {
             var builder = new SeqSinkBuilder(sinkBuilderContext, config);
+            
             return builder.BuildAndCloneContext(sinkBuilderContext);
         }
     }

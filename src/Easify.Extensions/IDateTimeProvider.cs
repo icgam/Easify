@@ -21,6 +21,6 @@ namespace Easify.Extensions
     public interface IDateTimeProvider
     {
         DateTime Now();
-        DateTime ToDay();
+        DateTime Today();
     }
 }

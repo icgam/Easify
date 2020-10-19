@@ -28,6 +28,7 @@ namespace Easify.Logging.SeriLog.LogEntries
         {
             var builder = new FluentLogEntriesSinkBuilder(sinkBuilderContext, token);
             configure(builder);
+            
             return builder.BuildAndCloneContext(sinkBuilderContext);
         }
 
@@ -35,6 +36,7 @@ namespace Easify.Logging.SeriLog.LogEntries
             IConfigurationSection config)
         {
             var builder = new LogEntriesSinkBuilder(sinkBuilderContext, config);
+            
             return builder.BuildAndCloneContext(sinkBuilderContext);
         }
     }

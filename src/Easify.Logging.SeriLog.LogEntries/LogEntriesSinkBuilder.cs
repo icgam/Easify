@@ -37,6 +37,7 @@ namespace Easify.Logging.SeriLog.LogEntries
         public LoggerConfiguration Build()
         {
             var options = _config.Get<LogEntriesConfiguration>();
+            
             return _sinkBuilderContext.LoggerConfiguration.WriteTo.Logentries(options.Token,
                 outputTemplate: string.IsNullOrWhiteSpace(options.LogMessageTemplate)
                     ? LogEntriesExtensions.DefaultLogMessageTemplate
