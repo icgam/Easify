@@ -30,16 +30,13 @@ namespace Easify.AspNetCore
             if (options == null) throw new ArgumentNullException(nameof(options));
 
             builder
-                .AddJsonFile(Path.Combine(options.BasePath, "appSettings.json"), false, true)
+                .AddJsonFile(Path.Combine(options.BasePath, "appsettings.json"), false, true)
                 .AddJsonFile(Path.Combine(options.BasePath, $"appsettings.{options.Environment}.json"), true, true);
                 
             if (options.IsDevelopment)
             {
                 var appAssembly = Assembly.Load(new AssemblyName(options.AppEntry));
-                if (appAssembly != null)
-                {
-                    builder.AddUserSecrets(appAssembly, optional: true);
-                }
+                builder.AddUserSecrets(appAssembly, optional: true);
             }   
                 
             builder

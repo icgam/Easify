@@ -16,6 +16,7 @@
 
 using System;
 using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace Easify.Logging.SeriLog.OptionsBuilder
 {
@@ -23,6 +24,8 @@ namespace Easify.Logging.SeriLog.OptionsBuilder
         ISetLogsPath,
         ISetFlushToDiskInterval
     {
+        private readonly IConfiguration _configuration;
+        
         private const int BytesInMegabyte = 1048576;
         private const int LogFileSizeLimit1000Mb = 1000 * BytesInMegabyte;
         private const int LogFilesToRetain = 10;
@@ -30,8 +33,14 @@ namespace Easify.Logging.SeriLog.OptionsBuilder
 
         private int _logFileSizeLimit = LogFileSizeLimit1000Mb;
         private int _logFilesToRetain = LogFilesToRetain;
-        private string _path = string.Empty;
+        private string _path;
 
+        public SeriLogOptionsBuilder(IConfiguration configuration)
+        {
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _path = configuration["Logging:LogFilePath"];
+        }
+        
         public LoggingOptions Build()
         {
             if (_flushToDiskIntervalInMs.HasValue)

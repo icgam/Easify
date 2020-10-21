@@ -36,14 +36,14 @@ namespace Easify.AspNetCore.Mvc
             if (services == null) throw new ArgumentNullException(nameof(services));
 
             var prefix = typeof(TStartup).GetAssemblyPrefix(AssemblyNameSectionSeparator);
-            services.AddMvc(options =>
+            services.AddControllers(options =>
                 {
                     options.Filters.Add(typeof(LoggingActionFilter));
                     options.Filters.Add(typeof(ValidateModelStateActionFilter));
                 })
-                .AddJsonOptions(o => o.SerializerSettings.ConfigureJsonSettings())
+                .AddNewtonsoftJson(o => o.SerializerSettings.ConfigureJsonSettings())
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromDomain<TStartup>(prefix))
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             return services;
         }

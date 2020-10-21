@@ -17,7 +17,9 @@
 using System;
 using System.IO;
 using Easify.RestEase.Client;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 
@@ -25,36 +27,43 @@ namespace Easify.Testing.Integration
 {
     public class IntegrationTestFixtureBase<TStartup> : FixtureBase where TStartup : class
     {
-        public TestServer GetServer(Action<TestServer> setup = null)
+        public TestServer GetServer(Action<TestServer> configure = null)
         {
-            var builder = CreateBuilder();
-            builder.UseStartup<TStartup>();
-
-            var server = new TestServer(builder);
-
-            setup?.Invoke(server);
-            return server;
+            var app = CreateApplicationFactory();
+            var testServer = app.Server;
+            
+            configure?.Invoke(testServer);
+            return testServer;
+        }        
+        
+        public WebApplicationFactory<TStartup> GetApplicationFactory(Action<WebApplicationFactory<TStartup>> configure = null)
+        {
+            var app = CreateApplicationFactory();
+            
+            configure?.Invoke(app);
+            return app;
         }
 
         public T CreateClientFromServer<T>(Action<IServiceProvider> setup = null) where T : IRestClient
         {
-            var server = GetServer(s => { setup?.Invoke(s.Host.Services); });
-            return server.CreateClient<T>();
-        }
+            var server = GetApplicationFactory(app => { setup?.Invoke(app.Services); });
+            return server.CreateClient<TStartup, T>();
+        }        
 
-        protected virtual IWebHostBuilder CreateBuilder()
+        protected virtual WebApplicationFactory<TStartup> CreateApplicationFactory()
         {
-            return new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .ConfigureAppConfiguration((context, builder) =>
-                {
-                    var env = context.HostingEnvironment;
-                    env.EnvironmentName = "Development";
+            return new WebApplicationFactory<TStartup>()
+                    .WithWebHostBuilder(builder =>
+                    {
+                        builder.ConfigureAppConfiguration((hostingContext, config) =>
+                        {
+                            var env = hostingContext.HostingEnvironment;
+                            env.EnvironmentName = "Development";
 
-                    builder.SetBasePath(env.ContentRootPath)
-                        .AddJsonFile("appsettings.json", false, true);
-                });
+                            config.SetBasePath(env.ContentRootPath)
+                                .AddJsonFile("appsettings.json", false, true);
+                        }).UseStartup<TStartup>();
+                    });
         }
     }
 }

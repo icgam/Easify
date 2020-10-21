@@ -29,8 +29,7 @@ namespace Easify.Sample.WebAPI.Controllers
 
         public ValuesConsumerController(IValuesClient valuesClient)
         {
-            if (valuesClient == null) throw new ArgumentNullException(nameof(valuesClient));
-            _valuesClient = valuesClient;
+            _valuesClient = valuesClient ?? throw new ArgumentNullException(nameof(valuesClient));
         }
 
         [HttpGet]

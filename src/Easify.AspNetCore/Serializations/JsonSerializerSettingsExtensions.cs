@@ -21,7 +21,6 @@ using Newtonsoft.Json.Serialization;
 
 namespace Easify.AspNetCore.Serializations
 {
-    // TODO: Should be moved outside (Higher level component)
     public static class JsonSerializerSettingsExtensions
     {
         public static JsonSerializerSettings ConfigureJsonSettings(this JsonSerializerSettings settings)

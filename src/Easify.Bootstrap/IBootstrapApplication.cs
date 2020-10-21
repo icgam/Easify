@@ -20,6 +20,6 @@ namespace Easify.Bootstrap
 {
     public interface IBootstrapApplication
     {
-        IServiceProvider Bootstrap();
+        void Bootstrap();
     }
 }

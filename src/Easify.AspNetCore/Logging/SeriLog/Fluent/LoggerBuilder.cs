@@ -20,16 +20,13 @@ using System.Reflection;
 using Easify.Configurations;
 using Easify.Logging.SeriLog;
 using Easify.Logging.SeriLog.OptionsBuilder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 
 namespace Easify.AspNetCore.Logging.SeriLog.Fluent
 {
-    // TODO: The logging should be revamped. It's highly dependent to Asp.NEt Core which it shouldn't be
-    // TODO: AppProfile need to be seen as part of this process
-    // TODO: There should be a way to extend the variables without having them statically in the process 
     public sealed class LoggerBuilder : ILoggerBuilder, IBuildLogger
     {
         private const string LogMessageTemplate =
@@ -39,25 +36,27 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
         private const string SerilogConfigSectionName = "Logging:Serilog";
         private const string SerilogMinimumLevelKey = "MinimumLevel";
         private const LogEventLevel DefaultLogLevel = LogEventLevel.Information;
-        private readonly LoggerConfiguration _configuration;
-        private readonly WebHostBuilderContext _context;
+        private readonly IHostEnvironment _environment;
+        private readonly IConfiguration _configuration;
+        private readonly LoggerConfiguration _loggerConfiguration;
 
         private Func<ISetFileSizeLimit, IBuildSeriLogOptions> _optionsProvider;
-        private Func<ILoggerConfiguration, IBuildSink> _sinksProvider;
+        private Func<ISinkBuilderContext, ISinkBuilderContext> _sinksProvider;
 
-        public LoggerBuilder(WebHostBuilderContext context, LoggerConfiguration configuration)
+        public LoggerBuilder(IHostEnvironment environment, IConfiguration configuration, LoggerConfiguration loggerConfiguration)
         {
+            _environment = environment ?? throw new ArgumentNullException(nameof(environment));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _loggerConfiguration = loggerConfiguration ?? throw new ArgumentNullException(nameof(loggerConfiguration));
         }
 
         public void Build<TStartup>() where TStartup : class
         {
-            ConfigureLogger<TStartup>(_context, _configuration, _optionsProvider, _sinksProvider);
+            ConfigureLogger<TStartup>(_loggerConfiguration, _optionsProvider, _sinksProvider);
         }
 
-        public IConfiguration Configuration => _context.Configuration;
-        public IHostingEnvironment Environment => _context.HostingEnvironment;
+        public IConfiguration Configuration => _configuration;
+        public IHostEnvironment Environment => _environment;
 
         public IBuildLogger ConfigureLogger<TStartup>() where TStartup : class
         {
@@ -67,7 +66,7 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
             return this;
         }
 
-        public IBuildLogger ConfigureLogger<TStartup>(Func<ILoggerConfiguration, IBuildSink> sinksProvider)
+        public IBuildLogger ConfigureLogger<TStartup>(Func<ISinkBuilderContext, ISinkBuilderContext> sinksProvider)
             where TStartup : class
         {
             _sinksProvider = sinksProvider;
@@ -77,11 +76,10 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
         }
 
         public IBuildLogger ConfigureLogger<TStartup>(Func<ISetFileSizeLimit, IBuildSeriLogOptions> optionsProvider,
-            Func<ILoggerConfiguration, IBuildSink> sinksProvider) where TStartup : class
+            Func<ISinkBuilderContext, ISinkBuilderContext> sinksProvider) where TStartup : class
         {
-            if (optionsProvider == null) throw new ArgumentNullException(nameof(optionsProvider));
+            _optionsProvider = optionsProvider ?? throw new ArgumentNullException(nameof(optionsProvider));
             _sinksProvider = sinksProvider;
-            _optionsProvider = provider => provider;
 
             return this;
         }
@@ -95,23 +93,22 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
             return this;
         }
 
-        private void ConfigureLogger<TStartup>(WebHostBuilderContext context, LoggerConfiguration loggerConfiguration,
+        private void ConfigureLogger<TStartup>(Serilog.LoggerConfiguration loggerConfiguration,
             Func<ISetFileSizeLimit, IBuildSeriLogOptions> optionsProvider,
-            Func<ILoggerConfiguration, IBuildSink> sinksProvider) where TStartup : class
+            Func<ISinkBuilderContext, ISinkBuilderContext> sinksProvider) where TStartup : class
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
             if (loggerConfiguration == null) throw new ArgumentNullException(nameof(loggerConfiguration));
 
-            var env = context.HostingEnvironment;
-            var configuration = context.Configuration;
+            var env = _environment;
+            var configuration = _configuration;
             var applicationInfo = configuration.GetApplicationInfo();
 
-            var optionsBuilder = new SeriLogOptionsBuilder();
+            var optionsBuilder = new SeriLogOptionsBuilder(configuration);
             var options = optionsProvider(optionsBuilder).Build();
             var assemblyName = typeof(TStartup).GetTypeInfo().Assembly.GetName().Name;
             var environmentName = applicationInfo.Environment ?? env.EnvironmentName;
             var logFilePath = GetLogFilePath(env, options);
-
+            
             loggerConfiguration
                 .MinimumLevel.ControlledBy(LoggingLevelSwitchProvider.Instance)
                 .IgnoreSystemLogs()
@@ -134,12 +131,12 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
             LoggingLevelSwitchProvider.Instance.MinimumLevel =
                 GetMinimumLogLevelOrUseDefault(configuration, DefaultLogLevel);
 
-            sinksProvider?.Invoke(new LoggerConfigurationServices(loggerConfiguration.WriteTo, env)).Build();
+            sinksProvider?.Invoke(new SinkBuilderContext(loggerConfiguration, env));
         }
 
-        private static string GetLogFilePath(IHostingEnvironment env, LoggingOptions options)
+        private static string GetLogFilePath(IHostEnvironment env, LoggingOptions options)
         {
-            var defaultPath = env.IsDevelopment() ? $"{env.ContentRootPath}\\logs" : "D:\\logs";
+            var defaultPath = env.IsDevelopment() ? $"{env.ContentRootPath}\\logs" : "C:\\logs";
             return options.LogsPathSet ? options.LogsPath : defaultPath;
         }
 

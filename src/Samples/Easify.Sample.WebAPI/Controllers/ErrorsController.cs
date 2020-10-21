@@ -34,7 +34,7 @@ namespace Easify.Sample.WebAPI.Controllers
                 throw new ThirdPartyPluginFailedException();
             if (data == "throwHierarchy")
             {
-                var leafException1 = new OurApplicationException("My friedly leaf1!");
+                var leafException1 = new OurApplicationException("My friendly leaf1!");
                 var leafException2 = new Exception("Security critical super secret!");
                 var leafException4 = new ThirdPartyPluginFailedException();
                 var leafException3 = new Exception("Security critical super secret #2!", leafException4);

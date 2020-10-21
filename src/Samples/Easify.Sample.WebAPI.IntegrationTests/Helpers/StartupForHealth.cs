@@ -17,7 +17,6 @@
 using System;
 using System.Net.Http;
 using Easify.AspNetCore.Bootstrap;
-using Easify.AspNetCore.Security.Fluent;
 using Easify.RestEase;
 using Easify.Sample.WebAPI.Core;
 using Easify.Sample.WebAPI.Domain;
@@ -41,9 +40,9 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
         
         protected virtual Action<IHealthChecksBuilder> ConfigureHealth => o => { };
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-                return services.BootstrapApp<T>(Configuration,
+                services.BootstrapApp<T>(Configuration,
                     app => app.AddConfigSection<Clients>()
                         .AndSection<Section1>()
                         .AndSection<Section2>()
@@ -59,7 +58,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
                 );
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseDefaultApiPipeline(Configuration, env, loggerFactory);
         }

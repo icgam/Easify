@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Threading.Tasks;
 using Easify.AspNetCore.Logging.SeriLog.Fluent;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -24,10 +25,10 @@ namespace Easify.AspNetCore
 {
     public static class HostAsWeb
     {
-        private static IWebHost Build<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerBuilderFactory, string[] args)
+        private static IWebHost Build<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerConfigure, string[] args)
             where TStartup : class
         {
-            if (loggerBuilderFactory == null) throw new ArgumentNullException(nameof(loggerBuilderFactory));
+            if (loggerConfigure == null) throw new ArgumentNullException(nameof(loggerConfigure));
 
             var host = WebHost
                 .CreateDefaultBuilder<TStartup>(args)
@@ -40,22 +41,34 @@ namespace Easify.AspNetCore
                 })
                 .UseSerilog((context, configuration) =>
                 {
-                    loggerBuilderFactory(new LoggerBuilder(context, configuration)).Build<TStartup>();
+                    loggerConfigure(new LoggerBuilder(context.HostingEnvironment, context.Configuration,
+                        configuration)).Build<TStartup>();
                 })
                 .Build();
 
             return host;
         }
 
-        public static void Run<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerBuilderFactory) where TStartup : class
+        public static void Run<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerConfigure) where TStartup : class
         {
-            Run<TStartup>(loggerBuilderFactory, new string[] { });
+            Run<TStartup>(loggerConfigure, new string[] { });
         }
 
-        public static void Run<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerBuilderFactory, string[] args)
+        public static void Run<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerConfigure, string[] args)
             where TStartup : class
         {
-            Build<TStartup>(loggerBuilderFactory, args).Run();
+            Build<TStartup>(loggerConfigure, args).Run();
+        }
+
+        public static Task RunAsync<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerConfigure) where TStartup : class
+        {
+            return RunAsync<TStartup>(loggerConfigure, new string[] { });
+        }
+
+        public static Task RunAsync<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerConfigure, string[] args)
+            where TStartup : class
+        {
+            return Build<TStartup>(loggerConfigure, args).RunAsync();
         }
     }
 }

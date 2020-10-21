@@ -16,8 +16,8 @@
 
 namespace Easify.Logging.SeriLog
 {
-    public interface IControlLogLevel : IBuildSink
+    public interface IControlLogLevel : ISinkBuilder
     {
-        IBuildSink EnableLogLevelControl();
+        ISinkBuilder EnableLogLevelControl();
     }
 }

@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using Microsoft.Extensions.Configuration;
 
 namespace Easify.Logging.SeriLog.LogEntries
@@ -23,15 +24,20 @@ namespace Easify.Logging.SeriLog.LogEntries
         public const string DefaultLogMessageTemplate =
             "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{MachineName}] [{EnvironmentUserName}] [{ProcessId}] [{UserName}] [{CorrelationId}] [{ThreadId}] [{Level}] {Message}{NewLine}{Exception}";
 
-        public static IProvideTemplate UseLogEntries(this ILoggerConfiguration configurationServices, string token)
+        public static ISinkBuilderContext UseLogEntries(this ISinkBuilderContext sinkBuilderContext, string token, Action<IProvideTemplate> configure)
         {
-            return new FluentLogEntriesSinkBuilder(configurationServices, token);
+            var builder = new FluentLogEntriesSinkBuilder(sinkBuilderContext, token);
+            configure(builder);
+            
+            return builder.BuildAndCloneContext(sinkBuilderContext);
         }
 
-        public static IBuildSink UseLogEntries(this ILoggerConfiguration configurationServices,
+        public static ISinkBuilderContext UseLogEntries(this ISinkBuilderContext sinkBuilderContext,
             IConfigurationSection config)
         {
-            return new ConfigBasedLogEntriesSinkBuilder(configurationServices, config);
+            var builder = new LogEntriesSinkBuilder(sinkBuilderContext, config);
+            
+            return builder.BuildAndCloneContext(sinkBuilderContext);
         }
     }
 }

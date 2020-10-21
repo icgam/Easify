@@ -40,15 +40,15 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 
         protected virtual Action<ISetAuthenticationMode> AuthConfigure => o => o.WithNoAuth();
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-                return services.BootstrapApp<T>(Configuration,
+                services.BootstrapApp<T>(Configuration,
                     app => app.AddConfigSection<Clients>()
                         .AndSection<Section1>()
                         .AndSection<Section2>()
                         .HandleApplicationException<TemplateApiApplicationException>()
-                        .AndHandle<ThirdPartyPluginException>()
-                        .UseUserErrors()
+                        .AndHandle<Exception>()
+                        .UseDetailedErrors()
                         .ConfigureAuthentication(AuthConfigure)
                         .AddServices((container, config) =>
                         {
@@ -58,7 +58,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
                 );
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseDefaultApiPipeline(Configuration, env, loggerFactory);
         }

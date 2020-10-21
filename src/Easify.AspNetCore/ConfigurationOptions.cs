@@ -16,6 +16,7 @@
 
 using System;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Easify.AspNetCore
 {
@@ -32,6 +33,6 @@ namespace Easify.AspNetCore
         public string Environment { get; }
         public string AppEntry { get; }
         public string[] Args { get; }
-        public bool IsDevelopment => Environment.Equals(EnvironmentName.Development);
+        public bool IsDevelopment => Environment.Equals(Environments.Development);
     }
 }

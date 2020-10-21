@@ -22,7 +22,7 @@ namespace Easify.Extensions.Specifications
     // TODO: Should be moved to Core project or separate assembly
     public abstract class Specification<T>
     {
-        public static readonly Specification<T> All = new IdentitySpecification<T>();
+        public static Specification<T> All => new IdentitySpecification<T>();
 
         public static Specification<T> From(Expression<Func<T, bool>> predicate)
         {

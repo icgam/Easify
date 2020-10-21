@@ -23,25 +23,25 @@ namespace Easify.AspNetCore.Bootstrap
 {
     public static class StartupExtensions
     {
-        public static IServiceProvider BootstrapApp<TStartup>(this IServiceCollection services,
+        public static void BootstrapApp<TStartup>(this IServiceCollection services,
             IConfiguration configuration,
             Func<IConfigureApplicationBootstrapper, IBootstrapApplication> appBootstrapperProvider
         )
             where TStartup : class
         {
             var bootstrapper = appBootstrapperProvider(new AppBootstrapper<TStartup>(services, configuration));
-            return bootstrapper.Bootstrap();
+            bootstrapper.Bootstrap();
         }
 
         public static IBootstrapApplication
-            AddServices(this IConfigureContainer bootstrapper,
+            AddServices(this IExtendPipeline bootstrapper,
                 Action<IServiceCollection, IConfiguration> serviceConfigurationProvider)
         {
             if (bootstrapper == null) throw new ArgumentNullException(nameof(bootstrapper));
             if (serviceConfigurationProvider == null)
                 throw new ArgumentNullException(nameof(serviceConfigurationProvider));
 
-            var factory = new NativeContainerFactory(serviceConfigurationProvider);
+            var factory = new ServiceCollectionContainerFactory(serviceConfigurationProvider);
             return bootstrapper.UseContainer(factory);
         }
 

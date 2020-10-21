@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>API - Welcome Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial,serif;
+            font-size: 10pt;
+            margin: 0;
+        }
+        
+        div.header {
+            background: black;
+            color: White;
+            padding: 5px 25px 3px 25px;
+            display: inline-flex;
+            width: 100%
+        }
+
+        div.header .header-logo {
+        }        
+        
+        div.header .header-title {
+            margin-left: 7px;
+            margin-top: 3px;
+            font-size: 16pt;
+        }
+        
+        a {
+            text-decoration-line: none;
+        }
+        
+        a:hover {
+            text-decoration-line: underline;
+        }
+
+        .st1 {fill:#0070c0;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+        .st2 {fill:#ffffff;font-family:Segoe UI Semibold,serif;font-size:1.5em}
+        .st3 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+        
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="header-logo">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="40px" height="40px"
+             viewBox="0 0 56.9327 37.0904" xml:space="preserve" color-interpolation-filters="sRGB" class="st3">
+            <g transform="translate(0.119907,-0.12)">
+			<path d="M5.67 37.09 L51.02 37.09 A5.6692 5.6692 -180 0 0 56.69 31.42 L56.69 5.91 A5.6692 5.6692 -180 0 0 51.02 0.24
+						 L5.67 0.24 A5.6692 5.6692 -180 0 0 -0 5.91 L0 31.42 A5.6692 5.6692 -180 0 0 5.67 37.09 Z" class="st1"/>
+                <text x="14.42" y="24.07" class="st2">API</text>		
+            </g>
+        </svg>
+    </div>
+    <div class="header-title">
+        {{application}}       
+    </div>
+
+</div>
+<div>
+    <ul>
+        <li><a href="/swagger">Open API Documentation</a></li>
+        <li><a href="/health">API Health</a></li>
+        <li><a href="/diagnostics/status">API Diagnostics - Status</a></li>
+        <li><a href="/diagnostics/logs">API Diagnostics - Logs</a></li>
+    </ul>
+</div>
+</body>
+</html>

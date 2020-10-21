@@ -22,7 +22,6 @@ using RestEase;
 
 namespace Easify.RestEase
 {
-    // TODO: Should be revisited in shadow of the v2.1 Factory and Polly
     public sealed class RestClientBuilder : IRestClientBuilder
     {
         private readonly IRequestContext _requestContext;
@@ -44,7 +43,6 @@ namespace Easify.RestEase
 
             var client = RestClient.For<T>(httpContext);
             
-            // TODO: Should be set into headers directly rather than property. It will be an issue with scoped singleton scope.
             client.CorrelationId = _requestContext.CorrelationId;
 
             if (options.IncludeAuthorizationHeader && !string.IsNullOrWhiteSpace(_requestContext.AuthorizationHeader))

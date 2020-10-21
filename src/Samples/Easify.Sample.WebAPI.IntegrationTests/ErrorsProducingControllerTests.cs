@@ -24,34 +24,16 @@ using Xunit;
 
 namespace Easify.Sample.WebAPI.IntegrationTests
 {
-    public sealed class ErrorsProducingControllerTests : IDisposable
+    public sealed class ErrorsProducingControllerTests
     {
-        public ErrorsProducingControllerTests()
-        {
-            Fixture = TestServerFixture<StartupForIntegration>.Create();
-        }
-
-        public void Dispose()
-        {
-            try
-            {
-                Fixture.Dispose();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
-        private TestServerFixture<StartupForIntegration> Fixture { get; }
-
         [Fact]
         public async Task ShouldThrowFriendlyException()
         {
             // Arrange
+            using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
+
             // Act
-            var response = await Fixture.Client.GetAsync("api/Errors/throwFriendly");
+            var response = await fixture.CreateClient().GetAsync("api/Errors/throwFriendly");
             var responseString = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<ErrorResponse>(responseString);
 
@@ -71,8 +53,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         public async Task ShouldThrowFriendlyHierarchyOfExceptions()
         {
             // Arrange
+            using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
+
             // Act
-            var response = await Fixture.Client.GetAsync("api/Errors/throwHierarchy");
+            var response = await fixture.CreateClient().GetAsync("api/Errors/throwHierarchy");
             var responseString = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<ErrorResponse>(responseString);
 
@@ -85,7 +69,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
                 Assert.Equal("OurApplicationException", e1.ErrorType);
                 Assert.Collection(e1.ChildErrors, t1 =>
                     {
-                        Assert.Equal("My friedly leaf1!", t1.Message);
+                        Assert.Equal("My friendly leaf1!", t1.Message);
                         Assert.Equal("OurApplicationException", t1.ErrorType);
                         Assert.Empty(t1.ChildErrors);
                     },
@@ -104,8 +88,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         public async Task ShouldThrowThirdPartyException()
         {
             // Arrange
+            using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
+
             // Act
-            var response = await Fixture.Client.GetAsync("api/Errors/throwThirdParty");
+            var response = await fixture.CreateClient().GetAsync("api/Errors/throwThirdParty");
             var responseString = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<ErrorResponse>(responseString);
 
@@ -125,8 +111,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         public async Task ShouldThrowUnFriendlyException()
         {
             // Arrange
+            using var fixture = TestApplicationFactory<StartupForIntegration>.Create();
+
             // Act
-            var response = await Fixture.Client.GetAsync("api/Errors/throwUnfriendly");
+            var response = await fixture.CreateClient().GetAsync("api/Errors/throwUnfriendly");
             var responseString = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<ErrorResponse>(responseString);
 

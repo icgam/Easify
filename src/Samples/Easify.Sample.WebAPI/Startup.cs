@@ -20,7 +20,6 @@ using AutoMapper;
 using Easify.AspNetCore.Bootstrap;
 using Easify.AspNetCore.Bootstrap.Extensions;
 using Easify.AspNetCore.Logging.SeriLog;
-using Easify.AspNetCore.Telemetry.AppInsights;
 using Easify.RestEase;
 using Easify.Sample.WebAPI.Core;
 using Easify.Sample.WebAPI.Core.Mappings;
@@ -43,14 +42,9 @@ namespace Easify.Sample.WebAPI
 
         private IConfiguration Configuration { get; }
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            return ConfigureUsingServiceCollection(services);
-        }
-
-        private IServiceProvider ConfigureUsingServiceCollection(IServiceCollection services)
-        {
-            return services.BootstrapApp<Startup>(Configuration,
+            services.BootstrapApp<Startup>(Configuration,
                 app => app
                     .AddConfigSection<Clients>()
                     .AndSection<Section1>()
@@ -81,19 +75,20 @@ namespace Easify.Sample.WebAPI
                         container.AddTransientWithInterception<IRateProvider, DummyRateProvider>(by =>
                             by.InterceptBy<LogInterceptor>());
                         container.AddSingleton<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>();
-                        container.AddTelemetry();
-                        container.AddHealthChecksUI();
+                        services
+                            .AddHealthChecksUI()
+                            .AddInMemoryStorage();
                     })
             );
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseHealthChecksUI(m =>
-            {
-                m.AddCustomStylesheet("health-ui.css");
-            });
             app.UseDefaultApiPipeline(Configuration, env, loggerFactory);
+            app.UseEndpoints(config =>
+            {
+                config.MapHealthChecksUI(m => m.AddCustomStylesheet("health-ui.css"));
+            });
         }
     }
 }

@@ -17,24 +17,28 @@
 using System;
 using System.Collections.Generic;
 using Easify.Http;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Easify.AspNetCore.Documentation
 {
     public sealed class RequestCorrelationHeaderFilter : IOperationFilter
     {
-        public void Apply(Operation operation, OperationFilterContext context)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            operation.Parameters = operation.Parameters ?? new List<IParameter>();
-            operation.Parameters.Add(new NonBodyParameter
+            operation.Parameters ??= new List<OpenApiParameter>();
+            operation.Parameters.Add(new OpenApiParameter()
             {
                 Name = HttpHeaders.HttpRequestId,
-                In = "header",
-                Type = "string",
+                In = ParameterLocation.Header,
+                Schema = new OpenApiSchema
+                {
+                    Type = "string",
+                    Default = new OpenApiString(Guid.NewGuid().ToString())
+                },
                 Description = "Correlation-ID",
                 Required = true,
-                Default = Guid.NewGuid().ToString()
             });
         }
     }

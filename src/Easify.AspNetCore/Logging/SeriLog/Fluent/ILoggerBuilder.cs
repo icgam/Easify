@@ -19,6 +19,7 @@ using Easify.Logging.SeriLog;
 using Easify.Logging.SeriLog.OptionsBuilder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace Easify.AspNetCore.Logging.SeriLog.Fluent
 {
@@ -27,17 +28,17 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
     {
         IConfiguration Configuration { get; }
 
-        IHostingEnvironment
-            Environment { get; } // TODO: Need to be move out of the interface and be replaced by a provider
+        IHostEnvironment
+            Environment { get; } 
 
         IBuildLogger ConfigureLogger<TStartup>()
             where TStartup : class;
 
-        IBuildLogger ConfigureLogger<TStartup>(Func<ILoggerConfiguration, IBuildSink> sinksProvider)
+        IBuildLogger ConfigureLogger<TStartup>(Func<ISinkBuilderContext, ISinkBuilderContext> sinksProvider)
             where TStartup : class;
 
         IBuildLogger ConfigureLogger<TStartup>(Func<ISetFileSizeLimit, IBuildSeriLogOptions> optionsProvider,
-            Func<ILoggerConfiguration, IBuildSink> sinksProvider)
+            Func<ISinkBuilderContext, ISinkBuilderContext> sinksProvider)
             where TStartup : class;
 
         IBuildLogger ConfigureLogger<TStartup>(Func<ISetFileSizeLimit, IBuildSeriLogOptions> optionsProvider)

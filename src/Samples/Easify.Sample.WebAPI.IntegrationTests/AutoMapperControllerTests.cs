@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Net;
 using System.Threading.Tasks;
 using Easify.Sample.WebAPI.Domain;
@@ -24,36 +23,18 @@ using Xunit;
 
 namespace Easify.Sample.WebAPI.IntegrationTests
 {
-    public sealed class AutoMapperControllerTests : IDisposable
+    public sealed class AutoMapperControllerTests
     {
-        public AutoMapperControllerTests()
-        {
-            Fixture = TestServerFixture<StartupForAutomapper>.Create();
-        }
-
-        private TestServerFixture<StartupForAutomapper> Fixture { get; }
-
-        public void Dispose()
-        {
-            try
-            {
-                Fixture.Dispose();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
         [Theory]
         [InlineData("John", "Dow")]
         [InlineData("Jane", "Dow")]
         public async Task GivenUserWhenRequestedShouldMapAndReturnCorrectUserResult(string firstName, string lastName)
         {
             // Arrange
+            using var fixture = TestApplicationFactory<StartupForAutomapper>.Create();
+            
             // Act
-            var response = await Fixture.Client.GetAsync($"api/automapper/person/{firstName}/{lastName}");
+            var response = await fixture.CreateClient().GetAsync($"api/automapper/person/{firstName}/{lastName}");
             var responseString = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<PersonDO>(responseString);
 
@@ -70,8 +51,10 @@ namespace Easify.Sample.WebAPI.IntegrationTests
         public async Task GivenAssetWhenRequestedShouldMapAndReturnAssetWithCorrectRating(string assetId)
         {
             // Arrange
+            using var fixture = TestApplicationFactory<StartupForAutomapper>.Create();
+            
             // Act
-            var response = await Fixture.Client.GetAsync($"api/automapper/asset/{assetId}");
+            var response = await fixture.CreateClient().GetAsync($"api/automapper/asset/{assetId}");
             var responseString = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<AssetDO>(responseString);
 

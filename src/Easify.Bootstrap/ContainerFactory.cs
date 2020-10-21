@@ -30,16 +30,17 @@ namespace Easify.Bootstrap
                                             throw new ArgumentNullException(nameof(serviceConfigurationProvider));
         }
 
-        protected abstract IServiceProvider ConfigureContainer(
+        protected abstract void ConfigureContainer(
             Action<TContainer, IConfiguration> serviceConfigurationProvider,
             IServiceCollection services,
             IConfiguration configuration);
 
-        public IServiceProvider Create(IServiceCollection services, IConfiguration configuration)
+        public void Create(IServiceCollection services, IConfiguration configuration)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
-            return ConfigureContainer(_serviceConfigurationProvider, services, configuration);
+            
+            ConfigureContainer(_serviceConfigurationProvider, services, configuration);
         }
     }
 }

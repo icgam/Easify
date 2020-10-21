@@ -38,9 +38,9 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
         private IConfiguration Configuration { get; }
 
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            return services.BootstrapApp<StartupForIntegration>(Configuration,
+            services.BootstrapApp<StartupForIntegration>(Configuration,
                 app => app.AddConfigSection<Clients>()
                     .AndSection<Section1>()
                     .AndSection<Section2>()
@@ -55,7 +55,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
             );
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseDefaultApiPipeline(Configuration, env, loggerFactory);
         }

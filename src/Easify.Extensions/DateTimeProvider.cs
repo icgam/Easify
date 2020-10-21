@@ -24,5 +24,10 @@ namespace Easify.Extensions
         {
             return DateTime.Now;
         }
+
+        public DateTime Today()
+        {
+            return DateTime.Today;
+        }
     }
 }

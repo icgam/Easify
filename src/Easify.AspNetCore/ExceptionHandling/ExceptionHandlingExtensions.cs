@@ -34,7 +34,7 @@ namespace Easify.AspNetCore.ExceptionHandling
         public static IProvideErrorBuilder<ApiException> UseBuilderForApi(
             this ISetErrorBuilder<ApiException> builderProvider)
         {
-            return builderProvider.Use(new ErrorBuilderForApiException());
+            return builderProvider.Use(new ApiExceptionErrorBuilder());
         }
     }
 }

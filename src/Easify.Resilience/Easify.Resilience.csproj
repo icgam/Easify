@@ -5,12 +5,18 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>Easify.Resilience</Title>
         <Authors>Mohammad Moattar</Authors>
+        <Company>ICG</Company>
         <Description>Resilience library for Easify</Description>
+        <PackageProjectUrl>http://github.com/icgam/Easify</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
+        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <Version>1.0.0</Version>
+        <LangVersion>8</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
+      <PackageReference Include="AspNetcore.HealthChecks.Publisher.Seq" Version="3.2.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.9" />
       <PackageReference Include="Polly" Version="7.2.1" />
     </ItemGroup>
 

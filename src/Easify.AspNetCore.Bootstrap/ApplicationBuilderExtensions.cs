@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO;
+using System.Linq;
 using Easify.AspNetCore.Cors;
 using Easify.AspNetCore.Dignostics;
 using Easify.AspNetCore.Documentation;
@@ -27,8 +29,12 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Easify.AspNetCore.Bootstrap
 {
@@ -36,7 +42,7 @@ namespace Easify.AspNetCore.Bootstrap
     {
         public static void UseDefaultApiPipeline(this IApplicationBuilder app,
             IConfiguration configuration,
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
             if (app == null) throw new ArgumentNullException(nameof(app));
@@ -44,12 +50,19 @@ namespace Easify.AspNetCore.Bootstrap
             if (env == null) throw new ArgumentNullException(nameof(env));
             if (loggerFactory == null) throw new ArgumentNullException(nameof(loggerFactory));
 
-            var appInfo = configuration.GetApplicationInfo();
-            var authOptions = configuration.GetAuthOptions();
+            var options = new ApiPipelineOptions(configuration, env, loggerFactory);
+            app.UseDefaultApiPipeline(options);
+        }
 
-            app.UseCorsWithDefaultPolicy();
+        public static void UseDefaultApiPipeline(this IApplicationBuilder app, ApiPipelineOptions options)
+        {
+            if (app == null) throw new ArgumentNullException(nameof(app));
+            if (options == null) throw new ArgumentNullException(nameof(options));
 
-            if (env.IsDevelopment())
+            var appInfo = options.Configuration.GetApplicationInfo();
+            var authOptions = options.Configuration.GetAuthOptions();
+
+            if (options.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
@@ -57,29 +70,87 @@ namespace Easify.AspNetCore.Bootstrap
             else
             {
                 app.UseGlobalExceptionHandler();
+                app.UseHsts();
             }
 
-            app.UseAuthentication();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseRequestCorrelation();
-            app.UseHealthChecks("/health", new HealthCheckOptions
-            {
-                Predicate = _ => true,
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            });
-
             app.UseCorrelatedLogs();
+            app.UseRouting();
+            app.UseCorsWithDefaultPolicy();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
+            options.PostAuthenticationConfigure?.Invoke();
+
             app.UseUserIdentityLogging();
             app.UseDiagnostics();
-            app.UseMvc();
             app.UseOpenApiDocumentation(appInfo, u => u.ConfigureAuth(appInfo, authOptions.Authentication));
+            app.UseEndpoints(endpoints =>
+            {
+                options.PreEndPointsConfigure?.Invoke(endpoints);
+                
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                endpoints.MapControllers();
 
-            LogResolvedEnvironment(env, loggerFactory);
+                if (options.EnableStartPage)
+                    options.StartPageConfigure?.Invoke(endpoints, appInfo);
+                
+                options.PostEndPointsConfigure?.Invoke(endpoints);
+            });
+
+            LogResolvedEnvironment(options.Environment, options.LoggerFactory);
+        }
+        
+        public static void UseStartPage(this IEndpointRouteBuilder endpoints, string applicationName)
+        {
+            if (endpoints == null) throw new ArgumentNullException(nameof(endpoints));
+            if (applicationName == null) throw new ArgumentNullException(nameof(applicationName));
+
+            endpoints.MapGet("/", context =>
+            {
+                var content = LoadStartPageFromEmbeddedResource(applicationName);
+                if (string.IsNullOrEmpty(content))
+                    content = applicationName;
+
+                context.Response.ContentType = "text/html";
+                return context.Response.WriteAsync(content);
+            });
         }
 
-        private static void LogResolvedEnvironment(IHostingEnvironment env, ILoggerFactory loggerFactory)
+        private static string LoadStartPageFromEmbeddedResource(string applicationName)
+        {
+            var assembly = typeof(AppBootstrapper<>).Assembly;
+            var resourceName = assembly.GetManifestResourceNames().First(s => s.EndsWith("home.html", StringComparison.CurrentCultureIgnoreCase));
+            if (string.IsNullOrEmpty(resourceName))
+                return null;
+
+            try
+            {
+                var stream = assembly.GetManifestResourceStream(resourceName);
+                if (stream == null)
+                    return null;
+
+                using var reader = new StreamReader(stream);
+                var content = reader.ReadToEnd();
+                content = content.Replace("{{application}}", applicationName);
+                return content;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        private static void LogResolvedEnvironment(IHostEnvironment env, ILoggerFactory loggerFactory)
         {
             var log = loggerFactory.CreateLogger("Startup");
-            log.LogInformation($"Application is started in '{env.EnvironmentName.ToUpper()}' environemnt ...");
+            log.LogInformation($"Application is started in '{env.EnvironmentName.ToUpper()}' environment ...");
         }
     }
 }

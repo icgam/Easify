@@ -21,7 +21,7 @@ using Easify.AspNetCore.Security.Impersonation;
 using Easify.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -76,7 +76,7 @@ namespace Easify.AspNetCore.Documentation
             services.AddSwaggerGen(options =>
             {
                 options.OperationFilter<RequestCorrelationHeaderFilter>();
-                options.SwaggerDoc(appInfo.Version, new Info {Title = appInfo.Name, Version = appInfo.Version});
+                options.SwaggerDoc(appInfo.Version, new OpenApiInfo() {Title = appInfo.Name, Version = appInfo.Version});
 
                 extend?.Invoke(options);
             });
@@ -86,34 +86,56 @@ namespace Easify.AspNetCore.Documentation
         
         public static void UseOAuth2Scheme(this SwaggerGenOptions options, AuthenticationInfo authentication)
         {
-            var scheme = new OAuth2Scheme
+            if (authentication?.Authority == null)
+                throw new ApiDocumentationException("Invalid or missing Authentication info: Authority");
+                
+            var scheme = new OpenApiSecurityScheme()
             {
-                AuthorizationUrl = $"{authentication.Authority}/oauth2/authorize",
-                Flow = "implicit",
-                Description = authentication.Description,
-                Scopes = new Dictionary<string, string>()
+                Type = SecuritySchemeType.OAuth2,
+                Flows = new OpenApiOAuthFlows
+                {
+                    Implicit = new OpenApiOAuthFlow
+                    {
+                        AuthorizationUrl = new Uri($"{authentication.Authority}/oauth2/authorize"),
+                        Scopes = new Dictionary<string, string>(),
+                    }
+                }, 
+                Description = authentication.Description
             };
             options.AddSecurityDefinition("oauth2", scheme);
-            options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
-                {"oauth2", new string[] { }}
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                    },
+                    new string[] { }
+                }
             });
         }
         
         public static void UseApiKeyScheme(this SwaggerGenOptions options, AuthenticationInfo authentication)
         {
-            var scheme = new ApiKeyScheme
+            var scheme = new OpenApiSecurityScheme()
             {
-                Description = authentication.Description,
-                In = "header",
                 Name = "Authorization",
-                Type = "apiKey"
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = authentication.Description
             };
-            
             options.AddSecurityDefinition(ImpersonationBearerDefaults.AuthenticationScheme, scheme);
-            options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
-                {ImpersonationBearerDefaults.AuthenticationScheme, new string[] { }}
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = ImpersonationBearerDefaults.AuthenticationScheme }
+                    },
+                    new string[] { }
+                }
             });
         }
 

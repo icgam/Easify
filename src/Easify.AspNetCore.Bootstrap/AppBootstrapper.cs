@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using Easify.AspNetCore.Cors;
 using Easify.AspNetCore.Documentation;
 using Easify.AspNetCore.ExceptionHandling;
-using Easify.AspNetCore.Health;
+using Easify.AspNetCore.Features;
 using Easify.AspNetCore.Mvc;
 using Easify.AspNetCore.RequestCorrelation;
 using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
@@ -43,7 +43,7 @@ namespace Easify.AspNetCore.Bootstrap
 {
     public sealed class AppBootstrapper<TStartup> :
         IBootstrapApplication,
-        IConfigureContainer,
+        IConfigureContainer, 
         IAddExtraConfigSection,
         IHandleAdditionalException,
         ISetDetailsLevel,
@@ -54,7 +54,7 @@ namespace Easify.AspNetCore.Bootstrap
         IConfigureApplicationBootstrapper where TStartup : class
     {
         private readonly IConfiguration _configuration;
-        private readonly ConfigurationSectionBuilder _configurationSectionBuilder;
+        private readonly ConfigurationOptionBuilder _configurationOptionBuilder;
         private readonly GlobalErrorHandlerConfigurationBuilder _errorHandlerBuilder;
         private readonly List<Action<IServiceCollection, IConfiguration>> _pipelineExtenders =
             new List<Action<IServiceCollection, IConfiguration>>();
@@ -64,7 +64,7 @@ namespace Easify.AspNetCore.Bootstrap
         private readonly AppInfo _appInfo; 
         
         private readonly AuthOptions _authOptions;
-        private Func<IServiceCollection, IConfiguration, IServiceProvider> _containerFactory;
+        private Action<IServiceCollection, IConfiguration> _containerFactory;
         private Func<IExcludeRequests, IBuildOptions> _requestCorrelationExtender = cop => cop.EnforceCorrelation();
 
 
@@ -72,9 +72,9 @@ namespace Easify.AspNetCore.Bootstrap
             IServiceCollection services,
             IConfiguration configuration)
         {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _services = services ?? throw new ArgumentNullException(nameof(services));
-            _configurationSectionBuilder = new ConfigurationSectionBuilder(services, configuration);
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _configurationOptionBuilder = new ConfigurationOptionBuilder(services);
             _errorHandlerBuilder = new GlobalErrorHandlerConfigurationBuilder(services);
 
             _errorHandlerBuilder.UseStandardMessage();
@@ -87,14 +87,14 @@ namespace Easify.AspNetCore.Bootstrap
         public IAddExtraConfigSection AndSection<TSection>()
             where TSection : class, new()
         {
-            _configurationSectionBuilder.And<TSection>();
+            _configurationOptionBuilder.And<TSection>();
             return this;
         }
 
         public IAddExtraConfigSection AndSection<TSection>(string section)
             where TSection : class, new()
         {
-            _configurationSectionBuilder.And<TSection>(section);
+            _configurationOptionBuilder.And<TSection>(section);
             return this;
         }
 
@@ -107,9 +107,9 @@ namespace Easify.AspNetCore.Bootstrap
             return this;
         }
 
-        public IServiceProvider Bootstrap()
+        public void Bootstrap()
         {
-            _configurationSectionBuilder.Build();
+            _configurationOptionBuilder.Build();
 
             _services.TryAddSingleton<IDateTimeProvider, DateTimeProvider>();
             _services.TryAddScoped<IUrlHelper, UrlHelper>();
@@ -119,6 +119,7 @@ namespace Easify.AspNetCore.Bootstrap
             _services.AddHttpRequestContext();
             _services.AddGlobalExceptionHandler(ae => _errorHandlerBuilder.UseDefault());
             _services.AddRequestCorrelation(b => _requestCorrelationExtender(b.ExcludeDefaultUrls()));
+            _services.AddFeatureFlagging(_configuration);
             _services.AddDefaultMvc<TStartup>();
             _services.AddDefaultCorsPolicy();
             _services.AddAuthentication(_authOptions);
@@ -126,24 +127,23 @@ namespace Easify.AspNetCore.Bootstrap
 
             _pipelineExtenders.ForEach(e => e(_services, _configuration));
 
-            return _containerFactory(_services, _configuration);
+            _containerFactory(_services, _configuration);
         }
 
         public IAddExtraConfigSection AddConfigSection<TSection>()
             where TSection : class, new()
         {
-            _configurationSectionBuilder.AddSection<TSection>();
+            _configurationOptionBuilder.AddSection<TSection>();
             return this;
         }
 
         public IAddExtraConfigSection AddConfigSection<TSection>(string section)
             where TSection : class, new()
         {
-            _configurationSectionBuilder.AddSection<TSection>(section);
+            _configurationOptionBuilder.AddSection<TSection>(section);
             return this;
         }
 
-        // TODO: Need to be removed
         public IBootstrapApplication UseContainer<TContainer>(ContainerFactory<TContainer> containerFactory)
             where TContainer : class
         {

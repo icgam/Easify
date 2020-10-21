@@ -14,17 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using Easify.AspNetCore.Bootstrap;
-using Easify.AspNetCore.Security.Fluent;
-using Easify.RestEase;
-using Easify.Sample.WebAPI.Core;
 using Easify.Sample.WebAPI.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
@@ -38,9 +33,9 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
 
         private IConfiguration Configuration { get; }
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-                return services.BootstrapApp<StartupForIntegration>(Configuration,
+                services.BootstrapApp<StartupForIntegration>(Configuration,
                     app => 
                         app.AddConfigSection<Clients>()
                         .HandleApplicationException<TemplateApiApplicationException>()
@@ -48,7 +43,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
                 );
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseDefaultApiPipeline(Configuration, env, loggerFactory);
         }

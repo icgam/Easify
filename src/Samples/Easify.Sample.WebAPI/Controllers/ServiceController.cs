@@ -27,8 +27,7 @@ namespace Easify.Sample.WebAPI.Controllers
 
         public ServiceController(IMyService service)
         {
-            if (service == null) throw new ArgumentNullException(nameof(service));
-            _service = service;
+            _service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
         [HttpGet("{data}")]
