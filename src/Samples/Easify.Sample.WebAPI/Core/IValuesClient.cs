@@ -23,19 +23,19 @@ namespace Easify.Sample.WebAPI.Core
 {
     public interface IValuesClient : IRestClient
     {
-        [Get("api/values")]
-        Task<IEnumerable<string>> GetValues();
+        [Get("api/Values")]
+        Task<IEnumerable<string>> GetValuesAsync();
 
-        [Get("api/values/{id}")]
-        Task<string> GetValue([Path] int id);
+        [Get("api/Values/{id}")]
+        Task<string> GetValueAsync([Path] int id);
 
-        [Get("api/values/{id}")]
-        Task PostValue([Path] int id, [Body] string value);
+        [Post("api/Values/{id}")]
+        Task PostValueAsync([Path] int id, [Body] string value);
 
-        [Get("api/values/{id}")]
-        Task PutValue([Path] int id, [Body] string value);
+        [Put("api/Values/{id}")]
+        Task PutValueAsync([Path] int id, [Body] string value);
 
-        [Get("api/values/{id}")]
-        Task DeleteValue([Path] int id);
+        [Delete("api/Values/{id}")]
+        Task DeleteValueAsync([Path] int id);
     }
 }

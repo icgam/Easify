@@ -23,7 +23,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Easify.Testing.Integration
 {
-    public class IntegrationTestFixtureBase<TStartup> : FixtureBase where TStartup : class
+    public class IntegrationTestFixture<TStartup> : FixtureBase where TStartup : class
     {
         public TestServer GetServer(Action<TestServer> configure = null)
         {
@@ -65,7 +65,7 @@ namespace Easify.Testing.Integration
 
                             config.SetBasePath(env.ContentRootPath)
                                 .AddJsonFile("appsettings.json", false, true);
-                        }).UseStartup<TStartup>();
+                        });
                     });
         }
     }

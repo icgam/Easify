@@ -35,31 +35,31 @@ namespace Easify.Sample.WebAPI.Controllers
         [HttpGet]
         public async Task<IEnumerable<string>> Get()
         {
-            return await _valuesClient.GetValues();
+            return await _valuesClient.GetValuesAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<string> Get(int id)
         {
-            return await _valuesClient.GetValue(id);
+            return await _valuesClient.GetValueAsync(id);
         }
 
         [HttpPost]
         public async Task Post([FromBody] string value)
         {
-            await _valuesClient.GetValues();
+            await _valuesClient.GetValuesAsync();
         }
 
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody] string value)
         {
-            await _valuesClient.GetValues();
+            await _valuesClient.GetValuesAsync();
         }
 
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {
-            await _valuesClient.GetValues();
+            await _valuesClient.GetValuesAsync();
         }
     }
 }

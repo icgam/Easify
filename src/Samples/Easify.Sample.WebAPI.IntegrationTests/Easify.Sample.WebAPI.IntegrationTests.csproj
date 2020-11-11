@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Easify.Configurations\Easify.Configurations.csproj" />
+    <ProjectReference Include="..\..\Easify.Testing.Integration\Easify.Testing.Integration.csproj" />
     <ProjectReference Include="..\..\Easify.Testing\Easify.Testing.csproj" />
     <ProjectReference Include="..\Easify.Sample.WebAPI\Easify.Sample.WebAPI.csproj" />
   </ItemGroup>
