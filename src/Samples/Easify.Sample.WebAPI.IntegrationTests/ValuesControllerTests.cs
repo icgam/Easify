@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Easify.Sample.WebAPI.Core;
 using Easify.Sample.WebAPI.IntegrationTests.Helpers;
