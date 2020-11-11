@@ -15,9 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.IO;
 using Easify.RestEase.Client;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -44,15 +42,20 @@ namespace Easify.Testing.Integration
             return app;
         }
 
-        public T CreateClientFromServer<T>(Action<IServiceProvider> setup = null) where T : IRestClient
+        public ClientAppPair<T, TStartup> CreateClientFromServer<T>(Action<IServiceProvider> setup = null) where T : IRestClient
         {
-            var server = GetApplicationFactory(app => { setup?.Invoke(app.Services); });
-            return server.CreateClient<TStartup, T>();
+            var server = GetApplicationFactory(app =>
+            {
+                setup?.Invoke(app.Services);
+            });
+            
+            var client = server.CreateClient<TStartup, T>();
+            return new ClientAppPair<T, TStartup>(client, server);
         }        
 
         protected virtual WebApplicationFactory<TStartup> CreateApplicationFactory()
         {
-            return new WebApplicationFactory<TStartup>()
+            return new IntegrationTestApplicationFactory<TStartup>()
                     .WithWebHostBuilder(builder =>
                     {
                         builder.ConfigureAppConfiguration((hostingContext, config) =>
