@@ -1,4 +1,4 @@
-// This software is part of the Easify framework
+﻿// This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,28 +14,28 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System;
 using Easify.RestEase.Client;
-using RestEase;
+using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Easify.Sample.WebAPI.Core
+namespace Easify.Testing.Integration
 {
-    public interface IValuesClient : IRestClient
+    public sealed class ClientAppPair<TClient, TStartup> : IDisposable 
+        where TStartup : class
+        where TClient : IRestClient
     {
-        [Get("api/Values")]
-        Task<IEnumerable<string>> GetValuesAsync();
+        public TClient Client { get; }
+        public WebApplicationFactory<TStartup> AppFactory { get; }
 
-        [Get("api/Values/{id}")]
-        Task<string> GetValueAsync([Path] int id);
+        public ClientAppPair(TClient client, WebApplicationFactory<TStartup> appFactory)
+        {
+            Client = client ?? throw new ArgumentNullException(nameof(client));
+            AppFactory = appFactory ?? throw new ArgumentNullException(nameof(appFactory));
+        }
 
-        [Post("api/Values/{id}")]
-        Task PostValueAsync([Path] int id, [Body] string value);
-
-        [Put("api/Values/{id}")]
-        Task PutValueAsync([Path] int id, [Body] string value);
-
-        [Delete("api/Values/{id}")]
-        Task DeleteValueAsync([Path] int id);
+        public void Dispose()
+        {
+            AppFactory?.Dispose();
+        }
     }
 }

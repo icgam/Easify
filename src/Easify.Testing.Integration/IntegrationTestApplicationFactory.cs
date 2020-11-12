@@ -1,4 +1,4 @@
-// This software is part of the Easify framework
+﻿// This software is part of the Easify framework
 // Copyright (C) 2019 Intermediate Capital Group
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,28 +14,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Easify.RestEase.Client;
-using RestEase;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Hosting;
 
-namespace Easify.Sample.WebAPI.Core
+namespace Easify.Testing.Integration
 {
-    public interface IValuesClient : IRestClient
+    public class IntegrationTestApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
-        [Get("api/Values")]
-        Task<IEnumerable<string>> GetValuesAsync();
-
-        [Get("api/Values/{id}")]
-        Task<string> GetValueAsync([Path] int id);
-
-        [Post("api/Values/{id}")]
-        Task PostValueAsync([Path] int id, [Body] string value);
-
-        [Put("api/Values/{id}")]
-        Task PutValueAsync([Path] int id, [Body] string value);
-
-        [Delete("api/Values/{id}")]
-        Task DeleteValueAsync([Path] int id);
+        protected override IHostBuilder CreateHostBuilder()
+        {
+            var builder = Host
+                .CreateDefaultBuilder()
+                .ConfigureWebHostDefaults(x =>
+                {
+                    x.UseStartup<TStartup>().UseTestServer();
+                });
+            return builder;
+        }
     }
 }
