@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <Description>Dependency Injection components for AspNetCore</Description>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Authors>Mohammad Moattar</Authors>
@@ -10,9 +10,9 @@
         <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
         <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <Version>1.0.0</Version>
-        <LangVersion>8</LangVersion>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="AspNetcore.HealthChecks.Publisher.Seq" Version="3.2.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.9" />
