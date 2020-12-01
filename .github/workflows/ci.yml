@@ -19,9 +19,9 @@ jobs:
     - name: Fetch all history for all tags and branches
       run: git fetch --prune --unshallow
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.4
+      uses: gittools/actions/gitversion/setup@v0.9.7
       with:
-        versionSpec: "5.2.x"
+        versionSpec: "5.x"
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -30,7 +30,7 @@ jobs:
       run: dotnet restore src/Easify.sln
     - name: Use GitVersion
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.9.4
+      uses: gittools/actions/gitversion/execute@v0.9.7
     - name: Display the version
       run: |
         echo "Version: ${{ steps.gitversion.outputs.semver }}"
