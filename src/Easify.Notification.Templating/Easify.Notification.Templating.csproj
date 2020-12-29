@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Description>Notification Templating</Description>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Authors>Mohammad Moattar</Authors>
+        <Company>ICG</Company>
+        <PackageProjectUrl>http://github.com/icgam/Easify</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
+        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+        <Version>1.0.0</Version>
+        <LangVersion>8</LangVersion>
+    </PropertyGroup>
+    
+</Project>
