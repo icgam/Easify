@@ -1,9 +1,8 @@
-using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
-namespace ICG.Core.Templating.UnitTests
+namespace Easify.Notification.Templating.UnitTests
 {
     public class FileBasedTemplateProviderTests
     {

@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
+using Easify.Notification.Exceptions;
+using Easify.Notification.Messaging;
 using FluentAssertions;
-using ICG.Core.Notifications.Exceptions;
-using ICG.Core.Notifications.Messaging;
 using NSubstitute;
 using Xunit;
 
-namespace ICG.Core.Notifications.UnitTests
+namespace Easify.Notification.UnitTests
 {
     public class NotificationServiceTests : IClassFixture<NotificationServiceFixture>
     {
@@ -43,7 +43,7 @@ namespace ICG.Core.Notifications.UnitTests
         }
 
         [Fact]
-        public void Should_SendNotificationAsync_ThrowTheRigthExcetionWhenTheProfileIsNotAvailable()
+        public async Task Should_SendNotificationAsync_ThrowTheRightExceptionWhenTheProfileIsNotAvailable()
         {
             // Given
             var messagingService = _fixture.MessagingService;
@@ -51,36 +51,46 @@ namespace ICG.Core.Notifications.UnitTests
             var notification = new Notification<NotificationServiceFixture.Model>("Title", _fixture.ValidTemplate, _fixture.ExpectedModel);
 
             // When
-            Func<Task> func = async () => await sut.SendNotificationAsync(notification, "InvalidProfile");
-
             // Then
-            func.Should().Throw<NotificationProfileNotFoundException>();
+            await Assert.ThrowsAsync<NotificationProfileNotFoundException>(
+                () => sut.SendNotificationAsync(notification, "InvalidProfile"));
         }
 
         [Fact]
-        public void Should_SendNotificationAsync_ThrowTheRigthExcetionWhenTheNotificationOptionsIsInvalid()
+        public async Task Should_SendNotificationAsync_ThrowTheRightExceptionWhenTheNotificationOptionsIsInvalid()
         {
             // Given
-            var sut = new NotificationService(_fixture.MessagingService, _fixture.TemplateRenderer, _fixture.InvalidOptionAccessor, _fixture.Logger);
-            var notification = new Notification<NotificationServiceFixture.Model>("Title", _fixture.ValidTemplate, _fixture.ExpectedModel);
-
+            var sut = new NotificationService(_fixture.MessagingService, _fixture.TemplateRenderer,
+                _fixture.InvalidOptionAccessor, _fixture.Logger);
+            var notification =
+                new Notification<NotificationServiceFixture.Model>("Title", _fixture.ValidTemplate,
+                    _fixture.ExpectedModel);
+            
             // When
-            Func<Task> func = async () => await sut.SendNotificationAsync(notification);
-
             // Then
-            func.Should().Throw<NotificationOptionsException>()
-                .And.Errors.Should().HaveCount(3)
-                .And.Contain(m =>
-                    m.ErrorMessage == "'Name' should not be empty." && m.PropertyName == "Templates[0].Name")
-                .And.Contain(m =>
-                    m.ErrorMessage == "'Sender' should not be empty." && m.PropertyName == "Sender")
-                .And.Contain(m =>
-                    m.ErrorMessage == "'Profile Name' should not be empty." &&
-                    m.PropertyName == "Profiles[0].ProfileName");
+            var exception = await Assert.ThrowsAsync<NotificationOptionsException>(
+                () => sut.SendNotificationAsync(notification));
+            
+            Assert.Collection(exception.Errors,
+                e =>
+                {
+                    Assert.Contains("'Sender' must not be empty.", e.ErrorMessage);
+                    Assert.Equal("Sender", e.PropertyName);
+                },
+                e =>
+                {
+                    Assert.Contains("'Profile Name' must not be empty.", e.ErrorMessage);
+                    Assert.Equal("Profiles[0].ProfileName", e.PropertyName);
+                },
+                e =>
+                {
+                    Assert.Contains("'Name' must not be empty.", e.ErrorMessage);
+                    Assert.Equal("Templates[0].Name", e.PropertyName);
+                });
         }
 
         [Fact]
-        public void Should_SendNotificationAsync_ThrowTheRigthExcetionWhenTheTemplateIsNotAvailable()
+        public void Should_SendNotificationAsync_ThrowTheRightExceptionWhenTheTemplateIsNotAvailable()
         {
             // Given
             var messagingService = _fixture.MessagingService;

@@ -1,13 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using ICG.Core.Notifications.Configuration;
-using ICG.Core.Notifications.Messaging;
-using ICG.Core.Templating;
+using Easify.Notification.Configuration;
+using Easify.Notification.Messaging;
+using Easify.Notification.Templating;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 
-namespace ICG.Core.Notifications.UnitTests
+namespace Easify.Notification.UnitTests
 {
     public class NotificationServiceFixture
     {

@@ -1,11 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using ICG.Core.Templating.HandleBars;
 using NSubstitute;
 using Xunit;
 
-namespace ICG.Core.Templating.UnitTests
+namespace Easify.Notification.Templating.UnitTests
 {
     public class TemplateRendererTests
     {
