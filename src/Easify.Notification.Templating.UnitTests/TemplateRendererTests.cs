@@ -1,3 +1,19 @@
+// This software is part of the Easify framework
+// Copyright (C) 2019 Intermediate Capital Group
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// 
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -10,9 +26,9 @@ namespace Easify.Notification.Templating.UnitTests
     {
         [Theory]
         [InlineData("Hello {{Title}} test at {{date AsOf}}", "Hello RenderAsync test at 21/09/2018")]
-        public async Task Should_RenderTemplateAsync_ReturnTheRightTemplate(string template, string expected)
+        public async Task GivenTemplate_WhenCalling_RenderTemplateAsync_ShouldReturnCorrectTemplate(string template, string expected)
         {
-            // Given
+            // Arrange
             var model = new Model();
 
             var templateProvider = Substitute.For<ITemplateProvider>();
@@ -23,10 +39,10 @@ namespace Easify.Notification.Templating.UnitTests
 
             var sut = new TemplateRenderer(templateProvider, templateContentRenderer);
 
-            // When
+            // Act
             var actual = await sut.RenderTemplateAsync("TemplateName", "TemplatePath", model);
 
-            // Then
+            // Assert
             actual.Should().NotBeNull();
             actual.Content.Should().Be(expected);
             actual.Data.Should().Be(model);

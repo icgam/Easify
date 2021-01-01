@@ -1,3 +1,19 @@
+// This software is part of the Easify framework
+// Copyright (C) 2019 Intermediate Capital Group
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// 
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using System.Threading.Tasks;
 using Easify.Notification.Exceptions;
@@ -18,17 +34,17 @@ namespace Easify.Notification.UnitTests
         }
 
         [Fact]
-        public async Task Should_SendNotificationAsync_IsSuccessfulWhenTheProfileAndTemplateAreCorrect()
+        public async Task GivenProfileAndTemplate_WhenCallingSendNotificationAsync_ShouldBeSuccessful()
         {
-            // Given
+            // Arrange
             var messagingService = _fixture.MessagingService;
             var sut = new NotificationService(messagingService, _fixture.TemplateRenderer, _fixture.ValidOptionAccessor, _fixture.Logger);
             var notification = new Notification<NotificationServiceFixture.Model>("Title", _fixture.ValidTemplate, _fixture.ExpectedModel);
 
-            // When
+            // Act
             await sut.SendNotificationAsync(notification, _fixture.ValidProfile);
 
-            // Then
+            // Assert
             await messagingService.Received(1).SendAsync(Arg.Is<Message>(m => IsValidMessage(m)));
         }
 
@@ -43,31 +59,31 @@ namespace Easify.Notification.UnitTests
         }
 
         [Fact]
-        public async Task Should_SendNotificationAsync_ThrowTheRightExceptionWhenTheProfileIsNotAvailable()
+        public async Task GivenInvalidProfile_WhenCallingSendNotificationAsync_ShouldThrowNotificationProfileNotFoundException()
         {
-            // Given
+            // Arrange
             var messagingService = _fixture.MessagingService;
             var sut = new NotificationService(messagingService, _fixture.TemplateRenderer, _fixture.ValidOptionAccessor, _fixture.Logger);
             var notification = new Notification<NotificationServiceFixture.Model>("Title", _fixture.ValidTemplate, _fixture.ExpectedModel);
 
-            // When
-            // Then
+            // Act
+            // Assert
             await Assert.ThrowsAsync<NotificationProfileNotFoundException>(
                 () => sut.SendNotificationAsync(notification, "InvalidProfile"));
         }
 
         [Fact]
-        public async Task Should_SendNotificationAsync_ThrowTheRightExceptionWhenTheNotificationOptionsIsInvalid()
+        public async Task GivenInvalidNotificationOptions_WhenCallingSendNotificationAsync_NotificationOptionsException()
         {
-            // Given
+            // Arrange
             var sut = new NotificationService(_fixture.MessagingService, _fixture.TemplateRenderer,
                 _fixture.InvalidOptionAccessor, _fixture.Logger);
             var notification =
                 new Notification<NotificationServiceFixture.Model>("Title", _fixture.ValidTemplate,
                     _fixture.ExpectedModel);
             
-            // When
-            // Then
+            // Act
+            // Assert
             var exception = await Assert.ThrowsAsync<NotificationOptionsException>(
                 () => sut.SendNotificationAsync(notification));
             
@@ -90,17 +106,17 @@ namespace Easify.Notification.UnitTests
         }
 
         [Fact]
-        public void Should_SendNotificationAsync_ThrowTheRightExceptionWhenTheTemplateIsNotAvailable()
+        public void GivenInvalidTemplate_WhenCallingSendNotificationAsync_NotificationTemplateNotFoundException()
         {
-            // Given
+            // Arrange
             var messagingService = _fixture.MessagingService;
             var sut = new NotificationService(messagingService, _fixture.TemplateRenderer, _fixture.ValidOptionAccessor, _fixture.Logger);
             var notification = new Notification<NotificationServiceFixture.Model>("Title", "InvalidTemplate", _fixture.ExpectedModel);
 
-            // When
+            // Act
             Func<Task> func = async () => await sut.SendNotificationAsync(notification, _fixture.ValidProfile);
 
-            // Then
+            // Assert
             func.Should().Throw<NotificationTemplateNotFoundException>();
         }
     }
