@@ -2,10 +2,10 @@ name: Release build on master/main
 
 on:
   workflow_dispatch:
-    branches: [ master ]
+    branches: [master]
     paths: "src/**"
   push:
-    branches: [ master ]
+    branches: [master]
     paths: "src/**"
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.7
         with:
-          versionSpec: "5.x"
+          versionSpec: "5.5.x"
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
