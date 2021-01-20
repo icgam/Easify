@@ -1,6 +1,6 @@
 # Easify
 
-![Release build on master/main](https://github.com/icgam/Easify/workflows/Release%20build%20on%20master/main/badge.svg) ![CI on Branches and PRs](https://github.com/icgam/Easify/workflows/CI%20on%20Branches%20and%20PRs/badge.svg) ![](https://img.shields.io/nuget/v/Easify.svg?style=flat-square)
+![Release](https://github.com/icgam/Easify/workflows/Release%20build%20on%20master/main/badge.svg) ![CI](https://github.com/icgam/Easify/workflows/CI%20on%20Branches%20and%20PRs/badge.svg) ![](https://img.shields.io/nuget/v/Easify.svg?style=flat-square)
 
 ## Introduction
 
