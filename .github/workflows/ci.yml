@@ -1,0 +1,54 @@
+name: CI on Branches and PRs
+
+on:
+  workflow_dispatch:
+    branches-ignore: [master]
+    paths: "src/**"
+
+  push:
+    branches-ignore: [master]
+    paths: "src/**"
+
+  pull_request:
+    branches: [master]
+    paths: "src/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Fetch all history for all tags and branches
+        run: git fetch --prune --unshallow
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: "5.5.x"
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "3.1.x"
+      - name: Install dependencies
+        run: dotnet restore src
+      - name: Use GitVersion
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.7
+      - name: Display the version
+        run: |
+          echo "Version: ${{ steps.gitversion.outputs.semVer }}"
+      - name: Build
+        run: |
+          dotnet build src --configuration Release --no-restore -p:version=${{ steps.gitversion.outputs.semVer }}
+      - name: Unit & integration test
+        run: |
+          dotnet test src --configuration Release --no-restore -p:version=${{ steps.gitversion.outputs.semVer }}
+      - name: Collect Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: nuget-packages
+          path: "**/*.nupkg"
+      - name: Configure github as Package Repository
+        run: dotnet nuget add source https://nuget.pkg.github.com/icgam/index.json -n "github"
+      - name: Publish the package to GitHub Packages
+        run: dotnet nuget push "**/*.nupkg" -s "github" -k ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
