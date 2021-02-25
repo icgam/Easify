@@ -13,12 +13,11 @@
         <LangVersion>9</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="AspNetcore.HealthChecks.Publisher.Seq" Version="3.2.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.9" />
-        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.9" />
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.9" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.9" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.9" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>

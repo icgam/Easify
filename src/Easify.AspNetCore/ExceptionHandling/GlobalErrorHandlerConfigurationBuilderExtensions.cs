@@ -16,7 +16,6 @@
 
 using System;
 using Easify.AspNetCore.RequestCorrelation.Domain;
-using Easify.ExceptionHandling;
 using Easify.ExceptionHandling.ConfigurationBuilder;
 using Easify.RestEase;
 using FluentValidation;

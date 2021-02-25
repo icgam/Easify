@@ -14,11 +14,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetcore.HealthChecks.Publisher.Seq" Version="3.2.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Easify.Configurations\Easify.Configurations.csproj" />
     <ProjectReference Include="..\Easify.Logging\Easify.Logging.csproj" />
   </ItemGroup>
 

@@ -16,7 +16,6 @@
 
 using System;
 using Serilog;
-using Serilog.Sinks.Logentries;
 
 namespace Easify.Logging.SeriLog.LogEntries
 {

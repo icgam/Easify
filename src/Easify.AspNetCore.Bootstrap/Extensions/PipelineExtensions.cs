@@ -18,7 +18,6 @@ using System;
 using AutoMapper;
 using Easify.Bootstrap;
 using Easify.DependencyInjection;
-using Easify.Extensions;
 using Easify.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -29,7 +28,7 @@ namespace Easify.AspNetCore.Bootstrap.Extensions
         public static IExtendPipeline ReplaceRequestContext<TContext>(this IExtendPipeline bootstrapper)
             where TContext : class, IRequestContext, new()
         {
-            return bootstrapper.Extend((services, config) =>
+            return bootstrapper.Extend((services, _) =>
             {
                 services.ReplaceFirst<IRequestContext, TContext>(ServiceLifetime.Transient);
             });
@@ -40,7 +39,7 @@ namespace Easify.AspNetCore.Bootstrap.Extensions
         {
             if (requestContextProvider == null) throw new ArgumentNullException(nameof(requestContextProvider));
 
-            return bootstrapper.Extend((services, config) =>
+            return bootstrapper.Extend((services, _) =>
             {
                 services.RemoveFirstOrNothing<IRequestContext>();
                 services.AddTransient<IRequestContext>(requestContextProvider);
@@ -50,7 +49,7 @@ namespace Easify.AspNetCore.Bootstrap.Extensions
         public static IExtendPipeline ConfigureMappings(this IExtendPipeline bootstrapper,
             Action<IMapperConfigurationExpression> mappingsConfiguration)
         {
-            bootstrapper.Extend((services, config) =>
+            bootstrapper.Extend((services, _) =>
             {
                 services.AddSingleton<ITypeMapper>(c =>
                 {

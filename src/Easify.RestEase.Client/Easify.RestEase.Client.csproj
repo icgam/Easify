@@ -14,9 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetcore.HealthChecks.Publisher.Seq" Version="3.2.0" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
-    <PackageReference Include="RestEase" Version="1.5.0" />
+    <PackageReference Include="RestEase" Version="1.5.2" />
   </ItemGroup>
 
   <ItemGroup>

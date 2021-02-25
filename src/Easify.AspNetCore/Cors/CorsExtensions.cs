@@ -49,7 +49,7 @@ namespace Easify.AspNetCore.Cors
 
         public static IServiceCollection AddDefaultCorsPolicy(this IServiceCollection services)
         {
-            return AddCorsWithDefaultPolicy(services, builder => { });
+            return AddCorsWithDefaultPolicy(services, _ => { });
         }
 
         public static IApplicationBuilder UseCorsWithDefaultPolicy(this IApplicationBuilder app)

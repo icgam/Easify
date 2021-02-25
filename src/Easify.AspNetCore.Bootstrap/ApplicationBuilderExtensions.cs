@@ -34,7 +34,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
 
 namespace Easify.AspNetCore.Bootstrap
 {
@@ -65,7 +64,7 @@ namespace Easify.AspNetCore.Bootstrap
             if (options.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
@@ -94,7 +93,7 @@ namespace Easify.AspNetCore.Bootstrap
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions
                 {
                     Predicate = _ => true,
-                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
                 });
                 endpoints.MapControllers();
 

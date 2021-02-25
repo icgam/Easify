@@ -13,8 +13,4 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AspNetcore.HealthChecks.Publisher.Seq" Version="3.2.0" />
-  </ItemGroup>
-
 </Project>

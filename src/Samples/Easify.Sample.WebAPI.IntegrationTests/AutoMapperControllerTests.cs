@@ -36,7 +36,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             // Act
             var response = await fixture.CreateClient().GetAsync($"api/automapper/person/{firstName}/{lastName}");
             var responseString = await response.Content.ReadAsStringAsync();
-            var content = JsonConvert.DeserializeObject<PersonDO>(responseString);
+            var content = JsonConvert.DeserializeObject<PersonDo>(responseString);
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -56,7 +56,7 @@ namespace Easify.Sample.WebAPI.IntegrationTests
             // Act
             var response = await fixture.CreateClient().GetAsync($"api/automapper/asset/{assetId}");
             var responseString = await response.Content.ReadAsStringAsync();
-            var content = JsonConvert.DeserializeObject<AssetDO>(responseString);
+            var content = JsonConvert.DeserializeObject<AssetDo>(responseString);
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);

@@ -22,7 +22,7 @@ namespace Easify.Resilience
     {
         public int NumberOfExceptionsBefore { get; set; } = 2;
         public TimeSpan DurationOfBreak { get; set; } = TimeSpan.FromMinutes(1);
-        public Action<Exception, TimeSpan> OnBreak { get; set; } = (exception, span) => { };
+        public Action<Exception, TimeSpan> OnBreak { get; set; } = (_, _) => { };
         public Action OnReset { get; set; } = () => { };
     }
 }

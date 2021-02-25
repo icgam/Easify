@@ -16,7 +16,6 @@
 
 using System;
 using Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder;
-using Easify.Bootstrap;
 
 namespace Easify.AspNetCore.Bootstrap
 {

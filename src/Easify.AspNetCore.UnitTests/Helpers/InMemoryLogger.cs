@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 
 namespace Easify.AspNetCore.UnitTests.Helpers
 {
@@ -42,7 +41,7 @@ namespace Easify.AspNetCore.UnitTests.Helpers
         public InMemoryLogger(string name, Func<string, LogLevel, bool> filter)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            Filter = filter ?? ((category, logLevel) => true);
+            Filter = filter ?? ((_, _) => true);
             ScopeProvider = new LoggerExternalScopeProvider();
         }
 

@@ -17,7 +17,6 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using Serilog;
-using Serilog.Sinks.Logentries;
 
 namespace Easify.Logging.SeriLog.LogEntries
 {

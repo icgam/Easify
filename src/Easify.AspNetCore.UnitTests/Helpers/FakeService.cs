@@ -48,7 +48,7 @@ namespace Easify.AspNetCore.UnitTests.Helpers
 
         public async Task CallAsync()
         {
-            await Task.Delay(TaskDelayInMs).ContinueWith(t => { State = "Changed"; });
+            await Task.Delay(TaskDelayInMs).ContinueWith(_ => { State = "Changed"; });
         }
 
         public async Task CallAndThrowAsync()

@@ -16,7 +16,7 @@
 
 namespace Easify.Sample.WebAPI.Domain
 {
-    public class PersonDO
+    public class PersonDo
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
