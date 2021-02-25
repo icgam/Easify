@@ -74,7 +74,7 @@ namespace Easify.AspNetCore.Bootstrap
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _configurationOptionBuilder = new ConfigurationOptionBuilder(services);
+            _configurationOptionBuilder = new ConfigurationOptionBuilder(services, _configuration);
             _errorHandlerBuilder = new GlobalErrorHandlerConfigurationBuilder(services);
 
             _errorHandlerBuilder.UseStandardMessage();

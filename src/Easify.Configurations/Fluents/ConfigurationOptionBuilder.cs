@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Easify.Configurations.Fluents
@@ -22,16 +23,17 @@ namespace Easify.Configurations.Fluents
     public sealed class ConfigurationOptionBuilder : IAddFirstSection, IAddExtraConfigSection
     {
         private readonly IServiceCollection _services;
+        private readonly IConfiguration _configuration;
 
-        public ConfigurationOptionBuilder(IServiceCollection services)
+        public ConfigurationOptionBuilder(IServiceCollection services, IConfiguration configuration)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public IAddExtraConfigSection And<TSection>() where TSection : class, new()
         {
-            var section = typeof(TSection).Name;
-            return AddOptions<TSection>(section);
+            return AddOptions<TSection>(GetSectionName<TSection>());
         }
 
         public IAddExtraConfigSection And<TSection>(string section) where TSection : class, new()
@@ -42,8 +44,7 @@ namespace Easify.Configurations.Fluents
         public IAddExtraConfigSection AddSection<TSection>()
             where TSection : class, new()
         {
-            var builder = new ConfigurationOptionBuilder(_services);
-            return builder.And<TSection>();
+            return AddOptions<TSection>(GetSectionName<TSection>());
         }
 
         public IAddExtraConfigSection AddSection<TSection>(string section) where TSection : class, new()
@@ -56,13 +57,17 @@ namespace Easify.Configurations.Fluents
             AddSection<Application>();
         }
 
+        private static string GetSectionName<TSection>() where TSection : class, new()
+        {
+            return typeof(TSection).Name;
+        }
+
         private ConfigurationOptionBuilder AddOptions<TSection>(string section) where TSection : class, new()
         {
             if (string.IsNullOrWhiteSpace(section))
                 throw new ArgumentException("Section name cannot be null or whitespace.", nameof(section));
-            
-            _services.AddOptions<TSection>(section).ValidateDataAnnotations();
 
+            _services.AddOptions<TSection>().Bind(_configuration.GetSection(section)).ValidateDataAnnotations();
             return this;
         }
     }
