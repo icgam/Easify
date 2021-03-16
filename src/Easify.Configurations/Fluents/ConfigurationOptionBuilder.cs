@@ -68,8 +68,7 @@ namespace Easify.Configurations.Fluents
         
         private static string GetSectionName<TSection>() where TSection : class, new()
         {
-            var section = typeof(TSection).Name;
-            return section;
+            return typeof(TSection).Name;
         }
     }
 }
