@@ -57,11 +57,6 @@ namespace Easify.Configurations.Fluents
             AddSection<Application>();
         }
 
-        private static string GetSectionName<TSection>() where TSection : class, new()
-        {
-            return typeof(TSection).Name;
-        }
-
         private ConfigurationOptionBuilder AddOptions<TSection>(string section) where TSection : class, new()
         {
             if (string.IsNullOrWhiteSpace(section))
