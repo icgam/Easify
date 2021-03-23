@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Authors>Mohammad Moattar, David Cassell</Authors>
         <Company>ICG</Company>
@@ -10,18 +10,17 @@
         <RepositoryUrl>https://github.com/icgam/Easify</RepositoryUrl>
         <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <Version>1.0.0</Version>
-        <LangVersion>8</LangVersion>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
-    
+
     <ItemGroup>
-        <PackageReference Include="AspNetcore.HealthChecks.Publisher.Seq" Version="3.2.0" />
         <PackageReference Include="xunit.abstractions" Version="2.0.3" />
         <PackageReference Include="Castle.Core" Version="4.4.1" />
-        <PackageReference Include="AutoFixture" Version="4.14.0" />
-        <PackageReference Include="AutoFixture.AutoNSubstitute" Version="4.14.0" />
-        <PackageReference Include="AutoFixture.Xunit2" Version="4.14.0" />
+        <PackageReference Include="AutoFixture" Version="4.15.0" />
+        <PackageReference Include="AutoFixture.AutoNSubstitute" Version="4.15.0" />
+        <PackageReference Include="AutoFixture.Xunit2" Version="4.15.0" />
         <PackageReference Include="FluentAssertions" Version="5.10.3" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.9" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
 

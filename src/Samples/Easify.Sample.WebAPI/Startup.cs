@@ -64,8 +64,8 @@ namespace Easify.Sample.WebAPI
                     })
                     .ConfigureMappings(c =>
                     {
-                        c.CreateMap<PersonEntity, PersonDO>();
-                        c.CreateMap<AssetEntity, AssetDO>().ConvertUsing<AssetConverter>();
+                        c.CreateMap<PersonEntity, PersonDo>();
+                        c.CreateMap<AssetEntity, AssetDo>().ConvertUsing<AssetConverter>();
                     })
                     .AddServices((container, config) =>
                     {
@@ -74,7 +74,7 @@ namespace Easify.Sample.WebAPI
                             by.InterceptBy<LogInterceptor>());
                         container.AddTransientWithInterception<IRateProvider, DummyRateProvider>(by =>
                             by.InterceptBy<LogInterceptor>());
-                        container.AddSingleton<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>();
+                        container.AddSingleton<ITypeConverter<AssetEntity, AssetDo>, AssetConverter>();
                         services
                             .AddHealthChecksUI()
                             .AddInMemoryStorage();

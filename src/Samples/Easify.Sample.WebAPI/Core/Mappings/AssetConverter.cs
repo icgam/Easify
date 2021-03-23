@@ -20,7 +20,7 @@ using Easify.Sample.WebAPI.Domain;
 
 namespace Easify.Sample.WebAPI.Core.Mappings
 {
-    public sealed class AssetConverter : ITypeConverter<AssetEntity, AssetDO>
+    public sealed class AssetConverter : ITypeConverter<AssetEntity, AssetDo>
     {
         private readonly IRateProvider _rateProvider;
 
@@ -29,11 +29,11 @@ namespace Easify.Sample.WebAPI.Core.Mappings
             _rateProvider = rateProvider ?? throw new ArgumentNullException(nameof(rateProvider));
         }
 
-        public AssetDO Convert(AssetEntity source, AssetDO destination, ResolutionContext context)
+        public AssetDo Convert(AssetEntity source, AssetDo destination, ResolutionContext context)
         {
             if (source == null) return null;
 
-            return new AssetDO
+            return new AssetDo
             {
                 Id = source.Id,
                 Rating = _rateProvider.GetRating(source.Id)

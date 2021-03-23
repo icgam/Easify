@@ -287,6 +287,6 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
-/src/Samples/Template.WebAPI/logs
+/src/Samples/Easify.Sample.WebAPI/logs
 /src/Visual Studio 2017
 /visual studio 2017/settings

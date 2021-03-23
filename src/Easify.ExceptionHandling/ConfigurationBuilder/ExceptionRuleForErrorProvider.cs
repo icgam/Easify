@@ -28,7 +28,7 @@ namespace Easify.ExceptionHandling.ConfigurationBuilder
         private readonly Type _exceptionType;
         private readonly Func<TException, bool> _predicate;
 
-        public ExceptionRuleForErrorProvider() : this(ex => true)
+        public ExceptionRuleForErrorProvider() : this(_ => true)
         {
         }
 
@@ -40,7 +40,7 @@ namespace Easify.ExceptionHandling.ConfigurationBuilder
         public ExceptionRuleForErrorProvider(
             Func<ISetErrorBuilder<TException>, IProvideErrorBuilder<TException>> errorBuilderProvider) : this(
             errorBuilderProvider,
-            ex => true)
+            _ => true)
         {
         }
 

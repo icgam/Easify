@@ -32,7 +32,7 @@ namespace Easify.AspNetCore.Documentation
         private static readonly Dictionary<AuthenticationMode, Action<SwaggerGenOptions, AuthenticationInfo>> Configurator 
             = new Dictionary<AuthenticationMode, Action<SwaggerGenOptions, AuthenticationInfo>>
             {
-                {AuthenticationMode.None, (sg, auth) => {}},
+                {AuthenticationMode.None, (_, _) => {}},
                 {AuthenticationMode.Impersonated, (sg, auth) => sg.UseApiKeyScheme(auth)},
                 {AuthenticationMode.OAuth2, (sg, auth) => sg.UseOAuth2Scheme(auth)},
             };

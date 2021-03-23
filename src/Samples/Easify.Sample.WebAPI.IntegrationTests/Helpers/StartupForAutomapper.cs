@@ -44,14 +44,14 @@ namespace Easify.Sample.WebAPI.IntegrationTests.Helpers
                     .HandleApplicationException<TemplateApiApplicationException>()
                     .UseDetailedErrors().ConfigureMappings(c =>
                     {
-                        c.CreateMap<PersonEntity, PersonDO>();
-                        c.CreateMap<AssetEntity, AssetDO>().ConvertUsing<AssetConverter>();
+                        c.CreateMap<PersonEntity, PersonDo>();
+                        c.CreateMap<AssetEntity, AssetDo>().ConvertUsing<AssetConverter>();
                     })
                     .AddServices((container, config) =>
                     {
                         container.AddTransient<IRateProvider, DummyRateProvider>();
                         container.AddTransient<AssetConverter, AssetConverter>();
-                        container.AddTransient<ITypeConverter<AssetEntity, AssetDO>, AssetConverter>();
+                        container.AddTransient<ITypeConverter<AssetEntity, AssetDo>, AssetConverter>();
                     })
             );
         }

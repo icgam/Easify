@@ -27,6 +27,6 @@ namespace Easify.Resilience
             TimeSpan.FromSeconds(3)
         };
 
-        public Action<Exception, TimeSpan> OnRetry { get; set; } = (exception, span) => { };
+        public Action<Exception, TimeSpan> OnRetry { get; set; } = (_, _) => { };
     }
 }

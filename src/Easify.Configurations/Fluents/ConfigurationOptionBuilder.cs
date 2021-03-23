@@ -70,5 +70,10 @@ namespace Easify.Configurations.Fluents
             _services.AddOptions<TSection>().Bind(_configuration.GetSection(section)).ValidateDataAnnotations();
             return this;
         }
+        
+        private static string GetSectionName<TSection>() where TSection : class, new()
+        {
+            return typeof(TSection).Name;
+        }
     }
 }

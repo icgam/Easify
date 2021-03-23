@@ -17,7 +17,6 @@
 using System;
 using System.Linq;
 using AutoMapper;
-using Easify.Extensions;
 
 namespace Easify
 {

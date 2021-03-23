@@ -18,7 +18,6 @@ using System;
 using Easify.Logging.SeriLog;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Serilog.Configuration;
 
 namespace Easify.AspNetCore.Logging.SeriLog
 {

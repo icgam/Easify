@@ -17,7 +17,6 @@
 using System;
 using Easify.Logging.SeriLog;
 using Easify.Logging.SeriLog.OptionsBuilder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 

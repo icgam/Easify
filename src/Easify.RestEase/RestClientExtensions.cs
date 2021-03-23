@@ -29,7 +29,7 @@ namespace Easify.RestEase
             where TClient : class, IRestClient
             where TConfiguration : class, new()
         {
-            return services.AddRestClient<TClient, TConfiguration>(urlProvider, o => {});
+            return services.AddRestClient<TClient, TConfiguration>(urlProvider, _ => {});
         }        
         
         public static IServiceCollection AddRestClient<TClient, TConfiguration>(this IServiceCollection services,
@@ -46,7 +46,8 @@ namespace Easify.RestEase
                 var config = m.GetService<IOptions<TConfiguration>>();
                 var builder = m.GetService<IRestClientBuilder>();
 
-                return builder.Build<TClient>(urlProvider(config.Value), configure);
+                var clients = config?.Value;
+                return builder?.Build<TClient>(urlProvider(clients), configure);
             });
 
             return services;
@@ -57,7 +58,7 @@ namespace Easify.RestEase
             where TClient : class, IRestClient
             where TConfiguration : class, new()
         {
-            return services.TryAddRestClient<TClient, TConfiguration>(urlProvider, o => {});
+            return services.TryAddRestClient<TClient, TConfiguration>(urlProvider, _ => {});
         }        
         
         public static IServiceCollection TryAddRestClient<TClient, TConfiguration>(this IServiceCollection services,
@@ -74,7 +75,7 @@ namespace Easify.RestEase
                 var config = m.GetService<IOptions<TConfiguration>>();
                 var builder = m.GetService<IRestClientBuilder>();
 
-                return builder.Build<TClient>(urlProvider(config.Value), configure);
+                return builder?.Build<TClient>(urlProvider(config?.Value), configure);
             });
 
             return services;

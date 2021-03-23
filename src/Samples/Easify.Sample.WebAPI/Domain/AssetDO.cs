@@ -16,7 +16,7 @@
 
 namespace Easify.Sample.WebAPI.Domain
 {
-    public class AssetDO
+    public class AssetDo
     {
         public string Id { get; set; }
         public string Rating { get; set; }

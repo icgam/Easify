@@ -53,7 +53,7 @@ namespace Easify.RestEase
         
         public T Build<T>(string baseUrl) where T : IRestClient
         {
-            return Build<T>(baseUrl, m => { });
+            return Build<T>(baseUrl, _ => { });
         }
     }
 }

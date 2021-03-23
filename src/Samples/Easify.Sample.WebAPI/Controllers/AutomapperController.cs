@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Easify.Extensions;
 using Easify.Sample.WebAPI.Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,7 +40,7 @@ namespace Easify.Sample.WebAPI.Controllers
                 LastName = lastname
             };
 
-            var person = _mapper.Map<PersonDO>(personToMap);
+            var person = _mapper.Map<PersonDo>(personToMap);
             return new ObjectResult(person);
         }
 
@@ -53,7 +52,7 @@ namespace Easify.Sample.WebAPI.Controllers
                 Id = assetid
             };
 
-            var asset = _mapper.Map<AssetDO>(assetToMap);
+            var asset = _mapper.Map<AssetDo>(assetToMap);
             return new ObjectResult(asset);
         }
     }

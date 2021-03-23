@@ -114,10 +114,11 @@ namespace Easify.AspNetCore.Bootstrap
             _services.TryAddSingleton<IDateTimeProvider, DateTimeProvider>();
             _services.TryAddScoped<IUrlHelper, UrlHelper>();
             _services.TryAddScoped<IArgumentsFormatter, ArgumentsFormatter>();
-            _services.TryAddSingleton(p => new ArgumentFormatterOptions());
+            _services.TryAddSingleton(_ => new ArgumentFormatterOptions());
 
+            _services.AddDatabaseDeveloperPageExceptionFilter();
             _services.AddHttpRequestContext();
-            _services.AddGlobalExceptionHandler(ae => _errorHandlerBuilder.UseDefault());
+            _services.AddGlobalExceptionHandler(_ => _errorHandlerBuilder.UseDefault());
             _services.AddRequestCorrelation(b => _requestCorrelationExtender(b.ExcludeDefaultUrls()));
             _services.AddFeatureFlagging(_configuration);
             _services.AddDefaultMvc<TStartup>();

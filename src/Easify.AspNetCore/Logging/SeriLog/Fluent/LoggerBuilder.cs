@@ -93,7 +93,7 @@ namespace Easify.AspNetCore.Logging.SeriLog.Fluent
             return this;
         }
 
-        private void ConfigureLogger<TStartup>(Serilog.LoggerConfiguration loggerConfiguration,
+        private void ConfigureLogger<TStartup>(LoggerConfiguration loggerConfiguration,
             Func<ISetFileSizeLimit, IBuildSeriLogOptions> optionsProvider,
             Func<ISinkBuilderContext, ISinkBuilderContext> sinksProvider) where TStartup : class
         {

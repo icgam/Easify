@@ -56,8 +56,7 @@ namespace Easify.AspNetCore.Mvc
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(assemblyNameStartsWith));
 
             var assemblies = GetReferencedAssembliesFromType<T>(assemblyNameStartsWith);
-
-            foreach (var assembly in assemblies) config.RegisterValidatorsFromAssembly(assembly);
+            config.RegisterValidatorsFromAssemblies(assemblies);
         }
 
         private static IEnumerable<Assembly> GetReferencedAssembliesFromType<T>(string assemblyNameStartsWith)

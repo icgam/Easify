@@ -20,7 +20,7 @@ namespace Easify.AspNetCore.RequestCorrelation.Core.OptionsBuilder
 {
     public sealed class UrlRule : ICheckUrl, ISetUrlFilter
     {
-        private Func<string, bool> _filter = url => true;
+        private Func<string, bool> _filter = _ => true;
 
         public bool UrlMatches(string url)
         {

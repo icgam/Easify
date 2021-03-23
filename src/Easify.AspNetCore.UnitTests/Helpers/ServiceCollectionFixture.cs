@@ -38,15 +38,15 @@ namespace Easify.AspNetCore.UnitTests.Helpers
 
             var services = new ServiceCollection();
 
-            Log = new InMemoryLogger<LogInterceptor>(typeof(ILogger).Name, (s, level) => logLevelFilter(level));
+            Log = new InMemoryLogger<LogInterceptor>(nameof(ILogger), (_, level) => logLevelFilter(level));
             services.AddTransient<IArgumentsFormatter, ArgumentsFormatter>();
-            services.AddSingleton(p => new ArgumentFormatterOptions
+            services.AddSingleton(_ => new ArgumentFormatterOptions
             {
                 Formatting = Formatting.Indented
             });
-            services.AddSingleton(p => Log);
-            services.AddSingleton<ILogger<LogInterceptor>>(p => Log);
-            services.AddSingleton(p => Substitute.For<ILogger<ArgumentsFormatter>>());
+            services.AddSingleton(_ => Log);
+            services.AddSingleton<ILogger<LogInterceptor>>(_ => Log);
+            services.AddSingleton(_ => Substitute.For<ILogger<ArgumentsFormatter>>());
             serviceConfigurator(services);
 
             return services.BuildServiceProvider();
