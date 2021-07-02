@@ -20,14 +20,16 @@ using Easify.AspNetCore.Logging.SeriLog.Fluent;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
 namespace Easify.AspNetCore
 {
     public static class HostAsWeb
     {
+      
         private static IWebHost Build<TStartup>(
-            Func<IConfigurationBuilder, IConfigurationBuilder> configurationConfigure, 
+            Func<(IConfigurationBuilder ConfigurationBuilder, IHostEnvironment HostEnvironment), IConfigurationBuilder> configurationConfigure, 
             Func<ILoggerBuilder, IBuildLogger> loggerConfigure, 
             string[] args)
             where TStartup : class
@@ -42,7 +44,7 @@ namespace Easify.AspNetCore
                     var options = new ConfigurationOptions(env.ContentRootPath, env.EnvironmentName,
                         env.ApplicationName, args);
                     config.ConfigureBuilder(options);
-                    configurationConfigure(config);
+                    configurationConfigure((config, env));
                 })
                 .UseSerilog((context, configuration) =>
                 {
@@ -54,58 +56,59 @@ namespace Easify.AspNetCore
             return host;
         }
 
+
         public static void Run<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerConfigure) where TStartup : class
         {
-            Run<TStartup>(c => c, loggerConfigure, new string[] { });
+            Run<TStartup>(c => c.ConfigurationBuilder, loggerConfigure, new string[] { });
         }
 
         public static void Run<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerConfigure, string[] args)
             where TStartup : class
         {
-            Run<TStartup>(c => c, loggerConfigure, args);
+            Run<TStartup>(c => c.ConfigurationBuilder, loggerConfigure, args);
         }
 
         public static Task RunAsync<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerConfigure) where TStartup : class
         {
-            return RunAsync<TStartup>(c => c, loggerConfigure, new string[] { });
+            return RunAsync<TStartup>(c => c.ConfigurationBuilder, loggerConfigure, new string[] { });
         }
 
         public static Task RunAsync<TStartup>(Func<ILoggerBuilder, IBuildLogger> loggerConfigure, string[] args)
             where TStartup : class
         {
-            return RunAsync<TStartup>(c => c, loggerConfigure, args);
+            return RunAsync<TStartup>(c => c.ConfigurationBuilder, loggerConfigure, args);
         }        
         
         public static void Run<TStartup>(
-            Func<IConfigurationBuilder, IConfigurationBuilder> configurationConfigure,
+            Func<(IConfigurationBuilder ConfigurationBuilder, IHostEnvironment HostEnvironment), IConfigurationBuilder> configurationConfigure,
             Func<ILoggerBuilder, IBuildLogger> loggerConfigure) where TStartup : class
         {
             Run<TStartup>(configurationConfigure, loggerConfigure, new string[] { });
-        }
+        }        
 
         public static void Run<TStartup>(
-            Func<IConfigurationBuilder, IConfigurationBuilder> configurationConfigure,
+            Func<(IConfigurationBuilder ConfigurationBuilder, IHostEnvironment HostEnvironment), IConfigurationBuilder> configurationConfigure,
             Func<ILoggerBuilder, IBuildLogger> loggerConfigure, 
             string[] args)
             where TStartup : class
         {
             Build<TStartup>(configurationConfigure, loggerConfigure, args).Run();
-        }
+        }        
 
         public static Task RunAsync<TStartup>(
-            Func<IConfigurationBuilder, IConfigurationBuilder> configurationConfigure,
+            Func<(IConfigurationBuilder ConfigurationBuilder, IHostEnvironment HostEnvironment), IConfigurationBuilder> configurationConfigure,
             Func<ILoggerBuilder, IBuildLogger> loggerConfigure) where TStartup : class
         {
             return RunAsync<TStartup>(configurationConfigure, loggerConfigure, new string[] { });
         }
 
         public static Task RunAsync<TStartup>(
-            Func<IConfigurationBuilder, IConfigurationBuilder> configurationConfigure,
+            Func<(IConfigurationBuilder ConfigurationBuilder, IHostEnvironment HostEnvironment), IConfigurationBuilder> configurationConfigure,
             Func<ILoggerBuilder, IBuildLogger> loggerConfigure, 
             string[] args)
             where TStartup : class
         {
             return Build<TStartup>(configurationConfigure, loggerConfigure, args).RunAsync();
-        }
+        }        
     }
 }

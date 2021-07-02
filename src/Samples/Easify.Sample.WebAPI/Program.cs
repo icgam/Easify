@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using Easify.AspNetCore;
 using Easify.Logging.SeriLog.Loggly;
 using Easify.Logging.SeriLog.Seq;
@@ -27,8 +26,7 @@ namespace Easify.Sample.WebAPI
     {
         public static void Main(string[] args)
         {
-            HostAsWeb.Run<Startup>( 
-                builder => builder.CustomizeBuilder(),
+            HostAsWeb.Run<Startup>(c => c.CustomizeBuilder(),
                 s =>
             {
                 if (s.Environment.IsDevelopment() || s.Environment.IsEnvironment("INT"))
@@ -42,9 +40,9 @@ namespace Easify.Sample.WebAPI
 
     public static class ConfigurationBuilderExtensions
     {
-        public static IConfigurationBuilder CustomizeBuilder(this IConfigurationBuilder builder)
+        public static IConfigurationBuilder CustomizeBuilder(this (IConfigurationBuilder Builder, IHostEnvironment HostEnvironment) configuration)
         {
-            return builder ?? throw new ArgumentNullException(nameof(builder));
+            return configuration.Builder;
         }
     }
 }
